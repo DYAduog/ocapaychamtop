@@ -1,0 +1,90 @@
+<div class="card">
+    <h2>Application Settings</h2>
+    <form action="/settings" method="POST" id="settings-form">
+        <div class="settings-section">
+            <h4>IMAP Configuration</h4>
+            <div class="form-group">
+                <label for="IMAP_HOST">IMAP Host</label>
+                <input type="text" id="IMAP_HOST" name="IMAP_HOST" value="<%= settings.IMAP_HOST %>">
+            </div>
+            <div class="form-group">
+                <label for="IMAP_USER">IMAP User</label>
+                <input type="text" id="IMAP_USER" name="IMAP_USER" value="<%= settings.IMAP_USER %>">
+            </div>
+            <div class="form-group">
+                <label for="IMAP_PASSWORD">IMAP Password</label>
+                <input type="password" id="IMAP_PASSWORD" name="IMAP_PASSWORD" placeholder="Enter new password to update">
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h4>Telegram Configuration</h4>
+            <div class="form-group">
+                <label for="TELEGRAM_BOT_TOKEN">Bot Token</label>
+                <input type="text" id="TELEGRAM_BOT_TOKEN" name="TELEGRAM_BOT_TOKEN" value="<%= settings.TELEGRAM_BOT_TOKEN %>">
+            </div>
+            <div class="form-group">
+                <label for="TELEGRAM_CHAT_ID">Chat ID</label>
+                <input type="text" id="TELEGRAM_CHAT_ID" name="TELEGRAM_CHAT_ID" value="<%= settings.TELEGRAM_CHAT_ID %>">
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h4>API Configuration</h4>
+            <div class="form-group">
+                <label for="API_KEY">API Key (for WooCommerce integration)</label>
+                <input type="text" id="API_KEY" name="API_KEY" value="<%= settings.API_KEY %>" placeholder="Enter your API key">
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h4>General Settings</h4>
+             <div class="form-group">
+                <label for="CHECK_INTERVAL_SECONDS">Check Interval (seconds)</label>
+                <input type="number" id="CHECK_INTERVAL_SECONDS" name="CHECK_INTERVAL_SECONDS" value="<%= settings.CHECK_INTERVAL_SECONDS %>">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-save">Save Settings</button>
+    </form>
+</div>
+
+<style>
+#settings-form .settings-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+#settings-form h4 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+#settings-form .form-group {
+    margin-bottom: 15px;
+}
+#settings-form label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+#settings-form input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.btn-save {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.btn-save:hover {
+    background-color: #40a9ff;
+}
+</style>

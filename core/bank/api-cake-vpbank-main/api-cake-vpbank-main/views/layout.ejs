@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | Email Monitor</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Email Monitor</h3>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/" class="<%= activePage === 'dashboard' ? 'active' : '' %>">Dashboard</a></li>
+            <li><a href="/emails" class="<%= activePage === 'emails' ? 'active' : '' %>">Inbox</a></li>
+            <li><a href="/settings" class="<%= activePage === 'settings' ? 'active' : '' %>">Settings</a></li>
+            <li><a href="/api-docs" class="<%= activePage === 'api-docs' ? 'active' : '' %>">API Docs</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="page-header">
+            <h1><%= title %></h1>
+        </div>
+        <%- body %>
+    </div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic
+requests
+cryptography
+bs4
+lxml
+python-multipart

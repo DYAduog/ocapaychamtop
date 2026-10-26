@@ -1,0 +1,64 @@
+{
+  "name": "@timo-bank/core",
+  "version": "0.1.7",
+  "description": "Unofficial Timo Bank SDK - Core package",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "timo-setup": "./bin/setup.js"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration"
+  },
+  "keywords": [
+    "timo",
+    "bank",
+    "vietnam",
+    "banking",
+    "sdk",
+    "api"
+  ],
+  "author": "quanganh208",
+  "license": "MIT",
+  "homepage": "https://github.com/quanganh208/timo-bank#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quanganh208/timo-bank.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/quanganh208/timo-bank/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^4.0.16"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

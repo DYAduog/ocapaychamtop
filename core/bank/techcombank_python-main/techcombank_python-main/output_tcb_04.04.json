@@ -1,0 +1,114 @@
+[
+    {
+        "id": "8a05a00c8e003e63018eb2a3149017d4",
+        "arrangementId": "56e41bf5-2262-4573-9873-03c9031c2772",
+        "reference": "FT24095327006008",
+        "description": "71103138588793211",
+        "typeGroup": "OTHERS",
+        "type": "DBIT",
+        "category": "Spending",
+        "bookingDate": "2024-04-04",
+        "valueDate": "2024-04-04",
+        "creditDebitIndicator": "DBIT",
+        "transactionAmountCurrency": {
+            "amount": "10000000",
+            "currencyCode": "VND"
+        },
+        "counterPartyName": "ZALOPAY_TAI KHOAN TICH LUY",
+        "counterPartyAccountNumber": "99ZP24095O18221057",
+        "counterPartyBankName": "NGAN HANG TMCP BAN VIET (VIETCAPITAL BANK)",
+        "runningBalance": 0,
+        "additions": {
+            "creditBank": "NGAN HANG TMCP BAN VIET (VIETCAPITAL BANK)",
+            "debitAcctName": "PHAM NGOC THUAN",
+            "creditAcctNo": "99ZP24095O18221057",
+            "debitBank": "Techcombank",
+            "debitAcctNo": "19072369596014",
+            "creditAcctName": "ZALOPAY_TAI KHOAN TICH LUY"
+        },
+        "checkImageAvailability": "UNAVAILABLE",
+        "creationTime": "2024-04-04T19:26:56+07:00",
+        "state": "COMPLETED"
+    },
+    {
+        "id": "8a069d9e8e0042df018ea9098ff26f85",
+        "arrangementId": "56e41bf5-2262-4573-9873-03c9031c2772",
+        "reference": "FT24095091847021",
+        "description": "PHAM NGOC THUAN chuyen",
+        "typeGroup": "OTHERS",
+        "type": "DBIT",
+        "category": "Spending",
+        "bookingDate": "2024-04-04",
+        "valueDate": "2024-04-04",
+        "creditDebitIndicator": "DBIT",
+        "transactionAmountCurrency": {
+            "amount": "5020025",
+            "currencyCode": "VND"
+        },
+        "counterPartyName": "TRAN DUY QUANG",
+        "counterPartyAccountNumber": "024042205",
+        "counterPartyBankName": "NGAN HANG TMCP QUAN DOI (MB)",
+        "runningBalance": 10000000,
+        "additions": {
+            "creditBank": "NGAN HANG TMCP QUAN DOI (MB)",
+            "debitAcctName": "PHAM NGOC THUAN",
+            "creditAcctNo": "024042205",
+            "debitBank": "Techcombank",
+            "debitAcctNo": "19072369596014",
+            "creditAcctName": "TRAN DUY QUANG"
+        },
+        "checkImageAvailability": "UNAVAILABLE",
+        "creationTime": "2024-04-04T17:54:53+07:00",
+        "state": "COMPLETED"
+    },
+    {
+        "id": "8a059d018e003e2a018ea8bedf394a17",
+        "arrangementId": "56e41bf5-2262-4573-9873-03c9031c2772",
+        "reference": "FT24095126130945\\BNK",
+        "description": "NGUYEN THI PHUONG CHUYEN KHOAN PHAM  NGOC THUAN",
+        "typeGroup": "OTHERS",
+        "type": "CRDT",
+        "category": "Income",
+        "bookingDate": "2024-04-04",
+        "valueDate": "2024-04-04",
+        "creditDebitIndicator": "CRDT",
+        "transactionAmountCurrency": {
+            "amount": "15000000",
+            "currencyCode": "VND"
+        },
+        "runningBalance": 15020025,
+        "additions": {
+            "creditBank": "Techcombank",
+            "creditAcctNo": "19072369596014",
+            "creditAcctName": "PHAM NGOC THUAN"
+        },
+        "checkImageAvailability": "UNAVAILABLE",
+        "creationTime": "2024-04-04T17:53:39+07:00",
+        "state": "COMPLETED"
+    },
+    {
+        "id": "8a06a1cf8e004230018e9d624eaf3b59",
+        "arrangementId": "56e41bf5-2262-4573-9873-03c9031c2772",
+        "reference": "FT24093790824045\\BNK",
+        "description": "TRAN DUY QUANG chuyen khoan",
+        "typeGroup": "OTHERS",
+        "type": "CRDT",
+        "category": "Income",
+        "bookingDate": "2024-04-02",
+        "valueDate": "2024-04-02",
+        "creditDebitIndicator": "CRDT",
+        "transactionAmountCurrency": {
+            "amount": "10000",
+            "currencyCode": "VND"
+        },
+        "runningBalance": 20025,
+        "additions": {
+            "creditBank": "Techcombank",
+            "creditAcctNo": "19072369596014",
+            "creditAcctName": "PHAM NGOC THUAN"
+        },
+        "checkImageAvailability": "UNAVAILABLE",
+        "creationTime": "2024-04-02T12:57:23+07:00",
+        "state": "COMPLETED"
+    }
+]

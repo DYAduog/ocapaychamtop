@@ -1,0 +1,51 @@
+<div class="card">
+    <table class="email-table">
+        <thead>
+            <tr>
+                <th>From</th>
+                <th>Subject</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (emails && emails.length > 0) { %>
+                <% emails.forEach(email => { %>
+                    <tr>
+                        <td><%= email.from %></td>
+                        <td><a href="/email/<%= email.uid %>"><%= email.subject %></a></td>
+                        <td><%= new Date(email.date).toLocaleString() %></td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="3" style="text-align: center;">No emails found.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<style>
+.email-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.email-table th, .email-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+.email-table th {
+    background-color: #f4f4f4;
+}
+.email-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+.email-table a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+.email-table a:hover {
+    text-decoration: underline;
+}
+</style>

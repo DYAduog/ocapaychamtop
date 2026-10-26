@@ -1,0 +1,1186 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Bac A Bank, Internet Banking">
+	<title>BAC A BANK - Internet Banking</title>
+	<link rel="stylesheet" href="/IBSRetail/static/css/2021/bootstrap.min.css">
+	<link rel="stylesheet" href="/IBSRetail/static/css/2021/swiper-bundle.css">
+	<link rel="stylesheet" href="/IBSRetail/static/css/2021/css.css">
+	<link rel="stylesheet" href="/IBSRetail/static/css/2021/date-picker.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Begin Javascript -->
+	<script src="/IBSRetail/static/vuejs/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+	<script src="/IBSRetail/static/script/2021/jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="/IBSRetail/static/script/2021/bootstrap.js"></script>
+	<script src="/IBSRetail/static/script/2021/bootstrap.bundle.js"></script>
+	<script src="/IBSRetail/static/script/2021/swiper-bundle.min.js"></script>
+	<script src="/IBSRetail/static/script/2021/bootstrap-datepicker.js"></script>
+	<script src="/IBSRetail/static/script/2021/js.js"></script>
+	<script src="/IBSRetail/static/script/2021/iframeResizer.contentWindow.min.js"></script>
+	<script src="/IBSRetail/static/script/2021/moment.min.js" type="text/javascript"></script>
+	<script src="/IBSRetail/static/script/default/msb.js" type="text/javascript"></script>
+	<script src="/IBSRetail/static/script/default/jquery.price.format.js" type="text/javascript"></script>
+	
+	
+		<script src="/IBSRetail/static/script/default/MoneyConvert_vn.js" type="text/javascript" language="javascript"></script>
+		<script src="/IBSRetail/static/script/default/jquery.validationengine-vn.js" type="text/javascript"></script>
+		<script src="/IBSRetail/static/script/default/common_vi_VN.js" type="text/javascript" language="javascript"></script>
+	
+	<title>Account_Information_Query_Account_Management_Retail_Ngân hàng TMCP Bắc Á - Ngân hàng điện tử cá nhân</title>
+	<style type="text/css">
+		@media (max-width:1080px){
+			.boxIcon{
+				min-height: 150px;
+				font-size: 14px;
+			}
+			.boxTopIcon{
+				min-height: 127px;
+				font-size: 14px;
+			}
+		}
+		
+		@media (max-width:960px){
+			.boxIcon, .boxTopIcon{
+				min-height: 170px;
+				font-size: 14px;
+			}
+		}
+		
+		@media (max-width:754px){
+			.boxIcon{
+				min-height: 195px;
+				font-size: 12px;
+			}
+			.boxTopIcon{
+				min-height: 150px;
+				font-size: 12px;
+			}
+		}
+		@media (max-width:650px){
+			.boxTopIcon{
+				min-height: 170px;
+				font-size: 12px;
+			}
+		}
+	</style>
+	<script type="text/javascript">
+	var mixin = {
+			  methods: {
+				  formatPrice: function(value) {
+		              var formatter = new Intl.NumberFormat('en-US', {
+		                  style: 'currency',
+		                  currency: 'VND',
+		                  minimumFractionDigits: 0,
+		                  currencyDisplay: "code"
+		              });
+		              var formatted = formatter.format(value).toString()
+		              return formatted.replace('VND','') + ' VND'
+		          },
+		          format_account: function(acc_no){
+		      		if (acc_no !=null){
+		      			acc_no = acc_no.replace(/[^0-9]/g, '');
+		      			acc_no = acc_no.substring(0,3) + '-' + acc_no.substring(3,6) + '-' + acc_no.substring(6,8) + '-'+ acc_no.substring(8,15);
+		      			return acc_no;
+		      		}
+		      	},
+		      	format_beautyaccount: function(acc_no){
+		      		if (acc_no !=null && acc_no != ""){
+		      			acc_no = "("+acc_no+")";
+		      			return acc_no;
+		      		}
+		      	},
+		      	clean_vietnamese: function (manman89chuoi){
+
+		      	    var mang = new Array();
+		      	    var manman89replace = new Array("A","D","E","I","O","U","Y","a","d","e","i","o","u","y"," ");
+
+		      	    mang[0]=new Array("À","Á","Ả","Ã","Ạ","Â","Ấ","Ầ","Ẩ","Ẫ","Ậ","Ắ","Ằ","Ă","Ặ");
+		      	    mang[1]=new Array("Đ");
+		      	    mang[2]=new Array("È","É","Ẻ","Ẽ","Ẹ","Ê","Ề","Ế","Ể","Ễ","Ệ");
+		      	    mang[3]=new Array("Ì","Í","Ỉ","Ĩ","Ị");
+		      	    mang[4]=new Array("Ò","Ó","Ỏ","Õ","Ọ","Ô","Ồ","Ố","Ổ","Ỗ","Ộ","Ơ","Ờ","Ớ","Ở","Ỡ","Ợ");
+		      	    mang[5]=new Array("Ù","Ú","Ủ","Ũ","Ụ","Ư","Ừ","Ứ","Ử","Ữ","Ự");
+		      	    mang[6]=new Array("Ỳ","Ý","Ỷ","Ỹ","Ỵ");
+
+		      	    mang[7]=new Array("à","á","ả","ã","ạ","â","ấ","ầ","ẩ","ẫ","ậ","ắ","ằ","ă","ặ");
+		      	    mang[8]=new Array("đ");
+		      	    mang[9]=new Array("è","é","ẻ","ẽ","ẹ","ê","ề","ế","ể","ễ","ệ");
+		      	    mang[10]=new Array("ì","í","ỉ","ĩ","ị");
+		      	    mang[11]=new Array("ò","ó","ỏ","õ","ọ","ô","ồ","ố","ổ","ỗ","ộ","ơ","ờ","ớ","ở","ỡ","ợ");
+		      	    mang[12]=new Array("ù","ú","ủ","ũ","ụ","ư","ừ","ứ","ử","ữ","ự");
+		      	    mang[13]=new Array("ỳ","ý","ỷ","ỹ","ỵ");
+		      	    //mang[14]=new Array("\r","\n");
+
+		      	    for (i=0;i<=mang.length-1;i++)
+		      	    {
+		      	        for (i1=0;i1<=mang[i].length-1;i1++)
+		      	        {
+		      				do
+		      				{
+		      				var old_text =manman89chuoi;
+		      					manman89chuoi=manman89chuoi.replace(mang[i][i1],manman89replace[i]);
+
+		      				}while(old_text != manman89chuoi)
+		      	        }
+		      	    }
+
+		      	    return this.ConvertBR(manman89chuoi);
+		      	},
+		      	ConvertBR: function(input) {
+		      		// Converts carriage returns
+		      		// to <BR> for display in HTML
+		      	    var output = "";
+		      	    for (var i = 0; i < input.length; i++) {
+		      	        if ((input.charCodeAt(i) == 13) && (input.charCodeAt(i + 1) == 10)) {
+		      	            i++;
+		      	            output += ".";
+		      	        } else {
+		      	            output += input.charAt(i);
+		      	        }
+		      	    }
+		      		return output.toUpperCase();
+		      	},
+		      	clearSpecial: function(input){
+		      		if (input.match(/(["'"!@#$%^&*()_+|\\~`\-={}\[\]:;<>?,.\/])/g)) {
+		                return input.replace(/(["'"!@#$%^&*()_+|\\~`\-={}\[\]:;<>?,.\/])/g, '')
+		            }else{
+		            	return input
+		            }
+		      	},
+		      	clearToNumber: function(input){
+		      		return input.replace(/[^0123456789]/g,'');
+		      	},
+		      	clearToAlphaNumeric: function(input){
+		      		return input.replace(/[^0-9a-z]/gi, '')
+		      	}
+			  }
+		};
+		function showModal(url){
+			window.top.$('#homeModal').find('.modal-content').load(url,function(){
+				window.top.$('#homeModal').modal('show');
+				//window.top.$('#homeModal').css('top', window.top.scrollY);
+	        });
+			//window.top.$('.modal-body').html($(modalId).find('.modal-content').html())
+		}
+		
+		function showModalDynamicById(modalContentId){
+			window.top.$('#homeModal').find('.modal-content').html($(modalContentId).html())
+			window.top.$('#homeModal').modal('show');
+		}
+		function gotoBox(boxId){
+			if(boxId != ''){
+				box = document.getElementById(boxId);
+				const waitInterval = setInterval(function () {
+			        if (window.parentIFrame) {
+			            parentIFrame.scrollToOffset(0,box.offsetTop);
+			            clearInterval(waitInterval);
+			        }
+			    }, 100);
+			}else{
+				const interval = setInterval(function () {
+			        if (window.parentIFrame) {
+			            parentIFrame.scrollToOffset(0,0);
+			            clearInterval(interval);
+			        }
+			    }, 100);
+			}
+		}
+		$(document).ready(function() {
+			
+			jQuery(".clean-vietnamese").cleanVietnamese();
+			jQuery(".clean-Alias").cleanAlias();
+			$('.customBtn').on('click', function() {
+			  var $this = $(this)
+			  $this.attr('disabled','disabled')
+			  var loadingText = '<i class="fa fa-spinner fa-spin "></i> ' + $this.text()
+			  if ($this.html() !== loadingText) {
+			    $this.data('original-text', $this.html())
+			    $this.html(loadingText)
+			  }
+			});
+		})
+		
+		function disableBtn(btn){
+			  var $this = $(btn)
+			  $this.attr('disabled','disabled')
+			  var loadingText = '<i class="fa fa-spinner fa-spin "></i> ' + $this.text()
+			  if ($this.html() !== loadingText) {
+			    $this.data('original-text', $this.html())
+			    $this.html(loadingText)
+			  }
+		}
+		
+		function enableBtn(){
+			setTimeout(function() {
+			var _button = $(':button')
+			$(_button).prop('disabled', false)
+			$(_button).find('.fa').remove()
+	    	}, 1000);
+		}
+		
+		function popupError(msg){
+			$('.alert-msg').html(msg)
+			showModalDynamicById('#errorModal')
+		}
+		
+		function formatAccountAmountBeauty(obj, currency){
+			obj.find("option").each(function(){
+				var string =jQuery(this).html().split("@");
+				var acctNo = "";
+				var acctBeauty="";
+				if (string[0] != null && string[0] != "" && string[0].substring(0,1) != '-'){
+					acctNo = format_account(string[0]);
+				}
+				if (string[1] != null && string[1] != ""){
+					acctBeauty = format_beautyaccount(string[1].trim());
+				}
+				jQuery(this).html(acctNo +" "+acctBeauty);
+			});
+		}
+		
+		function formatAccountAndAccBeauty(obj,currency){
+			obj.find("option").each(function(){
+				var value = jQuery(this).val();
+				if(value != null && value != ''){
+					var string =jQuery(this).html().split("(");
+					var acctNo = "";
+					var acctBeauty="";
+					if (string[0] != null && string[0] != "" && string[0].substring(0,1) != '-'){
+						acctNo = format_account(string[0]);
+					}
+					if (string[1] != null && string[1] != ""){
+						acctBeauty = '(' + string[1].trim();
+					}
+					jQuery(this).html(acctNo +" "+acctBeauty);
+				}
+			});
+		}
+		
+		
+		function format_beautyaccount(acc_no){ 
+			if (acc_no !=null && acc_no != ""){
+				acc_no= acc_no.trim();
+				acc_no = "("+acc_no+")";
+			}
+			return acc_no;
+		}
+		
+		function formatAccountAmountBeautyCheck(obj, currency){
+			obj.find("option").each(function(){
+				var value = jQuery(this).val();
+				if(value != null && value != ''){
+					var string =jQuery(this).html().split("(");
+					var acctNo = "";
+					var acctBeauty="";
+					if (string[0] != null && string[0] != "" && string[0].substring(0,1) != '-'){
+						acctNo = format_account(string[0]);
+					}
+					if (string[1] != null && string[1] != ""){
+						acctBeauty = '(' + string[1].trim();
+					}
+					jQuery(this).html(acctNo +" "+acctBeauty);
+				}
+			});
+		}
+		
+		function format_account_beauty(acc_no_beauty){
+			var arr = acc_no_beauty.split("(");
+			var acc_no = arr[0];
+			if (acc_no !=null){
+				acc_no = acc_no.replace(/[^0-9]/g, '');
+				acc_no = acc_no.substring(0,3) + '-' + acc_no.substring(3,6) + '-' + acc_no.substring(6,8) + '-'
+					+ acc_no.substring(8,15);
+				if(arr[1] != null){
+					acc_no = acc_no + "(" + arr[1];
+				}
+			}
+			return acc_no;
+		}
+		
+		
+	</script>
+</head>
+<body>
+
+	<!-- error modal -->
+	<div id="errorModal" style="display: none">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		 			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="text-center mb-3 alert-msg"></div>
+	 	</div>
+	</div>
+	
+﻿
+
+
+
+
+
+	<!-- Begin icon link -->
+	<div class="col-lg-12 mt-3 float-left mb-3 pl-4 pr-4">
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+			  	
+			  		<!-- Ko hien thi menu TK & chuc nang chung -->
+			  		
+			  			<div class="swiper-slide"><a href="#" onclick="go('box0')" class="bg-brown boxTopIcon text-center boxBorder border-0 font-weight-bold d-block p-3 text-white"><img width="45px" height="45px" src="/IBSRetail/static/images/2021/menu/2102.svg" alt=""/><br><span class="d-block mt-2">Chuyển khoản</span></a></div>
+			  		
+			  	
+			  		<!-- Ko hien thi menu TK & chuc nang chung -->
+			  		
+			  			<div class="swiper-slide"><a href="#" onclick="go('box1')" class="bg-brown boxTopIcon text-center boxBorder border-0 font-weight-bold d-block p-3 text-white"><img width="45px" height="45px" src="/IBSRetail/static/images/2021/menu/2105.svg" alt=""/><br><span class="d-block mt-2">Thanh toán <br/>trực tuyến</span></a></div>
+			  		
+			  	
+			  		<!-- Ko hien thi menu TK & chuc nang chung -->
+			  		
+			  			<div class="swiper-slide"><a href="#" onclick="go('box2')" class="bg-brown boxTopIcon text-center boxBorder border-0 font-weight-bold d-block p-3 text-white"><img width="45px" height="45px" src="/IBSRetail/static/images/2021/menu/2104.svg" alt=""/><br><span class="d-block mt-2">Dịch vụ thẻ</span></a></div>
+			  		
+			  	
+			  		<!-- Ko hien thi menu TK & chuc nang chung -->
+			  		
+			  			<div class="swiper-slide"><a href="#" onclick="go('box3')" class="bg-brown boxTopIcon text-center boxBorder border-0 font-weight-bold d-block p-3 text-white"><img width="45px" height="45px" src="/IBSRetail/static/images/2021/menu/2106.svg" alt=""/><br><span class="d-block mt-2">Tiền gửi<br/>trực tuyến</span></a></div>
+			  		
+			  	
+			  		<!-- Ko hien thi menu TK & chuc nang chung -->
+			  		
+			  			<div class="swiper-slide"><a href="#" onclick="go('box4')" class="bg-brown boxTopIcon text-center boxBorder border-0 font-weight-bold d-block p-3 text-white"><img width="45px" height="45px" src="/IBSRetail/static/images/2021/menu/2108.svg" alt=""/><br><span class="d-block mt-2">Ví điện tử</span></a></div>
+			  		
+			  	
+			  		<!-- Ko hien thi menu TK & chuc nang chung -->
+			  		
+			  			<div class="swiper-slide"><a href="#" onclick="go('box5')" class="bg-brown boxTopIcon text-center boxBorder border-0 font-weight-bold d-block p-3 text-white"><img width="45px" height="45px" src="/IBSRetail/static/images/2021/menu/2113.svg" alt=""/><br><span class="d-block mt-2">Dịch vụ Chứng khoán</span></a></div>
+			  		
+			  	
+			  		<!-- Ko hien thi menu TK & chuc nang chung -->
+			  		
+			  			<div class="swiper-slide"><a href="#" onclick="go('box6')" class="bg-brown boxTopIcon text-center boxBorder border-0 font-weight-bold d-block p-3 text-white"><img width="45px" height="45px" src="/IBSRetail/static/images/2021/menu/2201.svg" alt=""/><br><span class="d-block mt-2">Dịch vụ <br/>khách hàng</span></a></div>
+			  		
+			  	
+			  		<!-- Ko hien thi menu TK & chuc nang chung -->
+			  		
+			  			<div class="swiper-slide"><a href="#" onclick="go('box7')" class="bg-brown boxTopIcon text-center boxBorder border-0 font-weight-bold d-block p-3 text-white"><img width="45px" height="45px" src="/IBSRetail/static/images/2021/menu/2202.svg" alt=""/><br><span class="d-block mt-2">Bảo mật</span></a></div>
+			  		
+			  	
+			</div>
+		</div>
+		<!-- Add Arrows -->
+		<div class="swiper-button-next"></div>
+		<div class="swiper-button-prev"></div>
+	</div>	
+	
+	<script type="text/javascript">
+		$(function(){
+			var isOnTop = ''
+			//if(isOnTop == 'Y') 
+				gotoBox('')
+		})
+		function go(boxId){
+			window.top.frame.gotoFunction('/IBSRetail/Request?&dse_sessionId=uwdzeE5rJ1vilBeQrYxi25z&dse_applicationId=-1&dse_pageId=6&dse_operationName=retailHomeMenuProc&dse_errorPage=error_page.jsp&dse_processorState=initial&dse_nextEventName=start'+ "&boxId="+boxId)
+			//window.parentIFrame.scrollToOffset(0,box.offsetTop);
+		}
+		
+	</script>
+
+
+
+ 
+ <div class="float-left">
+	<a class="bg-brown d-block p-2 pl-3 pr-3 text-white size16 font-weight-bold" style="width: 80%">Thông tin tài khoản</a>
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb mb-0">
+		<li class="breadcrumb-item"><a class="darkgrey" href="#">Trang chủ</a></li><li class="breadcrumb-item"><a class="darkgrey" href="#">Tài khoản</a></li><li class="breadcrumb-item active" aria-current="page">Thông tin&nbsp;tài khoản</li>
+	  </ol>
+	</nav>
+</div>
+
+
+
+
+
+
+
+
+
+	<script src="/IBSRetail/static/script/default/jquery.dataTables.vn.js"
+		type="text/javascript" language="javascript"></script>
+	<script src="/IBSRetail/static/script/default/CheckDate.js"
+		type="text/javascript" language="javascript"></script>
+
+<link
+	href="/IBSRetail/static/css/dataTables.css"
+	rel="stylesheet" type="text/css" />
+<script src="/IBSRetail/static/script/default/date2.js"
+	type="text/javascript" language="javascript"></script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+	jQuery(function() {
+// 		formatAccountAmount($("#selectAccountNo"));
+// 		format_dropdown($("#selectAccountNo"));
+		var querySignal = 'false';
+		//alert(querySignal);
+		if(querySignal==null||querySignal=="false"){
+			var beginDate = jQuery("#beginDate").val();
+			var endDate = jQuery("#endDate").val();
+			var bDate = new Date();
+			var eDate = new Date();
+			var bDates = beginDate.split("/");
+			var eDates = endDate.split("/");
+			bDate.setFullYear(bDates[2], bDates[1]-1, bDates[0]);
+			eDate.setFullYear(eDates[2], eDates[1]-1, eDates[0]);
+			bDate.setHours(0, 0, 0, 0);
+			eDate.setHours(0, 0, 0, 0);
+			beginDate = bDate.getTime();
+			endDate = eDate.getTime();
+			var todayDate = new Date();
+			todayDate.setHours(0, 0, 0, 0);
+			//todayDate = todayDate.getTime();
+
+			var todayDate = new Date();
+			d = todayDate.getDate();
+			if(d<10){d='0'+d;}
+    		m = Number(todayDate.getMonth())+1;
+			if(m<10){m='0'+m;}
+			var todayInString =  d+"/"+m+"/"+todayDate.getFullYear();
+
+			if(beginDate!=todayDate.getTime()||endDate!=todayDate.getTime()){
+				jQuery("#beginDate").val(todayInString);
+				jQuery("#endDate").val(todayInString);
+			}
+			$("#selectAccountNo > option").eq(-1).attr('selected','selected');
+		
+		}
+		var account = '090001060002638';
+		var transaction_type = '';
+		var transaction_latitude = '';
+		var transaction_channel = '';
+		var transaction_status = '';
+		jQuery("#selectAccountNo option[value='"+account+"']").attr("selected","selected");
+		jQuery("#transaction_type option[value='"+transaction_type+"']").attr("selected","selected");
+		jQuery("#transaction_latitude option[value='"+transaction_latitude+"']").attr("selected","selected");
+		jQuery("#transaction_channel option[value='"+transaction_channel+"']").attr("selected","selected");
+		jQuery("#transaction_status option[value='"+transaction_status+"']").attr("selected","selected");
+		
+		$(".accMSB").each(function(){
+		$(this).html(format_account($(this).html()));
+		});
+		$('.selectALL').each(function(){
+			$(this).find('option:first').html('--Tất cả--');
+		});
+
+	});
+
+	function sub() {
+		$("#bDate").hide();
+		$("#eDate").hide();
+		$("#amount_from_err").hide();
+		$("#amount_to_err").hide();
+		var elb='Từ ngày không lớn hơn đến ngày.';
+		var errcurrDate ='Từ ngày không lớn hơn đến ngày.';
+		var err='Dữ liệu không hợp lệ';
+		var errToDate ='info.account_management.item.ToDate';
+		var errFixDate ='Khoảng thời gian không thể lớn hơn' + " " + '6' + " " + 'tháng';
+		var flag = true;
+		var is_detail = document.getElementById("is_detail_search").value;
+		var beginDate = jQuery("#beginDate").val();
+		var endDate = jQuery("#endDate").val();
+		var bDates = beginDate.split("/");
+		var eDates = endDate.split("/");
+		
+		
+		
+		
+		if(bDates.length!=3||bDates ==''){
+			$("#bDate").html(err);
+			$("#bDate").css("color","red");
+			$("#bDate").show();
+			$("#eDate").html(err);
+			$("#eDate").css("color","red");
+			$("#eDate").show();
+			return;
+		}
+		if(eDates.length!=3||eDates ==''){
+			$("#bDate").html(err);
+			$("#bDate").css("color","red");
+			//$("#bDate").show();
+			$("#eDate").html(err);
+			$("#eDate").css("color","red");
+			$("#eDate").show();
+			return;
+		}
+
+		var bDate = new Date();
+		var eDate = new Date();
+		var currDate = new Date();
+		bDate.setFullYear(bDates[2], bDates[1]-1, bDates[0]);
+		eDate.setFullYear(eDates[2], eDates[1]-1, eDates[0]);
+		bDate.setHours(0, 0, 0, 0);
+		eDate.setHours(0, 0, 0, 0);
+		beginDate = bDate.getTime();
+		endDate = eDate.getTime();
+		
+		if (endDate < beginDate) {
+			//alert("aaa");
+			$("#bDate").html(elb);
+			$("#bDate").css("color","red");
+			$("#bDate").show();
+			//$("#eDate").html(elb);
+			$("#eDate").css("color","red");
+			//$("#eDate").show();
+			return;
+		}
+		if(currDate.getTime() < beginDate || currDate.getTime() < endDate){
+// 			$("#bDate").html(errcurrDate);
+// 			$("#bDate").css("color","red");
+// 			$("#bDate").show();
+			$("#eDate").html(errToDate);
+			$("#eDate").css("color","red");
+			$("#eDate").show();
+			return;
+		}
+		
+		
+		//fix quert last 6 month
+		var dateFix = bDate;
+		dateFix.setMonth(bDate.getMonth() + Number('6'));
+		dateFix.setHours(0, 0, 0, 0);
+		if(endDate > dateFix.getTime()){
+			
+			$("#bDate").html(errFixDate);
+			$("#bDate").css("color","red");
+			$("#bDate").show();
+			//$("#eDate").html(elb);
+			$("#eDate").css("color","red");
+			//$("#eDate").show();
+			return;
+			
+		}
+		
+		
+		if(is_detail!= '' && (is_detail == 'N' || is_detail == 'n')){
+			$("#transaction_channel").val($("#transaction_channel option:first").val());
+			$("#transaction_type").val($("#transaction_type option:first").val());
+		}
+			
+		$("#transForm").submit();
+	}
+
+
+	function displayDetailSearch(pCheckDetail) {
+		var aIsChecked = pCheckDetail.checked;
+		var aDetail = document.getElementById("detail_search");
+		if (aIsChecked) {
+			aDetail.style.display = "";
+			document.getElementById("is_detail_search").value = "y";
+		} else {
+			aDetail.style.display = "none";
+			document.getElementById("is_detail_search").value = "n";
+		}
+	}
+
+	function selectType(pType) {
+		var aValue = document.getElementById("miniTransactionQueryProcURL");
+		location.href = aValue.value;
+	}
+
+	function doReset(obj) {
+		obj.form.reset();
+	}
+
+	function downloadAndPrint() {
+		document.getElementById('data_content').style.display = "block";
+		document.getElementById('downloadAndPrint').style.display = "block";
+	}
+	function printThePage() {
+		window.print();
+	}
+
+
+	function research1(){
+		jQuery("#researchID").val("yes");
+	}
+
+	function formatAccountNoX(obj){
+		//alert('aaaaaaaa');
+		obj.find("option").each(function(){
+			var string =jQuery(this).html();
+			if (string != 'ALL' && string.substring(0,1) != 'T'){
+				var arr = string.split('---');
+				var acc = format_account(arr[0]);
+				jQuery(this).html(acc + " --- " + arr[1]);
+			}
+		});
+	}
+
+ $(document).ready(function(){
+// 	 $('#selectAccountNo').each(function(){
+// 			$(this).find('option:first').html('090001060002638');
+// 		});	
+// 	$('#selectAccountNo').val('090001060002638');
+	$("#selectAccountNo option[value='ALL']").remove(); //for count pre-balance & post-balance
+
+$("#selectAccountNo").val('090001060002638-CA');
+	formatAccountNo($("#selectAccountNo"));
+	format_dropdown($("#transaction_type"));
+	formatSelected($("#transaction_type")[0]);
+	format_dropdown($("#transaction_latitude"));
+	formatSelected($("#transaction_latitude")[0]);
+	format_dropdown($("#transaction_status"));
+	formatSelected($("#transaction_status")[0]);
+	format_dropdown($("#transaction_channel"));
+	formatSelected($("#transaction_channel")[0]);
+
+
+	$(".remarkMSB").each(function(){
+		if ($(this).html().length > 60){
+			$(this).html($(this).html().slice(0,60) + '...');
+		}
+
+	})
+
+
+ });
+ function jasperExport(type,file) {
+	 var accList = "(";
+	 $('#selectAccountNo option').each(function(){
+		 if($(this).val() != "ALL")
+		 	accList += "'" + $(this).val() +"',";
+	 });
+	 accList = accList.substring(0, accList.length-1);
+	 accList = accList.split("-");
+	 accList += ")";
+
+	 var preBalance = "null";
+	 var postBalance = "null";
+	 var requestTime = "13/08/2024 03:35:18 AM";
+	 var acctNo = "";
+	 var acctName = "";
+
+	 if($('select[name="_selectAccountNo"]').val() != "ALL"){
+		 accList = $('select[name="_selectAccountNo"]').val();
+		 accList = accList.split("-");
+		 accList = accList[0];
+	 }
+		var url = '/IBSRetail/Request?&dse_sessionId=uwdzeE5rJ1vilBeQrYxi25z&dse_applicationId=-1&dse_pageId=6&dse_operationName=retailQueryReportProc&dse_processorState=initial&dse_nextEventName=jasperReport'
+				+ '&i_acct_no=' + accList
+				+ '&i_acct_name=' + acctName
+				+ '&i_acct_list=' + accList
+				+ '&i_begin_date=' + $('input[name="beginDate"]').val()
+				+ '&i_end_date=' + $('input[name="endDate"]').val()
+				+ '&i_period=' + $('select[name="_period"]').val()
+				+ '&i_latitude=' + $('select[name="transaction_latitude"]').val()
+				+ '&i_tran_type=' + $('select[name="transaction_type"]').val()
+				+ '&i_channel=' + $('select[name="transaction_channel"]').val()
+				+ '&preBalance=' + preBalance
+				+ '&postBalance=' + postBalance
+				+ '&requestTime=' + requestTime
+				+ '&_file=' + file
+				+ '&_fileType=' + type;
+		window.location.href = url;
+	}
+	
+function CheckDateModify(field){
+	console.log(field.value);
+	if(field.value == "__/__/____") {
+		return;
+	}
+	var checkstr = "0123456789";
+	var DateField = field;
+	var Datevalue = "";
+	var DateTemp = "";
+	var seperator = "/";
+	var day;
+	var month;
+	var year;
+	var leap = 0;
+	var err = 0;
+											 
+	var i;
+	   err = 0;
+	   DateValue = DateField.value;
+	   if (DateValue =="")	return;
+	   /* Delete all chars except 0..9 */
+	   for (i = 0; i < DateValue.length; i++) {
+		  if (checkstr.indexOf(DateValue.substr(i,1)) >= 0) {
+		     DateTemp = DateTemp + DateValue.substr(i,1);
+		  }
+	   }
+	   DateValue = DateTemp;
+	   /* Always change date to 8 digits - string*/
+	   /* if year is entered as 2-digit / always assume 20xx */
+	   if (DateValue.length == 6) {
+	      DateValue = DateValue.substr(0,4) + '20' + DateValue.substr(4,2); }  
+	   
+	   if (DateValue.length != 8) {
+	      err = 19;}
+	   /* year is wrong if year = 0000 */
+	   year = DateValue.substr(4,4);
+	   if (year == 0) {
+	      err = 20;
+	   }
+	   /* Validation of month*/
+	   day = DateValue.substr(0,2);
+	   month = DateValue.substr(2,2);   
+	   if ((month < 1) || (month > 12)) {
+	      err = 21;
+	   }
+	   /* Validation of day*/
+	   
+	   if (day < 1) {
+	     err = 22;
+	   }
+	   
+	 
+	   /* Validation leap-year / february / day */
+	   if ((year % 4 == 0) || (year % 100 == 0) || (year % 400 == 0)) {
+	      leap = 1;
+	   }
+	   if ((month == 2) && (leap == 1) && (day > 29)) {
+	      err = 23;
+	   }
+	   if ((month == 2) && (leap != 1) && (day > 28)) {
+	      err = 24;
+	   }
+	   /* Validation of other months */
+	   if ((day > 31) && ((month == "01") || (month == "03") || (month == "05") || (month == "07") || (month == "08") || (month == "10") || (month == "12"))) {
+	      err = 25;
+	   }
+	   if ((day > 30) && ((month == "04") || (month == "06") || (month == "09") || (month == "11"))) {
+	      err = 26;
+	   }
+	   /* if 00 ist entered, no error, deleting the entry */
+	   if ((day == 0) && (month == 0) && (year == 00)) {
+	      err = 0; day = ""; month = ""; year = ""; seperator = "";
+	   }
+	   /* if no error, write the completed date to Input-Field (e.g. 13.12.2001) */
+	   
+	   if (err == 0) {
+	      DateField.value = day + seperator + month + seperator + year;
+	      if (DateField.value == "")  	
+	      {
+			//alert("Äá»nh dáº¡ng ngÃ y khÃ´ng há»£p lá»!");
+			DateField.focus();	
+			return;
+	      }      
+	   }
+	   /* Error-message if err != 0 */
+	   else {
+			DateField.value = "";
+			DateField.focus();
+			//alert("Äá»nh dáº¡ng ngÃ y khÃ´ng há»£p lá»!");
+			return;
+	   }
+	   
+	   if ( parseInt(year) < 1800 )
+	   {
+	    	DateField.value = "";
+			DateField.focus();
+			//alert("Äá»nh dáº¡ng ngÃ y khÃ´ng há»£p lá»!");
+			return;
+	   }
+	}
+function acctChanged(xxx){
+	var value = xxx.split("-");
+	var acctNo = value[0]; 
+	var	acctType = value[1]; 
+	var url = '/IBSRetail/Request?dse_sessionId=uwdzeE5rJ1vilBeQrYxi25z&dse_applicationId=-1&dse_operationName=retailQueryAccountInformationProc&dse_pageId=6&dse_processorState=showAccDetailsState&dse_processorId=DIDODGCZBBGDHMBBGSGOAUIFETBVHHGUFQJCAFIG&dse_nextEventName=detail&option=account'+"&acctNo="+ acctNo +"&acctType="+ acctType;
+	window.location.href = url;
+ }
+ 
+function showDetails(newtxt, beneficiaryAcctNo, tranSn,tranDate, rollAcct ) {
+	if(beneficiaryAcctNo == ''){
+	var value = rollAcct.split("-");
+	var acctNo = value[0];
+	jQuery.ajax({
+		  url: "/IBSRetail/Request?&dse_sessionId=uwdzeE5rJ1vilBeQrYxi25z&dse_applicationId=-1&dse_pageId=6&dse_operationName=retailQueryAccountInformationProc&dse_processorState=initial&dse_nextEventName=detailEbank&beneficiaryAcctNo="+beneficiaryAcctNo
+		  + "&tranSn="+tranSn+ "&tranDate="+tranDate+ "&rollAcct="+acctNo,
+		  type: "post",
+		  data: "",
+		  cache: false,
+		  success: function(html){
+			  var resData = html.trim().split("@");
+			  if (resData != null) {
+			  		if(resData[0] == 'SUCC'){
+			  			$("#beneficiaryAcctNo"+newtxt).html(resData[1]);
+			  			$("#beneficiaryAcctName"+newtxt).html(resData[2]);
+			  			$("#beneficiaryAcctBank"+newtxt).html(resData[3]);
+			  		}
+			  }
+			  showModalDynamicById('#detail' + newtxt);
+		  }
+		});
+		
+		
+	}else {
+		showModalDynamicById('#detail' + newtxt);
+	}
+
+
+
+	
+}
+
+
+
+
+</script>
+
+
+<div class="col-lg-12 float-left mb-3">
+	<!-- Begin Box 1 -->
+	<div class="bg-news pt-3 mb-3">
+		<div class="row justify-content-md-center justify-content-sm-center">
+			<div class="col col-sm-9 col-md-8 col-lg-8 col-xl-8">
+				<div class="row text-body mb-3 clear">
+					<label for="thetd"
+						class="col-sm-3 col-xl-2 col-form-label text-body text-left">
+
+						Số tài khoản
+
+					</label>
+					<div class="col-sm-9 col-xl-10">
+						<select class="custom-select font-weight-bold"
+							name="_selectAccountNo" id="selectAccountNo"
+							onchange="acctChanged(this.value)">
+							
+								<option value="090001060002638-CA">
+									<a>090001060002638</a>
+								</option>
+							
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Begin Box 2 -->
+	<div class="bg-news pt-3 pb-2 mb-3">
+		<div class="row justify-content-md-center justify-content-sm-center">
+			<div class="col col-sm-9 col-md-8 col-lg-8 col-xl-8">
+				<table>
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Tên tài khoản/Thẻ
+							</div>
+							<div class="col-sm-7 text-right">
+								PHAN THI MINH TRANG
+
+							</div>
+						</div>
+					</tr>
+					
+					
+
+					<!-- <tr>
+					<td>Loại thẻ:</td>
+					<td>ATM</td>
+					<td>Nơi mở:</td>
+					<td>PGD Hai Bà Trưng</td>
+					</tr> -->
+
+
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Loại tiền
+							</div>
+							<div class="col-sm-7 text-right">
+								VND
+							</div>
+						</div>
+					</tr>
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Số dư khả dụng
+							</div>
+							<div class="col-sm-7 text-right">
+								118,131
+								
+							</div>
+						</div
+					</tr>
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Số dư kế toán
+							</div>
+							<div class="col-sm-7 text-right">
+								118,131
+							</div>
+						</div>
+					</tr>
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Số tiền phong tỏa
+							</div>
+							<div class="col-sm-7 text-right">
+								0
+							</div>
+						</div
+					</tr>
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Hạn mức thấu chi
+							</div>
+							<div class="col-sm-7 text-right">
+								0
+							</div>
+						</div>
+					</tr>
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Lãi suất
+							</div>
+							<div class="col-sm-7 text-right">
+								0.50  (%)
+							</div>
+						</div>
+					</tr>
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Lãi cộng dồn
+							</div>
+							<div class="col-sm-7 text-right">
+								10
+							</div>
+						</div>
+					</tr>
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Ngày mở tài khoản
+							</div>
+							<div class="col-sm-7 text-right">
+								2024-07-16
+							</div>
+						</div>
+					</tr>
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Chi nhánh
+							</div>
+							<div class="col-sm-7 text-right">
+								CN BAC NINH
+							</div>
+						</div>
+					</tr>
+					<tr>
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-5">
+								Trạng thái
+							</div>
+							<div class="col-sm-7 text-right">
+								Hoạt động
+							</div>
+						</div>
+					</tr>
+
+					
+						<div class="row text-body mb-3 clear">
+							<div class="col-sm-10">
+								(Số dư khả dụng chưa bao gồm số dư tối thiểu 50.000đ)
+							</div>
+						</div>
+
+					
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="col-lg-12 float-left mb-3">
+	<form name="" method="post" action="/IBSRetail/Request" name='transForm' id='transForm'>
+<input type="hidden" name="dse_sessionId" value="uwdzeE5rJ1vilBeQrYxi25z" />
+<input type="hidden" name="dse_applicationId" value="-1" />
+<input type="hidden" name="dse_operationName" value="retailQueryAccountInformationProc" />
+<input type="hidden" name="dse_pageId" value="6" />
+<input type="hidden" name="dse_processorState" value="showAccDetailsState" />
+<input type="hidden" name="dse_processorId" value="DIDODGCZBBGDHMBBGSGOAUIFETBVHHGUFQJCAFIG" />
+<input type="hidden" name="dse_errorPage" value="error_page.jsp" />
+<input type="hidden" name="dse_nextEventName" value="" />
+
+
+		<div class="bg-news pt-3 pb-2 mb-3">
+			<div class="row justify-content-md-center justify-content-sm-center">
+				<div class="col col-sm-9 col-md-9 col-lg-8 col-xl-8">
+
+					<input type="hidden" id="miniTransactionQueryProcURL" value="/IBSRetail/Request?&dse_sessionId=uwdzeE5rJ1vilBeQrYxi25z&dse_applicationId=-1&dse_pageId=6&dse_operationName=retailMiniTransactionQueryProc&dse_processorState=initial&dse_nextEventName=start">
+
+					<input type="hidden" id="vErrorPage" name="vErrorPage" value="/accountmanagement/query_transaction_information.jsp">
+					<input type="hidden" name="research" value="no" id="researchID" />
+					<div class="col-sm-7" hidden="hidden">
+						090001060002638
+					</div>
+					<div class="form-group row">
+						<label for="beginDate" class="col-sm-3 col-xl-3 col-form-label">Từ ngày *</label>
+						<div class="col-sm-3">
+							<input class="form-control date" id="beginDate" name="beginDate"
+								value="09/08/2024" type="text"
+								maxlength="10" placeholder="dd/MM/yyyy"
+								onkeyup="getFocus(this, document.transForm.endDate);if (event.keyCode!=8){javascript:return mask(this.value,this,'2,5','/');}"
+								onblur="CheckDate(this);"
+								onfocus="openCalendar(this,'img2','endDate')"
+								data-date-format="dd/mm/yyyy" /> 
+								<img  src="/IBSRetail/static/images/2021/date.svg" style="margin-right: 3px"/><br/>
+							<div>
+								<span id="bDate" style="display: none; white-space: pre">
+								</span>
+							</div>						
+						</div>
+						<label for="endDate" class="col-sm-1 col-xl-1 col-form-label" style="padding-right: 10px;">Đến *</label>
+						<div class="col-sm-3">
+							<input class="form-control date" id="endDate" name="endDate"
+								value="09/08/2024" type="text"
+								maxlength="10" placeholder="dd/MM/yyyy"
+								onkeyup="getFocus(this, document.transForm.endDate);if (event.keyCode!=8){javascript:return mask(this.value,this,'2,5','/');}"
+								onblur="CheckDate(this);" data-date-format="dd/mm/yyyy" /> 
+								<img id="img2" src="/IBSRetail/static/images/2021/date.svg" style="margin-right: 3px"/><br/>
+
+							
+							<div>
+								<span id="eDate" style="display: none; white-space: pre">
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row" style="display: none;">
+						<div class="col-sm-3 col-xl-3 col-form-label">
+							Truy vấn nhanh
+						</div>
+						<div class="col-sm-7">
+							<select class="custom-select" name="_period"
+								id="period">
+								<option value="" selected>Tất cả</option>
+								<option value="5" >05 giao dịch gần nhất</option>
+								<option value="10"
+									>10 giao dịch gần nhất</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-3 col-xl-3 col-form-label">
+							Tìm kiếm nâng cao
+						</div>
+						<div class="col-sm-7" style="padding-top: calc(.375rem + 1px); line-height: 1.5; padding-bottom: calc(.375rem + 1px);">
+							<input type="checkbox" id="detail_search_cb" 
+								onclick="displayDetailSearch(this);" /> <input type="hidden"
+								id="is_detail_search" name="is_detail_search"
+								value="" />
+
+						</div>
+					</div>
+
+					<div id="detail_search" style="display:none">
+
+						<div class="form-group row">
+							<div class="col-sm-3 col-xl-3 col-form-label">
+								Kênh giao dịch
+							</div>
+							<div class="col-sm-7">
+								<select class='custom-select selectALL' name="transaction_channel" id="transaction_channel" onchange="formatSelected(this)">
+									<option selected="selected" value="">-------Lựa chọn-------</option>
+									<option value="IBS">Internet Banking</option>
+									<option value="CNT">Tại quầy</option>
+									<option value="ATM">ATM</option>
+								</select>
+								<div>
+									
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<div class="col-sm-3 col-xl-3 col-form-label">
+								Giao dịch Nợ/Có
+							</div>
+							<div class="col-sm-7">
+								<select  class='custom-select selectALL'
+									name="transaction_type" id="transaction_type"
+									onchange="formatSelected(this)">
+									<option selected="selected" value="">-------Lựa chọn-------</option>
+									<option value="C">Có</option>
+									<option value="D">Nợ</option>
+								</select>
+								<div>
+									
+								
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center">
+			<span>
+				<button
+					onClick="document.location.href='/IBSRetail/Request?dse_sessionId=uwdzeE5rJ1vilBeQrYxi25z&dse_applicationId=-1&dse_operationName=retailQueryAccountInformationProc&dse_pageId=6&dse_processorState=showAccDetailsState&dse_processorId=DIDODGCZBBGDHMBBGSGOAUIFETBVHHGUFQJCAFIG&dse_nextEventName=back'"
+					type="button" class="btn btn-white mr-3 customBtn">
+					Quay lại
+				</button> <input class="btn btn-brown mr-3" type="button"
+				value="Tìm kiếm"
+				onClick="cleanAmount();research1();this.form.dse_nextEventName.value='query';sub();" />
+			</span>
+		</div>
+		<br />
+		<br />
+		
+		
+			
+				
+				
+					
+				
+			
+		
+	</form>
+
+</div>
+
+
+
+
+

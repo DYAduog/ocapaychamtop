@@ -1,0 +1,111 @@
+<div class="card">
+    <h2>WooCommerce Integration API</h2>
+    <p>Use this API to automatically verify transactions from your WooCommerce store.</p>
+
+    <div class="api-section">
+        <h3>API Endpoints</h3>
+        <pre><code>GET /api/recent-credit-transactions   (Polling endpoint)
+POST /api/check-transaction           (Specific transaction check)</code></pre>
+    </div>
+
+    <div class="api-section">
+        <h3>Authentication</h3>
+        <p>You must include your secret API key in the request headers.</p>
+        <pre><code>x-api-key: YOUR_API_KEY</code></pre>
+        <p>You can set your <code>API_KEY</code> in the <strong>Settings</strong> page.</p>
+    </div>
+
+    <div class="api-section">
+        <h3>1. Polling for Credit Transactions</h3>
+        <h4>GET /api/recent-credit-transactions</h4>
+        <p>This endpoint allows WooCommerce to poll for new credit transactions (money additions) periodically.</p>
+        
+        <h5>Query Parameters</h5>
+        <ul>
+            <li><strong>since</strong> (optional): ISO timestamp to get transactions since a specific time</li>
+        </ul>
+        
+        <h5>Example Request</h5>
+        <pre><code>GET /api/recent-credit-transactions?since=2024-01-01T10:00:00.000Z
+x-api-key: YOUR_API_KEY</code></pre>
+        
+        <h5>Response</h5>
+        <pre><code>{
+    "success": true,
+    "count": 2,
+    "transactions": [
+        {
+            "receivingAccount": "0972614889 - Tài khoản thanh toán",
+            "amount": "+150.000đ",
+            "content": "NGUYEN THANH QUAN chuyen tien",
+            "transactionCode": "FT24001234567",
+            "dateTime": "01/01/2024 14:30:25"
+        }
+    ],
+    "timestamp": "2024-01-01T14:30:25.000Z"
+}</code></pre>
+    </div>
+
+    <div class="api-section">
+        <h3>2. Check Specific Transaction</h3>
+        <h4>POST /api/check-transaction</h4>
+        <p>This endpoint checks for a specific transaction by amount and content.</p>
+        
+        <h5>Request Body</h5>
+        <p>The request must be in JSON format with the following fields:</p>
+        <pre><code>{
+    "amount": "150.000",
+    "content": "NGUYEN THANH QUAN chuyen tien"
+}</code></pre>
+        <ul>
+            <li><strong>amount</strong> (string): The exact transaction amount as a string.</li>
+            <li><strong>content</strong> (string): The transaction content/memo. The API will check if this string is included in the transaction details.</li>
+        </ul>
+
+        <h5>Responses</h5>
+        <h6>Success (200 OK)</h6>
+        <p>Returned when a matching transaction is found.</p>
+        <pre><code>{
+    "status": "found",
+    "transaction": {
+        "receivingAccount": "0972614889 - Tài khoản thanh toán",
+        "sendingAccount": "808888880"
+    }
+}</code></pre>
+
+        <h6>Not Found (404 Not Found)</h6>
+        <p>Returned if no matching transaction is found after polling for 60 seconds.</p>
+        <pre><code>{
+    "status": "not_found"
+}</code></pre>
+        
+        <h6>Unauthorized (401 Unauthorized)</h6>
+        <p>Returned if the API key is missing or incorrect.</p>
+        <pre><code>{
+    "error": "Unauthorized"
+}</code></pre>
+
+        <h6>Bad Request (400 Bad Request)</h6>
+        <p>Returned if the <code>amount</code> or <code>content</code> fields are missing from the request.</p>
+        <pre><code>{
+    "error": "Missing amount or content"
+}</code></pre>
+    </div>
+</div>
+
+<style>
+.api-section {
+    margin-bottom: 25px;
+}
+pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #e8e8e8;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+code {
+    font-family: 'Courier New', Courier, monospace;
+}
+</style>

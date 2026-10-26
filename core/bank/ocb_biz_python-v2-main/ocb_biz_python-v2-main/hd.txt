@@ -1,0 +1,4 @@
+Run the following command to run
+>> pip install -r req.txt
+>> python app.py
+

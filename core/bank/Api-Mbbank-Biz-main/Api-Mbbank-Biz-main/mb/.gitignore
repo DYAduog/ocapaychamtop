@@ -1,0 +1,16 @@
+# Ignore png files
+*.png
+# Ignore all files in the data directory
+data/*
+
+*.json
+
+*.log
+
+*.ipynb
+
+# ignore environment files
+.env
+.env.local
+
+.vscode/

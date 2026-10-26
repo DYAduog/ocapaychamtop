@@ -1,0 +1,57 @@
+<div class="status-grid">
+    <div class="card status-card">
+        <h3>Last Check</h3>
+        <p class="value" id="lastCheck">N/A</p>
+    </div>
+    <div class="card status-card">
+        <h3>Processed Emails</h3>
+        <p class="value" id="processedCount">0</p>
+    </div>
+    <div class="card status-card">
+        <h3>Last Error</h3>
+        <p class="value" id="lastError">None</p>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Logs</h2>
+    <div class="logs-container">
+        <ul id="logs">
+            <li>Loading logs...</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    function fetchStatus() {
+        fetch('/status')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('lastCheck').textContent = data.lastCheck ? new Date(data.lastCheck).toLocaleString() : 'N/A';
+                document.getElementById('processedCount').textContent = data.processedCount;
+                document.getElementById('lastError').textContent = data.lastError || 'None';
+
+                const logsList = document.getElementById('logs');
+                logsList.innerHTML = '';
+                if (data.logs && data.logs.length > 0) {
+                    data.logs.forEach(log => {
+                        const li = document.createElement('li');
+                        li.textContent = log;
+                        logsList.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = 'No logs yet.';
+                    logsList.appendChild(li);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching status:', error);
+                const logsList = document.getElementById('logs');
+                logsList.innerHTML = '<li>Error loading status. Check the console.</li>';
+            });
+    }
+
+    fetchStatus();
+    setInterval(fetchStatus, 5000);
+</script>

@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OcaPay Admin Portal - Master Control & Analytics</title>
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+  <style>
+    /* Styling cột Thông báo Bot (Tele / Zalo / Cả hai) */
+    .notify-toggle-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.45);
+      padding: 4px 6px;
+      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      vertical-align: middle;
+    }
+    .btn-notify-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+      line-height: 1.2;
+    }
+    .btn-notify-pill.active.tele {
+      background: rgba(2, 132, 199, 0.2);
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+    }
+    .btn-notify-pill.active.tele:hover {
+      background: rgba(2, 132, 199, 0.35);
+      border-color: #38bdf8;
+      transform: translateY(-1px);
+    }
+    .btn-notify-pill.off.tele {
+      background: rgba(100, 116, 139, 0.12);
+      color: #94a3b8;
+      border-color: rgba(148, 163, 184, 0.25);
+    }
+    .btn-notify-pill.off.tele:hover {
+      background: rgba(2, 132, 199, 0.15);
+      color: #7dd3fc;
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-1px);
+    }
+    .btn-notify-pill.active.zalo {
+      background: rgba(37, 99, 235, 0.2);
+      color: #60a5fa;
+      border-color: rgba(96, 165, 250, 0.45);
+      box-shadow: 0 0 10px rgba(96, 165, 250, 0.15);
+    }
+    .btn-notify-pill.active.zalo:hover {
+      background: rgba(37, 99, 235, 0.35);
+      border-color: #60a5fa;
+      transform: translateY(-1px);
+    }
+    .btn-notify-pill.off.zalo {
+      background: rgba(100, 116, 139, 0.12);
+      color: #94a3b8;
+      border-color: rgba(148, 163, 184, 0.25);
+    }
+    .btn-notify-pill.off.zalo:hover {
+      background: rgba(37, 99, 235, 0.15);
+      color: #93c5fd;
+      border-color: rgba(96, 165, 250, 0.4);
+      transform: translateY(-1px);
+    }
+    .btn-notify-both {
+      padding: 4px 7px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      letter-spacing: 0.3px;
+    }
+    .btn-notify-both.all-on {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border-color: rgba(52, 211, 153, 0.4);
+    }
+    .btn-notify-both.all-on:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border-color: rgba(248, 113, 113, 0.4);
+      transform: translateY(-1px);
+    }
+    .btn-notify-both.has-off {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border-color: rgba(251, 191, 36, 0.35);
+    }
+    .btn-notify-both.has-off:hover {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border-color: rgba(52, 211, 153, 0.45);
+      transform: translateY(-1px);
+    }
+    .badge-no-chatid {
+      font-size: 8px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      padding: 1px 4px;
+      border-radius: 4px;
+      margin-left: 2px;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- ===================================================================
+         SIDEBAR NAVIGATION
+         =================================================================== -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      
+      <!-- Brand Header -->
+      <div class="admin-brand">
+        <div class="admin-brand-icon" style="background: transparent; overflow: hidden; border-radius: 10px; width: 40px; height: 40px; border: 1px solid rgba(244, 114, 182, 0.3); box-shadow: 0 0 15px rgba(244, 114, 182, 0.25);">
+          <img src="/images/logo.png" alt="OcaPay Admin" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="admin-brand-text">
+          <h2 style="font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 800; letter-spacing: 0.5px;">Oca<span style="color: #f43f5e;">Pay</span> Admin</h2>
+          <p><i class="fa-solid fa-bolt text-warning"></i> Master Control v3.0</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <ul class="admin-nav">
+        <li class="admin-nav-item">
+          <a class="admin-nav-link active" onclick="switchAdminNav('stats', this)">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Tổng quan & KPI</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a class="admin-nav-link" onclick="switchAdminNav('users', this)">
+            <i class="fa-solid fa-users-gear"></i>
+            <span>Quản lý thành viên</span>
+            <span class="admin-nav-badge" id="badge-total-users">0</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a class="admin-nav-link" onclick="switchAdminNav('gateways', this)">
+            <i class="fa-solid fa-network-wired"></i>
+            <span>Trạng thái cổng (16)</span>
+            <span class="admin-nav-badge" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;" id="badge-gateways-status">16</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a class="admin-nav-link" onclick="switchAdminNav('banks', this)">
+            <i class="fa-solid fa-building-columns"></i>
+            <span>Tài khoản liên kết</span>
+            <span class="admin-nav-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399;" id="badge-total-banks">0</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a class="admin-nav-link" onclick="switchAdminNav('deposit-accounts', this)">
+            <i class="fa-solid fa-qrcode"></i>
+            <span>Tài khoản nạp riêng</span>
+            <span class="admin-nav-badge" style="background: rgba(239, 68, 68, 0.2); color: #f87171;" id="badge-total-deposit-accounts">0</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a class="admin-nav-link" onclick="switchAdminNav('plans', this)">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Gói Dịch Vụ API</span>
+            <span class="admin-nav-badge" style="background: rgba(14, 165, 233, 0.15); color: #0284c7;" id="badge-total-plans">3</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a class="admin-nav-link" onclick="switchAdminNav('logs', this)">
+            <i class="fa-solid fa-receipt"></i>
+            <span>Nhật ký biến động ví</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a class="admin-nav-link" onclick="switchAdminNav('captcha', this)">
+            <i class="fa-solid fa-microchip"></i>
+            <span>Thuê API Captcha</span>
+            <span class="admin-nav-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399;" id="badge-captcha-logs">HOT</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a class="admin-nav-link" onclick="switchAdminNav('settings', this)">
+            <i class="fa-solid fa-sliders"></i>
+            <span>Cấu hình hệ thống</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="/livechat-admin.html" target="_blank" class="admin-nav-link" style="color: #34d399; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.25);">
+            <i class="fa-solid fa-headset" style="color: #34d399;"></i>
+            <span>Trực Live Chat (CSKH)</span>
+            <span class="admin-nav-badge" style="background: #ef4444; color: #ffffff;" id="badge-admin-livechat">LIVE</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-item" style="margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--admin-border);">
+          <a href="/index.html" class="admin-nav-link" style="color: var(--admin-primary); background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.2);">
+            <i class="fa-solid fa-arrow-left" style="color: var(--admin-primary);"></i>
+            <span>Về Cổng Khách Hàng</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Admin Profile Card -->
+      <div class="admin-sidebar-footer">
+        <div class="admin-user-card">
+          <div class="admin-avatar" id="admin-avatar-char">AD</div>
+          <div class="admin-user-meta">
+            <h4 id="admin-user-name">Admin</h4>
+            <p><i class="fa-solid fa-shield-halved"></i> Master Control</p>
+          </div>
+          <button class="btn-sidebar-logout" onclick="handleAdminLogout()" title="Đăng xuất">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ===================================================================
+         MAIN CONTENT AREA
+         =================================================================== -->
+    <main class="admin-main">
+      
+      <!-- Top Navbar -->
+      <header class="admin-topbar">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <!-- Mobile Drawer Toggle -->
+          <button class="admin-mobile-toggle" onclick="toggleAdminSidebar()" aria-label="Mở Menu">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+
+          <div class="admin-title-area">
+            <h1 id="admin-heading-title">Tổng Quan & Phân Tích Hệ Thống</h1>
+            <p id="admin-heading-sub">Báo cáo thời gian thực về thành viên, doanh thu và 11 cổng API</p>
+          </div>
+        </div>
+
+        <div class="admin-topbar-actions">
+          <!-- Update Button with Version Badge -->
+          <button class="btn-admin-action" id="btn-topbar-update" onclick="handleAutoUpdateClick()" title="Kiểm tra & Cập nhật phiên bản mới nhất" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; font-weight: 700; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35); gap: 7px; cursor: pointer;">
+            <i class="fa-solid fa-cloud-arrow-down" id="topbar-update-icon"></i>
+            <span class="hide-mobile">Cập Nhật Phiên Bản</span>
+            <span class="admin-nav-badge" id="badge-topbar-version" style="background: rgba(255,255,255,0.25); color: #fff; margin-left: 2px; font-size: 10px; padding: 2px 6px;">v3.2.0</span>
+          </button>
+
+          <!-- Realtime Clock Pill -->
+          <div class="btn-admin-ghost hide-mobile" style="font-family: var(--admin-font-mono); font-size: 12px; gap: 6px;">
+            <i class="fa-regular fa-clock" style="color: var(--admin-warning);"></i>
+            <span id="admin-live-clock">--:--:--</span>
+          </div>
+
+          <!-- Quick Refresh Button -->
+          <button class="btn-admin-action btn-admin-ghost" onclick="refreshAdminData()" title="Làm mới dữ liệu">
+            <i class="fa-solid fa-rotate" id="refresh-icon"></i> <span class="hide-mobile">Làm Mới</span>
+          </button>
+
+          <!-- Back to User View -->
+          <a href="/index.html" class="btn-admin-action btn-admin-ghost">
+            <i class="fa-solid fa-globe" style="color: var(--admin-primary);"></i> <span class="hide-mobile">Giao Diện Khách</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="admin-content">
+
+        <!-- =================================================================
+             TAB 1: TỔNG QUAN & KPI (STATS)
+             ================================================================= -->
+        <section id="sec-admin-stats">
+          
+          <!-- KPI Metrics Row -->
+          <div class="kpi-grid">
+            
+            <!-- Metric 1: Users -->
+            <div class="kpi-card" style="--card-accent: #38bdf8;">
+              <div class="kpi-top">
+                <span class="kpi-label">Tổng Số Thành Viên</span>
+                <div class="kpi-icon-pill" style="color: #38bdf8;">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="stat-total-users">0</div>
+              <div class="kpi-sub">
+                <span id="stat-admin-count" style="color: #fca5a5; font-weight: 700;">0 Admin</span> • 
+                <span id="stat-banned-count" style="color: #fbbf24;">0 Bị khóa</span>
+              </div>
+            </div>
+
+            <!-- Metric 2: Bank Gateways -->
+            <div class="kpi-card" style="--card-accent: #10b981;">
+              <div class="kpi-top">
+                <span class="kpi-label">Cổng Ngân Hàng Kết Nối</span>
+                <div class="kpi-icon-pill" style="color: #10b981;">
+                  <i class="fa-solid fa-building-columns"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="stat-total-banks">0</div>
+              <div class="kpi-sub" style="color: #34d399;">
+                <i class="fa-solid fa-circle" style="font-size: 8px;"></i> 
+                <span id="stat-active-banks">0 cổng Online 24/7</span>
+              </div>
+            </div>
+
+            <!-- Metric 3: Wallet Total Balance -->
+            <div class="kpi-card" style="--card-accent: #f59e0b;">
+              <div class="kpi-top">
+                <span class="kpi-label">Tổng Số Dư Ví Thành Viên</span>
+                <div class="kpi-icon-pill" style="color: #f59e0b;">
+                  <i class="fa-solid fa-wallet"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="stat-total-money" style="color: #fbbf24;">0 đ</div>
+              <div class="kpi-sub">Số dư khả dụng trong ví toàn sàn</div>
+            </div>
+
+            <!-- Metric 4: Accumulated Deposited -->
+            <div class="kpi-card" style="--card-accent: #a855f7;">
+              <div class="kpi-top">
+                <span class="kpi-label">Tổng Doanh Thu Nạp Tiền</span>
+                <div class="kpi-icon-pill" style="color: #a855f7;">
+                  <i class="fa-solid fa-money-bill-trend-up"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="stat-total-deposited" style="color: #c084fc;">0 đ</div>
+              <div class="kpi-sub">Tích lũy lịch sử nạp Napas 247</div>
+            </div>
+
+          </div>
+
+          <!-- Middle Row: Bank Breakdown & Recent Users -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 24px;">
+            
+            <!-- Bank Gateways Distribution -->
+            <div class="admin-card" style="margin-bottom: 0;">
+              <div class="admin-card-header">
+                <div class="admin-card-title">
+                  <i class="fa-solid fa-chart-column"></i> Phân Bổ Cổng Ngân Hàng (11 Cổng)
+                </div>
+                <span class="badge-pill badge-pill-info">Realtime</span>
+              </div>
+              <div class="admin-card-body">
+                <div id="bank-distribution-list" style="display: flex; flex-direction: column; gap: 10px;">
+                  <!-- Populated via JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Registered Users -->
+            <div class="admin-card" style="margin-bottom: 0;">
+              <div class="admin-card-header">
+                <div class="admin-card-title">
+                  <i class="fa-solid fa-user-clock"></i> Thành Viên Đăng Ký Mới Nhất
+                </div>
+                <button class="btn-mini btn-mini-green" onclick="switchAdminNav('users')">Xem Tất Cả</button>
+              </div>
+              <div class="admin-card-body" style="padding: 10px 18px;">
+                <div id="recent-users-list" style="display: flex; flex-direction: column; gap: 10px;">
+                  <!-- Populated via JS -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Server Health Panel -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div class="admin-card-title">
+                <i class="fa-solid fa-server" style="color: #38bdf8;"></i> Tình Trạng Hạ Tầng Máy Chủ (Backend Runtime)
+              </div>
+              <span class="badge-pill badge-pill-success"><i class="fa-solid fa-circle-check"></i> Đang Hoạt Động</span>
+            </div>
+            <div class="admin-card-body">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px;">
+                <div style="background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px solid var(--admin-border-light);">
+                  <div style="font-size: 11px; color: var(--admin-text-dim); text-transform: uppercase; font-weight: 700;">Thời Gian Chạy (Uptime)</div>
+                  <div style="font-size: 16px; font-weight: 800; color: var(--admin-text-main); margin-top: 4px; font-family: var(--admin-font-mono);" id="server-uptime">--</div>
+                </div>
+                <div style="background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px solid var(--admin-border-light);">
+                  <div style="font-size: 11px; color: var(--admin-text-dim); text-transform: uppercase; font-weight: 700;">Bộ Nhớ RAM (RSS)</div>
+                  <div style="font-size: 16px; font-weight: 800; color: #0284c7; margin-top: 4px; font-family: var(--admin-font-mono);" id="server-memory">-- MB</div>
+                </div>
+                <div style="background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px solid var(--admin-border-light);">
+                  <div style="font-size: 11px; color: var(--admin-text-dim); text-transform: uppercase; font-weight: 700;">Môi Trường Node.js</div>
+                  <div style="font-size: 16px; font-weight: 800; color: #00a65a; margin-top: 4px; font-family: var(--admin-font-mono);" id="server-node-ver">Node.js</div>
+                </div>
+                <div style="background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px solid var(--admin-border-light);">
+                  <div style="font-size: 11px; color: var(--admin-text-dim); text-transform: uppercase; font-weight: 700;">Cơ Sở Dữ Liệu</div>
+                  <div style="font-size: 16px; font-weight: 800; color: #d97706; margin-top: 4px;">MongoDB 127.0.0.1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================================
+             TAB 2: QUẢN LÝ THÀNH VIÊN (USERS)
+             ================================================================= -->
+        <section id="sec-admin-users" style="display: none;">
+          
+          <div class="admin-card">
+            
+            <div class="admin-card-header">
+              <div class="admin-card-title">
+                <i class="fa-solid fa-users"></i> Danh Sách Thành Viên Hệ Thống
+                <span class="badge-pill badge-pill-danger" id="user-count-badge">0 người dùng</span>
+              </div>
+
+              <!-- Search and Filter Tools -->
+              <div class="admin-toolbar">
+                <input type="text" id="user-search-input" class="admin-search-input" placeholder="Tìm tài khoản, email, SĐT..." oninput="handleUserSearch(this.value)">
+                
+                <select id="user-filter-role" class="admin-select" onchange="applyUserFilters()">
+                  <option value="all">Tất cả cấp bậc</option>
+                  <option value="admin">Quản trị viên (Admin)</option>
+                  <option value="member">Thành viên thường</option>
+                </select>
+
+                <select id="user-filter-status" class="admin-select" onchange="applyUserFilters()">
+                  <option value="all">Tất cả trạng thái</option>
+                  <option value="active">Hoạt động bình thường</option>
+                  <option value="banned">Tài khoản bị khóa</option>
+                </select>
+
+                <button class="btn-admin-action btn-admin-primary" onclick="openCreateUserModal()">
+                  <i class="fa-solid fa-user-plus"></i> <span>Tạo Thành Viên</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Thành Viên</th>
+                    <th>Email & SĐT</th>
+                    <th>Số Dư Ví</th>
+                    <th>Hạn Gói API</th>
+                    <th>Cấp Bậc</th>
+                    <th>Trạng Thái</th>
+                    <th style="min-width: 215px; text-align: center;">Thông Báo Bot (Tele / Zalo)</th>
+                    <th>Hành Động Nhanh</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-users-tbody">
+                  <tr>
+                    <td colspan="8" style="text-align: center; padding: 30px; color: var(--admin-text-muted);">
+                      <i class="fa-solid fa-spinner fa-spin"></i> Đang nạp danh sách thành viên...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =================================================================
+             TAB: QUẢN LÝ TRẠNG THÁI CỔNG API (GATEWAYS)
+             ================================================================= -->
+        <section id="sec-admin-gateways" style="display: none;">
+          
+          <!-- KPI Summary Metrics for Gateways -->
+          <div class="kpi-grid">
+            
+            <div class="kpi-card" style="--card-accent: #38bdf8;">
+              <div class="kpi-top">
+                <span class="kpi-label">Tổng Cổng Hệ Thống</span>
+                <div class="kpi-icon-pill" style="color: #38bdf8;">
+                  <i class="fa-solid fa-network-wired"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="gw-stat-total">11</div>
+              <div class="kpi-sub">11 cổng ngân hàng & ví điện tử</div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: #10b981;">
+              <div class="kpi-top">
+                <span class="kpi-label">Cổng Đang Hoạt Động</span>
+                <div class="kpi-icon-pill" style="color: #10b981;">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="gw-stat-active" style="color: #34d399;">0</div>
+              <div class="kpi-sub" style="color: #34d399;">
+                <span class="status-pulse-dot dot-active"></span> Sẵn sàng kết nối & quét 24/7
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: #f59e0b;">
+              <div class="kpi-top">
+                <span class="kpi-label">Cổng Đang Bảo Trì</span>
+                <div class="kpi-icon-pill" style="color: #f59e0b;">
+                  <i class="fa-solid fa-screwdriver-wrench"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="gw-stat-maintenance" style="color: #fbbf24;">0</div>
+              <div class="kpi-sub" style="color: #fbbf24;">
+                <span class="status-pulse-dot dot-maintenance"></span> Đang tạm ngưng dịch vụ
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: #a855f7;">
+              <div class="kpi-top">
+                <span class="kpi-label">Cổng Sắp Ra Mắt</span>
+                <div class="kpi-icon-pill" style="color: #a855f7;">
+                  <i class="fa-solid fa-rocket"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="gw-stat-coming-soon" style="color: #c084fc;">0</div>
+              <div class="kpi-sub" style="color: #c084fc;">
+                <span class="status-pulse-dot dot-coming_soon"></span> Đang trong giai đoạn tích hợp
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: #ef4444;">
+              <div class="kpi-top">
+                <span class="kpi-label">Cổng Đang Tắt (Ẩn)</span>
+                <div class="kpi-icon-pill" style="color: #ef4444;">
+                  <i class="fa-solid fa-power-off"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="gw-stat-disabled" style="color: #f87171;">0</div>
+              <div class="kpi-sub" style="color: #f87171;">
+                <span class="status-pulse-dot dot-disabled"></span> Đã tắt và ẩn khỏi giao diện khách
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Gateway Control Card -->
+          <div class="admin-card">
+            
+            <div class="admin-card-header">
+              <div class="admin-card-title">
+                <i class="fa-solid fa-sliders" style="color: var(--admin-primary);"></i> Quản Lý Trạng Thái Cổng API (Hoạt Động / Bảo Trì / Sắp Ra Mắt / Tắt Ẩn Cổng)
+                <span class="badge-pill badge-pill-info" id="gw-badge-count">16 cổng</span>
+              </div>
+
+              <!-- Search and Filter Controls -->
+              <div class="admin-toolbar">
+                <input type="text" id="gw-search-input" class="admin-search-input" placeholder="Tìm theo tên cổng (VCB, MB, TPBank...)" oninput="filterGateways(this.value)">
+
+                <select id="gw-filter-status" class="admin-select" onchange="filterGateways()">
+                  <option value="all">Tất cả trạng thái</option>
+                  <option value="active">🟢 Đang Hoạt Động</option>
+                  <option value="maintenance">🟡 Đang Bảo Trì</option>
+                  <option value="coming_soon">🟣 Sắp Ra Mắt</option>
+                  <option value="disabled">🔴 Đang Tắt (Ẩn Cổng)</option>
+                </select>
+
+                <button class="btn-admin-action btn-admin-ghost" onclick="setAllGatewaysStatus('active')" title="Đặt tất cả cổng về Hoạt động" style="color: #10b981;">
+                  <i class="fa-solid fa-circle-check"></i> Bật Tất Cả Hoạt Động
+                </button>
+
+                <button class="btn-admin-action btn-admin-ghost" onclick="loadAdminGateways()" title="Làm mới">
+                  <i class="fa-solid fa-rotate"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Gateways Table Wrap -->
+            <div class="table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Cổng Ngân Hàng</th>
+                    <th>Mã Cổng (Code)</th>
+                    <th>STK Đang Kết Nối</th>
+                    <th>Trạng Thái Hiện Tại</th>
+                    <th>Điều Chỉnh Trạng Thái</th>
+                    <th>Thông Báo / Lý Do Bảo Trì</th>
+                    <th>Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-gateways-tbody">
+                  <tr>
+                    <td colspan="7" style="text-align: center; padding: 30px; color: var(--admin-text-muted);">
+                      <i class="fa-solid fa-spinner fa-spin"></i> Đang nạp danh sách cổng API...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =================================================================
+             TAB 3: CỔNG NGÂN HÀNG KẾT NỐI (BANKS)
+             ================================================================= -->
+        <section id="sec-admin-banks" style="display: none;">
+          
+          <div class="admin-card">
+            
+            <div class="admin-card-header">
+              <div class="admin-card-title">
+                <i class="fa-solid fa-building-columns"></i> Tất Cả Tài Khoản Ngân Hàng Đang Kết Nối
+                <span class="badge-pill badge-pill-info" id="bank-count-badge">0 tài khoản</span>
+              </div>
+
+              <div class="admin-toolbar">
+                <select id="bank-filter-code" class="admin-select" onchange="applyBankFilters()">
+                  <option value="all">Toàn bộ 16 ngân hàng</option>
+                  <option value="timo">Timo Digital Bank</option>
+                  <option value="tpbank">TPBank</option>
+                  <option value="mbbank">MBBank</option>
+                  <option value="vcb">Vietcombank</option>
+                  <option value="acb">ACB</option>
+                  <option value="bidv">BIDV</option>
+                  <option value="viettin">VietinBank</option>
+                  <option value="techcombank">Techcombank</option>
+                  <option value="zalopay">ZaloPay</option>
+                  <option value="viettel">Viettel Money</option>
+                  <option value="msb">MSB Bank</option>
+                  <option value="ocb">OCB OMNI</option>
+                  <option value="bvbank">BVBank Bản Việt</option>
+                  <option value="pgbank">PGBank Omni</option>
+                </select>
+
+                <select id="bank-filter-status" class="admin-select" onchange="applyBankFilters()">
+                  <option value="all">Tất cả trạng thái</option>
+                  <option value="1">Đang Online</option>
+                  <option value="0">Đang Offline</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Banks Table -->
+            <div class="table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Chủ Sở Hữu</th>
+                    <th>Cổng Ngân Hàng</th>
+                    <th>Số Tài Khoản (STK)</th>
+                    <th>Tên Chủ Tài Khoản</th>
+                    <th>Token API Kết Nối</th>
+                    <th>Trạng Thái</th>
+                    <th>Hành Động</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-banks-tbody">
+                  <tr>
+                    <td colspan="7" style="text-align: center; padding: 30px; color: var(--admin-text-muted);">
+                      <i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu cổng ngân hàng...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =================================================================
+             TAB: QUẢN LÝ TÀI KHOẢN NẠP TIỀN RIÊNG (DEPOSIT-ACCOUNTS)
+             Cấu hình hoàn toàn độc lập với các tài khoản người dùng thêm ở web
+             ================================================================= -->
+        <section id="sec-admin-deposit-accounts" style="display: none;">
+          
+          <div class="admin-card">
+            
+            <div class="admin-card-header" style="flex-wrap: wrap; gap: 12px;">
+              <div>
+                <div class="admin-card-title" style="display: flex; align-items: center; gap: 10px;">
+                  <i class="fa-solid fa-qrcode" style="color: var(--admin-danger);"></i> Cấu Hình Tài Khoản Nhận Nạp Tiền Hệ Thống (Auto VietQR)
+                </div>
+                <div style="font-size: 12px; color: var(--admin-text-dim); margin-top: 4px;">
+                  Tài khoản cấu hình riêng tại đây dùng để tạo mã VietQR nhận tiền nạp vào ví thành viên & tự động đối soát 24/7. Hoàn toàn độc lập với tài khoản người dùng thêm ở web.
+                </div>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <button class="btn-mini btn-mini-green" onclick="adminSyncAllDepositAccounts(this)">
+                  <i class="fa-solid fa-arrows-rotate"></i> Quét Tất Cả Cổng Ngay
+                </button>
+                <button class="btn-admin-action btn-admin-primary" onclick="openAddDepositAccountModal()" style="padding: 7px 16px; font-size: 13px;">
+                  <i class="fa-solid fa-plus"></i> Thêm Tài Khoản Nạp Riêng
+                </button>
+              </div>
+            </div>
+
+            <div class="admin-card-body">
+              <!-- General Settings Bar -->
+              <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--admin-border); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                  <span style="font-weight: 700; font-size: 13px; color: var(--admin-primary); display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-sliders"></i> Cài Đặt Cú Pháp Chuyển Khoản & Mức Nạp Tối Thiểu
+                  </span>
+                  <span style="font-size: 11px; color: var(--admin-text-muted);">Khách nạp quét QR sẽ tự điền cú pháp này vào nội dung chuyển khoản</span>
+                </div>
+                <form id="form-deposit-general" onsubmit="handleSaveDepositGeneralSettings(event)" style="display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end;">
+                  <div style="flex: 1; min-width: 220px;">
+                    <label class="form-label" style="font-size: 11.5px;">Cú pháp nội dung (Memo Prefix):</label>
+                    <input type="text" id="dep-set-memo-prefix" class="form-control-admin" placeholder="NAPTIEN" value="NAPTIEN" style="font-size: 13px; font-weight: 600; font-family: monospace;">
+                  </div>
+                  <div style="flex: 1; min-width: 180px;">
+                    <label class="form-label" style="font-size: 11.5px;">Số tiền nạp tối thiểu (VND):</label>
+                    <input type="number" id="dep-set-min-amount" class="form-control-admin" placeholder="10000" value="10000" min="1000" step="1000" style="font-size: 13px;">
+                  </div>
+                  <button type="submit" class="btn-admin-action btn-admin-primary" style="padding: 10px 18px; font-size: 12.5px; white-space: nowrap;">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu Cài Đặt Chung
+                  </button>
+                </form>
+              </div>
+
+              <!-- Dedicated Accounts Table -->
+              <div class="table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Ngân Hàng</th>
+                      <th>Số Tài Khoản (STK)</th>
+                      <th>Tên Chủ Tài Khoản</th>
+                      <th>Tài Khoản Đăng Nhập IB</th>
+                      <th>Phiên Kết Nối IB</th>
+                      <th>Nhận Nạp</th>
+                      <th>Đối Soát Cuối</th>
+                      <th style="text-align: right;">Hành Động</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-deposit-accounts-tbody">
+                    <tr>
+                      <td colspan="8" style="text-align: center; padding: 30px; color: var(--admin-text-muted);">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Đang tải danh sách tài khoản nạp riêng...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =================================================================
+             TAB 3.5: CẤU HÌNH GÓI DỊCH VỤ API & BẢNG GIÁ CỔNG BANK (PLANS)
+             ================================================================= -->
+        <section id="sec-admin-plans" style="display: none;">
+          
+          <!-- Plans KPI Row -->
+          <div class="kpi-grid">
+            <div class="kpi-card" style="--card-accent: #0284c7;">
+              <div class="kpi-top">
+                <span class="kpi-label">Tổng Số Gói API</span>
+                <div class="kpi-icon-pill" style="color: #0284c7;">
+                  <i class="fa-solid fa-layer-group"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="stat-total-plans">3 Gói</div>
+              <div class="kpi-sub">
+                <span style="color: #00a65a; font-weight: 700;">Đang hoạt động trên trang khách</span>
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: #00a65a;">
+              <div class="kpi-top">
+                <span class="kpi-label">Cổng Bank Hệ Thống</span>
+                <div class="kpi-icon-pill" style="color: #00a65a;">
+                  <i class="fa-solid fa-building-columns"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="stat-plan-banks-count">16 Cổng</div>
+              <div class="kpi-sub" style="color: #00a65a;">
+                <i class="fa-solid fa-circle" style="font-size: 8px;"></i> Tùy chọn mở theo từng gói
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: #f59e0b;">
+              <div class="kpi-top">
+                <span class="kpi-label">Gói Bán Chạy Nhất</span>
+                <div class="kpi-icon-pill" style="color: #f59e0b;">
+                  <i class="fa-solid fa-fire"></i>
+                </div>
+              </div>
+              <div class="kpi-val" style="font-size: 20px; line-height: 1.4;">Gói Pro Business</div>
+              <div class="kpi-sub" style="color: #b45309;">
+                Tối đa 6 tài khoản • Quét 3s
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: #8b5cf6;">
+              <div class="kpi-top">
+                <span class="kpi-label">Giới Hạn Tài Khoản</span>
+                <div class="kpi-icon-pill" style="color: #8b5cf6;">
+                  <i class="fa-solid fa-shield-halved"></i>
+                </div>
+              </div>
+              <div class="kpi-val" style="font-size: 20px; line-height: 1.4;">Auto Enforce</div>
+              <div class="kpi-sub" style="color: #7c3aed;">
+                Chặn thêm vượt hạn mức gói
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Plans Management Card -->
+          <div class="admin-card" style="margin-top: 20px;">
+            <div class="admin-card-header" style="flex-wrap: wrap; gap: 14px;">
+              <div>
+                <h3 class="admin-card-title"><i class="fa-solid fa-sliders text-primary"></i> Cấu Hình Các Gói Dịch Vụ API & Cổng Ngân Hàng</h3>
+                <p class="admin-card-sub" style="font-size: 12.5px; color: var(--admin-text-muted); margin-top: 3px;">
+                  Chọn gói bên dưới để chỉnh sửa giá gói theo tháng, số cổng được phép dùng và số lượng tài khoản mỗi cổng.
+                </p>
+              </div>
+              <div class="admin-card-actions" style="display: flex; align-items: center; gap: 10px;">
+                <button type="button" class="btn-admin-action" onclick="resetDefaultPlansConfirm()" style="background: rgba(239, 68, 68, 0.08); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.25);">
+                  <i class="fa-solid fa-rotate-left"></i> Khôi Phục Mặc Định
+                </button>
+                <button type="button" class="btn-admin-action btn-admin-primary" onclick="openAddPlanModal()">
+                  <i class="fa-solid fa-plus"></i> Tạo Gói API Mới
+                </button>
+              </div>
+            </div>
+
+            <!-- Plan Selector Tabs -->
+            <div style="padding: 16px 20px; border-bottom: 1px solid var(--admin-border); background: #f8fafc; display: flex; align-items: center; gap: 10px; overflow-x: auto;" id="plan-tabs-container">
+              <!-- Dynamically populated plan pills -->
+            </div>
+
+            <!-- Active Plan Editor Container -->
+            <div id="active-plan-editor" style="padding: 24px;">
+              <div style="text-align: center; padding: 40px; color: var(--admin-text-muted);">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px;"></i> Đang tải dữ liệu các gói API...
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================================
+             TAB 4: NHẬT KÝ BIẾN ĐỘNG & AUDIT LOGS (LOGS)
+             ================================================================= -->
+        <section id="sec-admin-logs" style="display: none;">
+          
+          <div class="admin-card">
+            
+            <div class="admin-card-header">
+              <div class="admin-card-title">
+                <i class="fa-solid fa-receipt"></i> Nhật Ký Biến Động Số Dư Toàn Hệ Thống
+              </div>
+              <button class="btn-mini btn-mini-green" onclick="loadAdminLogs()">
+                <i class="fa-solid fa-rotate"></i> Cập Nhật Nhật Ký
+              </button>
+            </div>
+
+            <div class="admin-card-body">
+              <div id="admin-balance-logs-list" class="audit-list">
+                <div style="text-align: center; padding: 20px; color: var(--admin-text-muted);">
+                  <i class="fa-solid fa-spinner fa-spin"></i> Đang tải nhật ký giao dịch...
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =================================================================
+             TAB: QUẢN LÝ CHO THUÊ API GIẢI CAPTCHA OCR
+             ================================================================= -->
+        <section id="sec-admin-captcha" style="display: none;">
+
+          <!-- KPI Metrics Row -->
+          <div class="kpi-grid">
+            <div class="kpi-card" style="--card-accent: #10b981;">
+              <div class="kpi-top">
+                <span class="kpi-label">Tổng Lượt Giải Captcha</span>
+                <div class="kpi-icon-pill" style="color: #10b981;">
+                  <i class="fa-solid fa-microchip"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="stat-captcha-total" style="color: #34d399;">0</div>
+              <div class="kpi-sub">Số lượt request qua API /solve & /demo</div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: #38bdf8;">
+              <div class="kpi-top">
+                <span class="kpi-label">Tỷ Lệ Giải Thành Công</span>
+                <div class="kpi-icon-pill" style="color: #38bdf8;">
+                  <i class="fa-solid fa-bullseye"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="stat-captcha-rate" style="color: #38bdf8;">100%</div>
+              <div class="kpi-sub"><span id="stat-captcha-success">0</span> lượt nhận diện chuẩn xác</div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: #f59e0b;">
+              <div class="kpi-top">
+                <span class="kpi-label">Tổng Doanh Thu Captcha</span>
+                <div class="kpi-icon-pill" style="color: #f59e0b;">
+                  <i class="fa-solid fa-coins"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="stat-captcha-revenue" style="color: #fbbf24;">0 đ</div>
+              <div class="kpi-sub">Thu về từ cước phí trừ số dư ví</div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: #a855f7;">
+              <div class="kpi-top">
+                <span class="kpi-label">Tốc Độ Xử Lý OCR Trung Bình</span>
+                <div class="kpi-icon-pill" style="color: #a855f7;">
+                  <i class="fa-solid fa-gauge-high"></i>
+                </div>
+              </div>
+              <div class="kpi-val" id="stat-captcha-latency" style="color: #c084fc;">~25ms</div>
+              <div class="kpi-sub">Engine AI ONNX ddddocr cục bộ</div>
+            </div>
+          </div>
+
+          <!-- Quick Config & Sandbox Banner -->
+          <div class="admin-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(56, 189, 248, 0.05)); border-color: rgba(16, 185, 129, 0.25);">
+            <div class="admin-card-header" style="border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+              <div class="admin-card-title">
+                <i class="fa-solid fa-tags" style="color: #10b981;"></i> Bảng Giá & Thiết Lập Cước Phí Cho Thuê API Captcha
+              </div>
+              <a href="/rental.html#api-captcha" target="_blank" class="btn-mini btn-mini-green" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-flask"></i> Mở Sandbox Test Live <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 10px;"></i>
+              </a>
+            </div>
+            <div class="admin-card-body" style="padding: 18px 22px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: center;">
+                <div>
+                  <label class="form-label" style="font-weight: 700; color: #fff;">Đơn Giá Mỗi Lượt Giải Thành Công (VNĐ):</label>
+                  <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="number" id="quick-captcha-price" class="form-control-admin" style="max-width: 180px; font-weight: 800; font-size: 16px; color: #34d399;" value="20" min="0" step="1">
+                    <span style="color: var(--admin-text-dim); font-size: 13px;">VNĐ / lượt</span>
+                    <button type="button" class="btn-admin-action btn-admin-primary" onclick="saveCaptchaPriceFromTab()" style="padding: 8px 18px; font-size: 13px;">
+                      <i class="fa-solid fa-floppy-disk"></i> Lưu Giá
+                    </button>
+                  </div>
+                  <span style="font-size: 11.5px; color: var(--admin-text-dim); display: block; margin-top: 6px;">
+                    <i class="fa-solid fa-shield-check" style="color: #10b981;"></i> Tự động trừ tiền vào ví thành viên khi gọi API <code>POST /api/v1/captcha/solve</code>. Thất bại hoặc lỗi ảnh hoàn toàn miễn phí.
+                  </span>
+                </div>
+                <div style="background: rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 14px 18px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                  <div style="font-size: 12px; color: var(--admin-text-muted); margin-bottom: 6px;">Trạng Thái Cổng AI OCR Daemon:</div>
+                  <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; color: #34d399;">
+                    <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981;"></span>
+                    FastAPI + ONNX ddddocr (Port 8088 / Fallback CLI)
+                  </div>
+                  <div style="font-size: 11.5px; color: var(--admin-text-dim); margin-top: 6px;">Hỗ trợ 100% offline: VCB, MBBank, BIDV, PGBank, Eximbank, TPBank...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Captcha Logs Table Card -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div class="admin-card-title">
+                <i class="fa-solid fa-list-check"></i> Nhật Ký Gọi API Giải Captcha Thời Gian Thực
+              </div>
+              <button class="btn-mini btn-mini-green" onclick="loadAdminCaptchaLogs(true)" title="Làm mới">
+                <i class="fa-solid fa-rotate"></i> Làm Mới Nhật Ký
+              </button>
+            </div>
+            <div class="admin-card-body" style="padding: 0;">
+              <div class="table-responsive">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Thời Gian</th>
+                      <th>Token / User ID</th>
+                      <th>Ngân Hàng</th>
+                      <th>Kết Quả OCR</th>
+                      <th>Độ Trễ</th>
+                      <th>Cước Phí</th>
+                      <th>Số Dư Ví Còn</th>
+                      <th>IP Gọi</th>
+                      <th>Trạng Thái</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-captcha-logs-tbody">
+                    <tr>
+                      <td colspan="9" style="text-align: center; padding: 24px; color: var(--admin-text-dim);">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu nhật ký Captcha...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =================================================================
+             TAB 5: CẤU HÌNH HỆ THỐNG (SETTINGS)
+             ================================================================= -->
+        <section id="sec-admin-settings" style="display: none;">
+          
+          <div class="admin-card" style="max-width: 840px;">
+            
+            <div class="admin-card-header">
+              <div class="admin-card-title">
+                <i class="fa-solid fa-sliders"></i> Thiết Lập Thông Số Máy Chủ & Khóa API
+              </div>
+            </div>
+
+            <div class="admin-card-body">
+              <form onsubmit="handleSaveAdminSettings(event)">
+                
+                <!-- Section 1: Captcha AI OCR Configuration -->
+                <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 12px; padding: 18px; margin-bottom: 24px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                    <h4 style="font-size: 15px; color: #10b981; margin: 0; display: flex; align-items: center; gap: 8px; font-weight: 700;">
+                      <i class="fa-solid fa-microchip"></i> 1. Hệ Thống Giải Captcha AI Tự Động 100% Cục Bộ (Deep Learning OCR ddddocr)
+                    </h4>
+                    <span class="admin-badge badge-active" id="badge-captcha-status" style="font-size: 11px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
+                      <i class="fa-solid fa-bolt"></i> 100% AI Offline - Miễn phí trọn đời
+                    </span>
+                  </div>
+
+                  <p style="font-size: 12px; color: var(--admin-text-dim); margin: 0 0 14px 0; line-height: 1.6;">
+                    🚀 <strong style="color: #34d399;">Đã loại bỏ hoàn toàn thueapibank.vn và bên thứ 3:</strong> Hệ thống tự động giải mã hình ảnh Captcha của tất cả các ngân hàng (MBBank, Vietcombank, BIDV, VietinBank, Eximbank,...) trực tiếp trên máy chủ bằng mô hình mạng nơ-ron tích chập AI (ONNX Runtime + OpenCV). Tốc độ siêu tốc ~15ms - 35ms, độ chính xác >96%, không cần nạp tiền hay mua API Key!
+                  </p>
+
+                  <div class="form-group-grid">
+                    <div class="form-item">
+                      <label class="form-label" style="display: flex; justify-content: space-between;">
+                        <span>Chế Độ Hoạt Động Captcha:</span>
+                        <span style="color: #10b981; font-size: 11px; font-weight: bold;">Tự Động 100% Offline</span>
+                      </label>
+                      <input type="text" id="set-captcha-mode" class="form-control-admin" value="Tự động giải nội bộ (Local AI OCR ddddocr)" readonly style="font-family: monospace; background: rgba(255,255,255,0.03); color: #34d399; cursor: not-allowed;">
+                      <span style="font-size: 11px; color: var(--admin-text-dim);">Xử lý tức thì trong RAM máy chủ, không phụ thuộc kết nối mạng bên ngoài.</span>
+                    </div>
+
+                    <div class="form-item">
+                      <label class="form-label">Cổng Microservice Solver Nội Bộ:</label>
+                      <input type="text" id="set-captcha-url" class="form-control-admin" placeholder="http://127.0.0.1:8088" value="http://127.0.0.1:8088" style="font-family: monospace;">
+                      <span style="font-size: 11px; color: var(--admin-text-dim);">Cổng lắng nghe của daemon AI captcha_solver.py trên VPS (mặc định port 8088)</span>
+                    </div>
+                  </div>
+
+                  <input type="hidden" id="set-key-captcha" value="offline_ai_self_hosted">
+
+                  <div class="form-item" style="margin-top: 14px; padding-top: 14px; border-top: 1px dashed rgba(16, 185, 129, 0.2);">
+                    <label class="form-label" style="display: flex; justify-content: space-between;">
+                      <span style="font-weight: 700; color: #10b981;"><i class="fa-solid fa-coins"></i> Cước Phí Cho Thuê API Giải Captcha Mỗi Lượt (VNĐ):</span>
+                      <span style="color: #34d399; font-size: 11.5px;">Doanh thu từ người dùng thuê API</span>
+                    </label>
+                    <input type="number" id="set-captcha-price" class="form-control-admin" placeholder="20" value="20" min="0" step="1" style="font-weight: 700; color: #34d399; max-width: 220px;">
+                    <span style="font-size: 11px; color: var(--admin-text-dim);">Đơn giá tính khi khách hàng gọi endpoint <code>/api/captcha/solve</code> (mặc định 20đ). Bạn không mất chi phí nào vì chạy bằng AI máy chủ.</span>
+                  </div>
+
+                  <!-- Test Captcha Action -->
+                  <div style="margin-top: 12px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <button type="button" class="btn-admin-action" id="btn-test-captcha" onclick="handleTestCaptchaKey(this)" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 600; padding: 8px 16px;">
+                      <i class="fa-solid fa-vial-circle-check"></i> Kiểm Tra Thử Giải Captcha AI (Test Live OCR)
+                    </button>
+                    <span style="font-size: 12px; color: var(--admin-text-dim);">Bấm để kiểm tra trực tiếp tốc độ và khả năng nhận diện hình ảnh của AI nội bộ</span>
+                  </div>
+
+                  <div id="captcha-test-result" style="display: none; margin-top: 14px; padding: 12px 16px; border-radius: 8px; font-size: 13px;"></div>
+                </div>
+
+                <!-- Section 2: VPS Server IP & Domain -->
+                <h4 style="font-size: 14px; color: #38bdf8; margin: 26px 0 14px; display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-server" style="color: #38bdf8;"></i> 2. Cấu Hình Máy Chủ VPS &amp; Tên Miền (IP &amp; Domain)
+                </h4>
+
+                <div class="form-group-grid">
+                  <div class="form-item">
+                    <label class="form-label">Địa Chỉ IP Máy Chủ VPS (SERVER_IP):</label>
+                    <input type="text" id="set-server-ip" class="form-control-admin" placeholder="VD: 103.179.188.99 hoặc 127.0.0.1">
+                    <span style="font-size: 11px; color: var(--admin-text-dim);">IP công khai của VPS dùng để kết nối và quản trị</span>
+                  </div>
+                  <div class="form-item">
+                    <label class="form-label">Tên Miền Hệ Thống (DOMAIN):</label>
+                    <input type="text" id="set-server-domain" class="form-control-admin" placeholder="VD: ocapay.vn hoặc api.ocapay.vn">
+                    <span style="font-size: 11px; color: var(--admin-text-dim);">Tên miền đã trỏ DNS về IP của VPS (không kèm http/https)</span>
+                  </div>
+                </div>
+
+                <div class="form-item" style="margin-bottom: 24px;">
+                  <label class="form-label">URL Công Khai Hoàn Chỉnh (APP_URL):</label>
+                  <input type="text" id="set-app-url" class="form-control-admin" placeholder="VD: https://ocapay.vn hoặc http://103.179.188.99:3000">
+                  <span style="font-size: 11px; color: var(--admin-text-dim);">URL dùng để hiển thị trong tài liệu API, mã QR và Webhook (để trống sẽ tự sinh)</span>
+                </div>
+
+                <!-- Section 3: Admin Email & System Role -->
+                <h4 style="font-size: 14px; color: var(--admin-danger); margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-user-shield"></i> 3. Email Quản Trị Hệ Thống
+                </h4>
+
+                <div class="form-item" style="margin-bottom: 24px;">
+                  <label class="form-label">Email Quản Trị Viên (ADMIN_EMAIL):</label>
+                  <input type="email" id="set-admin-email" class="form-control-admin" placeholder="duongle26.1025@gmail.com" value="duongle26.1025@gmail.com">
+                  <span style="font-size: 11px; color: var(--admin-text-dim);">Tài khoản Google / mật khẩu có email này khi đăng nhập sẽ tự động nhận quyền Admin</span>
+                </div>
+
+                <!-- Section 2: Pusher Realtime Webhook -->
+                <h4 style="font-size: 14px; color: var(--admin-danger); margin: 24px 0 14px; display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-bolt"></i> 2. Cấu Hình Pusher Realtime Webhook (0.25s)
+                </h4>
+
+                <div class="form-group-grid">
+                  <div class="form-item">
+                    <label class="form-label">Pusher App ID:</label>
+                    <input type="text" id="set-pusher-id" class="form-control-admin" placeholder="VD: 1689201">
+                  </div>
+                  <div class="form-item">
+                    <label class="form-label">Pusher Cluster:</label>
+                    <input type="text" id="set-pusher-cluster" class="form-control-admin" placeholder="ap1">
+                  </div>
+                </div>
+
+                <div class="form-group-grid">
+                  <div class="form-item">
+                    <label class="form-label">Pusher Key:</label>
+                    <input type="text" id="set-pusher-key" class="form-control-admin" placeholder="Nhập Pusher Key...">
+                  </div>
+                  <div class="form-item">
+                    <label class="form-label">Pusher Secret:</label>
+                    <input type="password" id="set-pusher-secret" class="form-control-admin" placeholder="••••••••••••••••">
+                  </div>
+                </div>
+
+                <!-- Section: Cấu Hình Bot Telegram Hệ Thống -->
+                <h4 style="font-size: 14px; color: #38bdf8; margin: 26px 0 14px; display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-brands fa-telegram" style="color: #38bdf8; font-size: 18px;"></i> Cấu Hình Bot Telegram Hệ Thống (Thông Báo Biến Động &amp; Liên Kết Tự Động)
+                </h4>
+
+                <div class="form-group-grid">
+                  <div class="form-item">
+                    <label class="form-label">Telegram Bot Token (Lấy từ @BotFather):</label>
+                    <input type="text" id="set-telegram-bot-token" class="form-control-admin" placeholder="VD: 7123456789:AAHxxxxxx...">
+                    <span style="font-size: 11px; color: var(--admin-text-dim);">Token của Bot dùng để gửi tin nhắn biến động và tự động liên kết khi user bấm /start</span>
+                  </div>
+                  <div class="form-item">
+                    <label class="form-label">Telegram Bot Username (Không chứa @):</label>
+                    <input type="text" id="set-telegram-bot-username" class="form-control-admin" placeholder="VD: Bank7GateBot">
+                    <span style="font-size: 11px; color: var(--admin-text-dim);">Dùng để tạo đường link trực tiếp (t.me/BotUsername?start=...) cho khách liên kết</span>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 24px; flex-wrap: wrap;">
+                  <button type="button" class="btn-admin-action" id="btn-test-telegram-bot" onclick="testTelegramBotToken()" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); font-size: 12.5px;">
+                    <i class="fa-solid fa-satellite-dish"></i> Kiểm Tra Kết Nối Bot Telegram
+                  </button>
+                  <span id="telegram-bot-test-result" style="font-size: 12.5px; font-weight: 600;"></span>
+                </div>
+
+                <!-- Section: Cấu Hình Bot Zalo Hệ Thống -->
+                <h4 style="font-size: 14px; color: #0068ff; margin: 26px 0 14px; display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-comment-dots" style="color: #0068ff; font-size: 18px;"></i> Cấu Hình Bot Zalo Hệ Thống (Zalo Bot Open API - HTTP API)
+                </h4>
+
+                <div class="form-group-grid">
+                  <div class="form-item">
+                    <label class="form-label">Zalo Bot Token (Lấy từ Zalo Bot Platform):</label>
+                    <input type="text" id="set-zalo-bot-token" class="form-control-admin" placeholder="VD: 12174189287904401:bIvANiRnv...">
+                    <span style="font-size: 11px; color: var(--admin-text-dim);">Token HTTP API Zalo Bot dùng gửi thông báo biến động, cảnh báo Ticket và tiếp nhận tin nhắn</span>
+                  </div>
+                  <div class="form-item">
+                    <label class="form-label">Tên hiển thị / Username Bot Zalo:</label>
+                    <input type="text" id="set-zalo-bot-name" class="form-control-admin" placeholder="VD: Bot OcaPay">
+                    <span style="font-size: 11px; color: var(--admin-text-dim);">Tên hiển thị hoặc mã định danh của bot (VD: Bot OcaPay, account_name: bot.rHebLNRw)</span>
+                  </div>
+                  <div class="form-item" style="grid-column: 1 / -1;">
+                    <label class="form-label">Zalo Bot Deeplink (Link mở chat trực tiếp với Bot):</label>
+                    <div style="display: flex; gap: 8px;">
+                      <input type="text" id="set-zalo-bot-deeplink" class="form-control-admin" placeholder="VD: https://zalo.me/3100879446097204368" style="flex: 1;" oninput="const b = document.getElementById('btn-open-zalo-deeplink'); if (b) b.href = this.value.trim() || '#';">
+                      <a id="btn-open-zalo-deeplink" href="https://zalo.me/3100879446097204368" target="_blank" class="btn-admin-action" style="background: rgba(0, 104, 255, 0.12); color: #0068ff; border: 1px solid rgba(0, 104, 255, 0.3); font-size: 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; padding: 0 14px; white-space: nowrap;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở Thử
+                      </a>
+                    </div>
+                    <span style="font-size: 11px; color: var(--admin-text-dim);">Đường link mở trực tiếp khung chat bot trên Zalo (VD: <b>https://zalo.me/3100879446097204368</b> hoặc <b>https://zalo.me/s/...</b>). Khách hàng bấm nút liên kết sẽ mở đúng link này!</span>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 24px; flex-wrap: wrap;">
+                  <button type="button" class="btn-admin-action" id="btn-test-zalo-bot" onclick="testZaloBotToken()" style="background: rgba(0, 104, 255, 0.15); color: #0068ff; border: 1px solid rgba(0, 104, 255, 0.35); font-size: 12.5px;">
+                    <i class="fa-solid fa-satellite-dish"></i> Kiểm Tra Kết Nối Bot Zalo
+                  </button>
+                  <span id="zalo-bot-test-result" style="font-size: 12.5px; font-weight: 600;"></span>
+                </div>
+
+                <!-- Section 3: Dedicated Deposit Accounts Management Overview -->
+                <div style="background: rgba(239, 68, 68, 0.04); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 12px; padding: 20px; margin: 28px 0 20px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                    <h4 style="font-size: 15px; color: var(--admin-danger); margin: 0; display: flex; align-items: center; gap: 8px; font-weight: 700;">
+                      <i class="fa-solid fa-qrcode"></i> 3. Cổng Nhận Nạp Tiền Hệ Thống (Cấu Hình Riêng Độc Lập)
+                    </h4>
+                    <span style="font-size: 11.5px; color: #10b981; background: rgba(16, 185, 129, 0.12); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.25);">
+                      <i class="fa-solid fa-bolt"></i> Auto VietQR Napas 24/7
+                    </span>
+                  </div>
+                  <p style="font-size: 12.5px; color: var(--admin-text-dim); margin-bottom: 16px;">
+                    Các tài khoản nhận nạp tiền được cấu hình riêng biệt tại mục <strong>"Tài khoản nạp riêng"</strong>, hoàn toàn độc lập với các tài khoản kết nối ngoài web. Hệ thống tự động tạo VietQR động và quét đối soát biến động số dư để cộng tiền cho thành viên.
+                  </p>
+
+                  <!-- General Deposit Settings -->
+                  <div class="form-group-grid" style="margin-bottom: 16px;">
+                    <div class="form-item">
+                      <label class="form-label">Cú Pháp Nội Dung Chuyển Khoản (Memo Prefix):</label>
+                      <input type="text" id="set-deposit-memo-prefix" class="form-control-admin" placeholder="NAPTIEN" value="NAPTIEN">
+                      <span style="font-size: 11px; color: var(--admin-text-dim);">Khách nạp chuyển theo cú pháp: <code>NAPTIEN [username]</code></span>
+                    </div>
+                    <div class="form-item">
+                      <label class="form-label">Số Tiền Nạp Tối Thiểu (VND):</label>
+                      <input type="number" id="set-deposit-min-amount" class="form-control-admin" placeholder="10000" value="10000" min="1000" step="1000">
+                      <span style="font-size: 11px; color: var(--admin-text-dim);">Số tiền tối thiểu một giao dịch nạp tiền</span>
+                    </div>
+                  </div>
+
+                  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; border-top: 1px dashed rgba(255, 255, 255, 0.08); padding-top: 14px;">
+                    <div style="font-size: 12px; color: var(--admin-text-muted);">
+                      Đang có <strong id="settings-deposit-count" style="color: #fff;">0</strong> tài khoản nạp tiền cấu hình riêng trong hệ thống.
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                      <button type="button" class="btn-admin-action" onclick="switchAdminNav('deposit-accounts')" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.35); padding: 8px 16px; font-size: 12.5px;">
+                        <i class="fa-solid fa-list-check"></i> Quản Lý Tài Khoản Nạp Riêng
+                      </button>
+                      <button type="button" class="btn-admin-action btn-admin-primary" onclick="openAddDepositAccountModal()" style="padding: 8px 16px; font-size: 12.5px;">
+                        <i class="fa-solid fa-plus"></i> Thêm Tài Khoản Nạp Mới
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-item">
+                  <label class="form-label">Thông Báo Toàn Sàn (System Broadcast Notice):</label>
+                  <textarea id="set-system-notice" class="form-control-admin" rows="2" placeholder="Thông báo hiển thị trên đầu cổng khách hàng..."></textarea>
+                </div>
+
+                <!-- Section: Cấu Hình & Quản Lý Phiên Bản Hệ Thống (Auto Update Engine) -->
+                <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(5, 150, 105, 0.02) 100%); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 22px; margin: 28px 0 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 18px;">
+                        <i class="fa-solid fa-rocket"></i>
+                      </div>
+                      <div>
+                        <h4 style="font-size: 15px; color: #34d399; margin: 0; font-weight: 800;">
+                          Quản Lý Phiên Bản & Cập Nhật Tự Động (Auto-Update Engine)
+                        </h4>
+                        <span style="font-size: 12px; color: var(--admin-text-dim);">Tự động phát hiện và cập nhật mã nguồn lên bản mới nhất chỉ với 1 click</span>
+                      </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); padding: 5px 10px; border-radius: 6px; font-weight: 700; font-size: 12px;" id="settings-current-version-badge">
+                        Phiên bản hiện tại: v3.2.0
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Quick Action Banner -->
+                  <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 10px; padding: 14px 18px; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                      <div style="font-size: 13.5px; font-weight: 700; color: #ffffff;" id="update-status-title">Hệ thống đang hoạt động ổn định</div>
+                      <div style="font-size: 11.5px; color: var(--admin-text-dim); margin-top: 3px;" id="update-status-desc">Bấm nút bên cạnh để kiểm tra phiên bản mới từ máy chủ phát hành</div>
+                    </div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                      <button type="button" class="btn-admin-action" id="btn-settings-check-update" onclick="handleAutoUpdateClick()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; border: none; font-weight: 700; padding: 9px 18px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3); cursor: pointer;">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Kiểm Tra & Cập Nhật Ngay
+                      </button>
+                      <button type="button" class="btn-admin-action" onclick="triggerManualZipUpload()" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 12px; padding: 9px 14px; cursor: pointer;">
+                        <i class="fa-solid fa-file-zipper"></i> Tải Lên Bản .ZIP
+                      </button>
+                      <input type="file" id="input-update-zip" accept=".zip" style="display: none;" onchange="handleZipFileSelected(event)">
+                    </div>
+                  </div>
+
+                  <!-- Advanced Config Collapse / Fields -->
+                  <div class="form-group-grid">
+                    <div class="form-item">
+                      <label class="form-label">Kho lưu trữ GitHub (Owner/Repo):</label>
+                      <input type="text" id="set-update-repo" class="form-control-admin" placeholder="VD: taquangminh/7bank hoặc username/repo" value="taquangminh/7bank">
+                      <span style="font-size: 11px; color: var(--admin-text-dim);">Hệ thống sẽ kiểm tra các bản Releases mới nhất tại kho GitHub này</span>
+                    </div>
+                    <div class="form-item">
+                      <label class="form-label">URL Máy Chủ Cập Nhật Riêng (Tùy chọn):</label>
+                      <input type="text" id="set-update-url" class="form-control-admin" placeholder="https://updates.yourdomain.com/api/version">
+                      <span style="font-size: 11px; color: var(--admin-text-dim);">Để trống nếu dùng mặc định qua GitHub Releases</span>
+                    </div>
+                  </div>
+
+                  <div class="form-group-grid" style="margin-top: 10px;">
+                    <div class="form-item">
+                      <label class="form-label">GitHub Access Token (Dành cho Repo Private):</label>
+                      <input type="password" id="set-update-token" class="form-control-admin" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                      <span style="font-size: 11px; color: var(--admin-text-dim);">Chỉ cần thiết nếu kho lưu trữ GitHub của bạn đặt ở chế độ Riêng tư (Private)</span>
+                    </div>
+                    <div class="form-item">
+                      <label class="form-label">Kênh Cập Nhật (Update Channel):</label>
+                      <select id="set-update-channel" class="form-control-admin">
+                        <option value="stable">Stable (Khuyên dùng - Bản chính thức ổn định)</option>
+                        <option value="beta">Beta / Canary (Bản thử nghiệm sớm)</option>
+                      </select>
+                      <span style="font-size: 11px; color: var(--admin-text-dim);">Bản Stable đã qua kiểm thử tương thích cho toàn bộ 16 ngân hàng</span>
+                    </div>
+                  </div>
+
+                  <div style="display: flex; justify-content: flex-end; margin-top: 14px;">
+                    <button type="button" class="btn-admin-action btn-admin-ghost" onclick="saveUpdateSettingsOnly()" style="border: 1px solid rgba(255, 255, 255, 0.15); font-size: 12.5px; cursor: pointer;">
+                      <i class="fa-solid fa-floppy-disk"></i> Lưu Cấu Hình Nguồn Cập Nhật
+                    </button>
+                  </div>
+                </div>
+
+                <div style="margin-top: 24px;">
+                  <button type="submit" class="btn-admin-action btn-admin-primary" style="padding: 12px 24px; font-size: 14px;">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu Tất Cả Cấu Hình Hệ Thống
+                  </button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- ===================================================================
+       MODAL 1: CỘNG / TRỪ TIỀN VÍ TRỰC TIẾP
+       =================================================================== -->
+  <div id="modal-adjust-balance" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="admin-modal-head">
+        <h3><i class="fa-solid fa-money-bill-transfer text-success"></i> Nạp / Trừ Tiền Ví Thành Viên</h3>
+        <button class="btn-modal-close" onclick="closeAdjustBalanceModal()">&times;</button>
+      </div>
+      <form onsubmit="submitAdjustBalance(event)">
+        <div class="admin-modal-body">
+          <input type="hidden" id="adjust-user-id">
+          
+          <div style="background: #f8fafc; padding: 12px; border-radius: 9px; margin-bottom: 16px; border: 1px solid var(--admin-border-light);">
+            <div style="font-size: 13px; color: var(--admin-text-muted);">Thành viên: <b id="adjust-username-label" style="color: var(--admin-text-main);">--</b></div>
+            <div style="font-size: 13px; color: var(--admin-text-muted); margin-top: 4px;">Số dư hiện tại: <b id="adjust-current-balance-label" style="color: #00a65a; font-weight: 800;">0 đ</b></div>
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">Thao Tác:</label>
+            <select id="adjust-type" class="form-control-admin">
+              <option value="add">➕ Cộng Tiền Vào Ví (Cộng tiền thực)</option>
+              <option value="subtract">➖ Trừ Tiền Khỏi Ví (Thu hồi tiền)</option>
+            </select>
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">Số Tiền (VND):</label>
+            <input type="number" id="adjust-amount" class="form-control-admin" placeholder="Nhập số tiền (VD: 100000)" required min="1000">
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">Ghi Chú Giao Dịch (Lý do):</label>
+            <input type="text" id="adjust-reason" class="form-control-admin" placeholder="Admin cộng tiền khuyến mãi / kích hoạt cước...">
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-admin-action btn-admin-ghost" onclick="closeAdjustBalanceModal()">Hủy</button>
+          <button type="submit" class="btn-admin-action btn-admin-primary">
+            <i class="fa-solid fa-check"></i> Xác Nhận Thay Đổi
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL 2: GIA HẠN NGÀY DÙNG API
+       =================================================================== -->
+  <div id="modal-extend-subscription" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="admin-modal-head">
+        <h3><i class="fa-solid fa-clock-rotate-left" style="color: var(--admin-primary);"></i> Gia Hạn Gói Cước API</h3>
+        <button class="btn-modal-close" onclick="closeExtendModal()">&times;</button>
+      </div>
+      <form onsubmit="submitExtendSubscription(event)">
+        <div class="admin-modal-body">
+          <input type="hidden" id="extend-user-id">
+
+          <div style="background: #f8fafc; padding: 12px; border-radius: 9px; margin-bottom: 16px; border: 1px solid var(--admin-border-light);">
+            <div style="font-size: 13px; color: var(--admin-text-muted);">Thành viên: <b id="extend-username-label" style="color: var(--admin-text-main);">--</b></div>
+            <div style="font-size: 13px; color: var(--admin-text-muted); margin-top: 4px;">Hạn dùng hiện tại: <b id="extend-expiry-label" style="color: #0284c7; font-weight: 800;">--</b></div>
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">Chọn Số Ngày Gia Hạn Thêm:</label>
+            <select id="extend-days" class="form-control-admin">
+              <option value="7">+7 Ngày (1 tuần trải nghiệm)</option>
+              <option value="30" selected>+30 Ngày (1 tháng đầy đủ)</option>
+              <option value="90">+90 Ngày (3 tháng gói Pro)</option>
+              <option value="180">+180 Ngày (6 tháng)</option>
+              <option value="365">+365 Ngày (1 năm Enterprise VIP)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-admin-action btn-admin-ghost" onclick="closeExtendModal()">Hủy</button>
+          <button type="submit" class="btn-admin-action btn-admin-primary">
+            <i class="fa-solid fa-bolt"></i> Gia Hạn Ngay
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL 3: CHỈNH SỬA THÀNH VIÊN TOÀN DIỆN
+       =================================================================== -->
+  <div id="modal-edit-user" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="admin-modal-head">
+        <h3><i class="fa-solid fa-user-pen" style="color: var(--admin-warning);"></i> Chỉnh Sửa Thành Viên</h3>
+        <button class="btn-modal-close" onclick="closeEditUserModal()">&times;</button>
+      </div>
+      <form onsubmit="handleSaveUser(event)">
+        <div class="admin-modal-body">
+          <input type="hidden" id="edit-user-id">
+
+          <div class="form-item">
+            <label class="form-label">Tài Khoản (Username):</label>
+            <input type="text" id="edit-user-username" class="form-control-admin" readonly style="opacity: 0.7;">
+          </div>
+
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Email:</label>
+              <input type="email" id="edit-user-email" class="form-control-admin">
+            </div>
+            <div class="form-item">
+              <label class="form-label">Số Điện Thoại:</label>
+              <input type="text" id="edit-user-phone" class="form-control-admin">
+            </div>
+          </div>
+
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Cấp Bậc:</label>
+              <select id="edit-user-level" class="form-control-admin">
+                <option value="member">Thành viên thường (member)</option>
+                <option value="admin">Quản trị viên (admin)</option>
+              </select>
+            </div>
+            <div class="form-item">
+              <label class="form-label">Trạng Thái:</label>
+              <select id="edit-user-banned" class="form-control-admin">
+                <option value="0">Hoạt động bình thường</option>
+                <option value="1">Khóa tài khoản (Banned)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group-grid" style="margin-top: 6px; background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.18); border-radius: 8px; padding: 12px;">
+            <div class="form-item">
+              <label class="form-label" style="display: flex; align-items: center; gap: 6px; font-weight: 700;">
+                <i class="fa-brands fa-telegram" style="color: #0088cc; font-size: 15px;"></i> Thông Báo Telegram:
+              </label>
+              <select id="edit-user-telegram-notify" class="form-control-admin">
+                <option value="1">🟢 BẬT nhận thông báo</option>
+                <option value="0">🔴 TẮT nhận thông báo</option>
+              </select>
+              <span id="edit-user-telegram-hint" style="font-size: 11px; color: var(--admin-text-dim); margin-top: 4px; display: block;"></span>
+            </div>
+            <div class="form-item">
+              <label class="form-label" style="display: flex; align-items: center; gap: 6px; font-weight: 700;">
+                <i class="fa-solid fa-comment-dots" style="color: #0068ff; font-size: 15px;"></i> Thông Báo Zalo Bot:
+              </label>
+              <select id="edit-user-zalo-notify" class="form-control-admin">
+                <option value="1">🟢 BẬT nhận thông báo</option>
+                <option value="0">🔴 TẮT nhận thông báo</option>
+              </select>
+              <span id="edit-user-zalo-hint" style="font-size: 11px; color: var(--admin-text-dim); margin-top: 4px; display: block;"></span>
+            </div>
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">Đặt Lại Mật Khẩu Mới (Để trống nếu giữ nguyên):</label>
+            <input type="password" id="edit-user-password" class="form-control-admin" placeholder="Nhập mật khẩu mới...">
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-admin-action btn-admin-ghost" onclick="closeEditUserModal()">Hủy</button>
+          <button type="submit" class="btn-admin-action btn-admin-primary">
+            <i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL 4: TẠO THÀNH VIÊN MỚI
+       =================================================================== -->
+  <div id="modal-create-user" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="admin-modal-head">
+        <h3><i class="fa-solid fa-user-plus text-primary"></i> Tạo Thành Viên Mới</h3>
+        <button class="btn-modal-close" onclick="closeCreateUserModal()">&times;</button>
+      </div>
+      <form onsubmit="handleCreateUser(event)">
+        <div class="admin-modal-body">
+          <div class="form-item">
+            <label class="form-label">Tên Tài Khoản (Username):</label>
+            <input type="text" id="create-user-username" class="form-control-admin" placeholder="Nhập username..." required>
+          </div>
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Email:</label>
+              <input type="email" id="create-user-email" class="form-control-admin" placeholder="user@gmail.com">
+            </div>
+            <div class="form-item">
+              <label class="form-label">Số Điện Thoại:</label>
+              <input type="text" id="create-user-phone" class="form-control-admin" placeholder="0987xxxxxx">
+            </div>
+          </div>
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Mật Khẩu Ban Đầu:</label>
+              <input type="password" id="create-user-password" class="form-control-admin" placeholder="••••••••" required>
+            </div>
+            <div class="form-item">
+              <label class="form-label">Cấp Bậc:</label>
+              <select id="create-user-level" class="form-control-admin">
+                <option value="member">Thành viên thường</option>
+                <option value="admin">Quản trị viên (Admin)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-admin-action btn-admin-ghost" onclick="closeCreateUserModal()">Hủy</button>
+          <button type="submit" class="btn-admin-action btn-admin-primary">
+            <i class="fa-solid fa-plus"></i> Tạo Tài Khoản
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL: THÊM TÀI KHOẢN NẠP TIỀN RIÊNG
+       =================================================================== -->
+  <div id="modal-add-deposit-account" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width: 580px;">
+      <div class="admin-modal-head">
+        <h3><i class="fa-solid fa-plus-circle" style="color: var(--admin-danger);"></i> Thêm Tài Khoản Nạp Tiền Riêng</h3>
+        <button class="btn-modal-close" onclick="closeAddDepositAccountModal()">&times;</button>
+      </div>
+      <form onsubmit="handleCreateDepositAccount(event)">
+        <div class="admin-modal-body">
+          <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 8px; padding: 12px 14px; font-size: 12px; color: #fca5a5; margin-bottom: 16px; line-height: 1.5;">
+            <i class="fa-solid fa-shield-halved" style="color: var(--admin-danger);"></i> <strong>Cấu hình riêng biệt:</strong> Tài khoản này dùng riêng để tạo mã VietQR Napas 24/7 nhận nạp tiền tự động vào ví của các thành viên. Hoàn toàn độc lập, không liên quan hay lấy từ tài khoản người dùng thêm ở web.
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">Chọn Ngân Hàng Nhận Nạp: <span style="color: var(--admin-danger);">*</span></label>
+            <select id="add-dep-bank-code" class="form-control-admin" required>
+              <option value="techcombank">Techcombank (Ngân hàng TMCP Kỹ Thương - BIN: 970407)</option>
+              <option value="vietcombank">Vietcombank (VCB Digibank - BIN: 970436)</option>
+              <option value="acb">ACB (Ngân hàng TMCP Á Châu - BIN: 970416)</option>
+              <option value="mbbank">MBBank (Ngân hàng Quân Đội - BIN: 970422)</option>
+              <option value="tpbank">TPBank (Ngân hàng Tiên Phong - BIN: 970423)</option>
+              <option value="bidv">BIDV (SmartBanking - BIN: 970418)</option>
+              <option value="vietinbank">VietinBank (iPay - BIN: 970415)</option>
+              <option value="timo">Timo (Timo Digital Bank - BIN: 963388)</option>
+            </select>
+          </div>
+
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Số Tài Khoản (STK): <span style="color: var(--admin-danger);">*</span></label>
+              <input type="text" id="add-dep-stk" class="form-control-admin" placeholder="Nhập số tài khoản..." required style="font-family: monospace; font-size: 14px; letter-spacing: 0.5px;">
+            </div>
+            <div class="form-item">
+              <label class="form-label">Tên Chủ Tài Khoản: <span style="color: var(--admin-danger);">*</span></label>
+              <input type="text" id="add-dep-name" class="form-control-admin" placeholder="VD: LE MANH DUONG" required style="text-transform: uppercase;">
+            </div>
+          </div>
+
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Tên Đăng Nhập Internet Banking: <span style="color: var(--admin-danger);">*</span></label>
+              <input type="text" id="add-dep-username" class="form-control-admin" placeholder="Username / SĐT / STK" required>
+              <span style="font-size: 11px; color: var(--admin-text-dim);">Tài khoản đăng nhập app ngân hàng</span>
+            </div>
+            <div class="form-item">
+              <label class="form-label">Mật Khẩu Internet Banking:</label>
+              <input type="password" id="add-dep-password" class="form-control-admin" placeholder="••••••••">
+              <span style="font-size: 11px; color: var(--admin-text-dim);">Mật khẩu để tự động đăng nhập quét biến động (mã hóa RSA)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-admin-action btn-admin-ghost" onclick="closeAddDepositAccountModal()">Hủy</button>
+          <button type="submit" class="btn-admin-action btn-admin-primary" id="btn-submit-add-dep">
+            <i class="fa-solid fa-plus"></i> Thêm Tài Khoản Nạp
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL: CHỈNH SỬA TÀI KHOẢN NẠP TIỀN RIÊNG
+       =================================================================== -->
+  <div id="modal-edit-deposit-account" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width: 540px;">
+      <div class="admin-modal-head">
+        <h3><i class="fa-solid fa-pen-to-square" style="color: var(--admin-primary);"></i> Chỉnh Sửa Tài Khoản Nạp Riêng</h3>
+        <button class="btn-modal-close" onclick="closeEditDepositAccountModal()">&times;</button>
+      </div>
+      <form onsubmit="handleUpdateDepositAccount(event)">
+        <div class="admin-modal-body">
+          <input type="hidden" id="edit-dep-id">
+
+          <div class="form-item">
+            <label class="form-label">Ngân Hàng & STK (Cố định):</label>
+            <input type="text" id="edit-dep-bank-info" class="form-control-admin" readonly style="opacity: 0.7; font-family: monospace;">
+          </div>
+
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Tên Chủ Tài Khoản:</label>
+              <input type="text" id="edit-dep-name" class="form-control-admin" style="text-transform: uppercase;">
+            </div>
+            <div class="form-item">
+              <label class="form-label">Tên Đăng Nhập IB:</label>
+              <input type="text" id="edit-dep-username" class="form-control-admin">
+            </div>
+          </div>
+
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Mật Khẩu Mới (Để trống nếu giữ nguyên):</label>
+              <input type="password" id="edit-dep-password" class="form-control-admin" placeholder="Nhập nếu đổi mật khẩu...">
+            </div>
+            <div class="form-item">
+              <label class="form-label">Trạng Thái Nhận Nạp:</label>
+              <select id="edit-dep-status" class="form-control-admin">
+                <option value="1">Bật nhận nạp (Hiện trên cổng nạp)</option>
+                <option value="0">Tắt nhận nạp (Tạm ngưng)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-admin-action btn-admin-ghost" onclick="closeEditDepositAccountModal()">Hủy</button>
+          <button type="submit" class="btn-admin-action btn-admin-primary">
+            <i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL: ĐĂNG NHẬP LẠI TÀI KHOẢN NẠP RIÊNG
+       =================================================================== -->
+  <div id="modal-relogin-deposit-account" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width: 480px;">
+      <div class="admin-modal-head">
+        <h3><i class="fa-solid fa-key text-warning"></i> Đăng Nhập Lại Phiên Internet Banking</h3>
+        <button class="btn-modal-close" onclick="closeReloginDepositAccountModal()">&times;</button>
+      </div>
+      <form onsubmit="handleReloginDepositAccount(event)">
+        <div class="admin-modal-body">
+          <input type="hidden" id="relogin-dep-id">
+
+          <div style="background: #f8fafc; border: 1px solid var(--admin-border-light); border-radius: 10px; padding: 14px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <img id="relogin-dep-logo" src="/images/bank.png" style="width: 28px; height: 28px; border-radius: 6px; object-fit: contain; background: #ffffff; border: 1px solid var(--admin-border-light); padding: 2px;">
+              <div>
+                <div style="font-weight: 700; color: var(--admin-text-main);" id="relogin-dep-bank-name">Ngân Hàng</div>
+                <div style="font-size: 11.5px; color: var(--admin-text-dim); font-family: monospace;" id="relogin-dep-stk">STK: ---</div>
+              </div>
+            </div>
+            <div style="font-size: 12px; color: var(--admin-text-muted);">
+              Tên đăng nhập: <strong id="relogin-dep-username" style="color: var(--admin-text-main);">---</strong>
+            </div>
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">Mật Khẩu Internet Banking:</label>
+            <input type="password" id="relogin-dep-password" class="form-control-admin" placeholder="Để trống nếu muốn dùng mật khẩu đã lưu...">
+            <span style="font-size: 11px; color: var(--admin-text-dim);">Chỉ cần nhập mật khẩu nếu bạn vừa đổi mật khẩu ngân hàng hoặc hệ thống yêu cầu</span>
+          </div>
+
+          <div id="relogin-dep-status-box" style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 12.5px; margin-top: 10px;"></div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-admin-action btn-admin-ghost" onclick="closeReloginDepositAccountModal()">Đóng</button>
+          <button type="submit" class="btn-admin-action btn-admin-primary" id="btn-submit-relogin-dep">
+            <i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập Ngay
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Tạo Gói API Mới -->
+  <div class="admin-modal-overlay" id="modal-add-plan">
+    <div class="admin-modal-card" style="max-width: 600px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fa-solid fa-plus-circle text-primary"></i> Tạo Gói API Dịch Vụ Mới</h3>
+        <button class="btn-modal-close" onclick="closeAddPlanModal()">&times;</button>
+      </div>
+      <form id="form-add-plan" onsubmit="submitCreatePlan(event)">
+        <div class="admin-modal-body">
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Mã Gói (Code duy nhất):</label>
+              <input type="text" id="add-plan-code" class="form-control-admin" placeholder="vd: vip, platinum, custom" required pattern="[a-z0-9_-]+" title="Chỉ dùng chữ thường không dấu, số và gạch ngang">
+            </div>
+            <div class="form-item">
+              <label class="form-label">Tên Gói Dịch Vụ:</label>
+              <input type="text" id="add-plan-name" class="form-control-admin" placeholder="vd: Gói VIP Platinum" required>
+            </div>
+          </div>
+
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Huy Hiệu (Badge):</label>
+              <input type="text" id="add-plan-badge" class="form-control-admin" placeholder="vd: Khuyên Dùng, Siêu Cấp...">
+            </div>
+            <div class="form-item">
+              <label class="form-label">Màu Chủ Đạo:</label>
+              <input type="color" id="add-plan-color" class="form-control-admin" value="#00a65a" style="height: 44px; padding: 4px;">
+            </div>
+          </div>
+
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Giá Gói / Tháng (VNĐ):</label>
+              <input type="number" id="add-plan-price-month" class="form-control-admin" value="350000" min="0" step="10000" required>
+              <span style="font-size: 11px; color: var(--admin-text-muted);">Đơn giá thanh toán theo tháng của gói này</span>
+            </div>
+            <div class="form-item">
+              <label class="form-label">Số Cổng Được Phép Dùng:</label>
+              <input type="number" id="add-plan-max-gateways" class="form-control-admin" value="2" min="1" max="16" required>
+              <span style="font-size: 11px; color: var(--admin-text-muted);">Số cổng ngân hàng khách được phép chọn</span>
+            </div>
+          </div>
+
+          <div class="form-group-grid">
+            <div class="form-item">
+              <label class="form-label">Số Lượng Tài Khoản Của Gói (Mỗi Cổng):</label>
+              <input type="number" id="add-plan-accounts-per-bank" class="form-control-admin" value="1" min="1" max="50" style="font-weight: 800; color: #00a65a;" required>
+              <span style="font-size: 11px; color: #00a65a; font-weight: 600;">Ví dụ: để 1 thì tất cả các cổng trong gói này chỉ thêm 1 tài khoản mỗi cổng</span>
+            </div>
+            <div class="form-item">
+              <label class="form-label">Tần Suất Quét:</label>
+              <input type="text" id="add-plan-scan-speed" class="form-control-admin" value="5s / lần quét">
+            </div>
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">Mô Tả Ngắn:</label>
+            <input type="text" id="add-plan-desc" class="form-control-admin" placeholder="Mô tả quyền lợi và đối tượng khách hàng phù hợp...">
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-admin-action btn-admin-ghost" onclick="closeAddPlanModal()">Hủy</button>
+          <button type="submit" class="btn-admin-action btn-admin-primary">
+            <i class="fa-solid fa-check"></i> Tạo Gói Ngay
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="admin-toast">Thông báo quản trị</div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

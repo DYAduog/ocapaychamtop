@@ -1,0 +1,1513 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZaloPay QR Hub & Chuyá»ƒn Tiá»n TÃ¹y Chá»‰nh | OcaPay Gateway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root {
+      --zalo-blue: #0068ff;
+      --zalo-light: #0088ff;
+      --zalo-cyan: #00c6ff;
+      --zalo-gradient: linear-gradient(135deg, #0052d4 0%, #4364f7 50%, #6fb1fc 100%);
+    }
+
+    .zalopay-header {
+      background: linear-gradient(135deg, rgba(0, 104, 255, 0.12) 0%, rgba(111, 177, 252, 0.05) 100%);
+      border: 1px solid rgba(0, 104, 255, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .zalopay-header::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(0, 104, 255, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .account-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .meta-box {
+      background: rgba(14, 21, 38, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+    }
+
+    .meta-box .label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .meta-box .val {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tabs-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tab-btn.active {
+      background: rgba(0, 104, 255, 0.15);
+      border-color: rgba(0, 104, 255, 0.4);
+      color: #38bdf8;
+    }
+
+    .tab-btn .badge-pill {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+    }
+
+    /* Incoming Card Grid */
+    .transactions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 20px;
+    }
+
+    .tx-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .tx-card:hover {
+      border-color: rgba(0, 104, 255, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0, 104, 255, 0.12);
+    }
+
+    .tx-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .sender-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sender-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0068ff, #00c6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: 1.05rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sender-info h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .sender-info span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .amount-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 10px 0;
+    }
+
+    .tx-amount {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--success);
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .tx-details {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-size: 0.84rem;
+      margin-bottom: 16px;
+    }
+
+    .tx-details-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    }
+
+    .tx-details-row:last-child {
+      border-bottom: none;
+    }
+
+    .tx-details-row .k {
+      color: var(--text-dim);
+    }
+
+    .tx-details-row .v {
+      font-weight: 500;
+      color: var(--text-main);
+      text-align: right;
+    }
+
+    /* QR Box inside Card */
+    .qr-container {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      margin-top: auto;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .qr-container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 24px rgba(0, 104, 255, 0.35);
+    }
+
+    .qr-container img {
+      width: 200px;
+      height: 200px;
+      display: block;
+      image-rendering: pixelated;
+    }
+
+    .qr-tag {
+      margin-top: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0052d4;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .qr-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn-action-qr {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .btn-action-qr:hover {
+      background: rgba(0, 104, 255, 0.2);
+      border-color: var(--zalo-blue);
+      color: #fff;
+    }
+
+    .btn-action-primary {
+      background: var(--zalo-gradient);
+      border: none;
+      color: #fff;
+    }
+
+    .btn-action-primary:hover {
+      box-shadow: 0 4px 14px rgba(0, 104, 255, 0.4);
+    }
+
+    /* Modal Zoom */
+    .qr-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      padding: 16px;
+    }
+
+    .qr-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .qr-modal-card {
+      background: var(--bg-surface);
+      border: 1px solid rgba(0, 104, 255, 0.4);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      position: relative;
+      max-height: 94vh;
+      overflow-y: auto;
+    }
+
+    .qr-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .qr-modal-close:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .qr-modal-image-wrapper {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      margin: 16px auto;
+      display: inline-block;
+      box-shadow: 0 8px 30px rgba(0, 104, 255, 0.2);
+    }
+
+    .qr-modal-image-wrapper img {
+      width: 240px;
+      height: 240px;
+      display: block;
+    }
+
+    /* Modal Amount Modifier Box */
+    .amount-editor-box {
+      background: rgba(0, 104, 255, 0.08);
+      border: 1px solid rgba(0, 104, 255, 0.25);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin: 16px 0;
+      text-align: left;
+    }
+
+    .amount-editor-box .section-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .chip-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .chip-btn:hover, .chip-btn.active {
+      background: rgba(0, 104, 255, 0.25);
+      border-color: var(--zalo-blue);
+      color: #fff;
+    }
+
+    .chips-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    /* Deposit Form */
+    .deposit-container {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .deposit-container {
+        grid-template-columns: 1fr;
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 16px;
+      }
+      .sidebar {
+        display: none;
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      grid-column: 1 / -1;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">
+        <i class="fa-solid fa-cube text-accent"></i>
+      </div>
+      <div class="brand-text">
+        <h2>OcaPay<span>GATE</span></h2>
+        <span class="tag">ZaloPay Testing Hub</span>
+      </div>
+    </div>
+
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a href="/index.html" class="nav-link">
+          <i class="fa-solid fa-house"></i>
+          <span>Vá» Dashboard chÃ­nh</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/zalopay-test.html" class="nav-link active" style="color: #38bdf8; background: rgba(0, 104, 255, 0.12);">
+          <i class="fa-solid fa-qrcode"></i>
+          <span>ZaloPay QR Hub</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin.html" class="nav-link">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Quáº£n trá»‹ Admin</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="user-widget" style="margin-top: auto; padding: 16px; border-top: 1px solid var(--border);">
+      <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--success); display: inline-block;"></span>
+        <span>Localhost:3000 Active</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- ZaloPay Header Banner -->
+    <div class="zalopay-header">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="width: 56px; height: 56px; border-radius: 16px; background: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0, 104, 255, 0.3);">
+            <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+              <rect width="100" height="100" rx="20" fill="#0068FF"/>
+              <path d="M72 32H28C25.79 32 24 33.79 24 36V64C24 66.21 25.79 68 28 68H72C74.21 68 76 66.21 76 64V36C76 33.79 74.21 32 72 32Z" fill="#00C6FF"/>
+              <path d="M48 42L36 58H45L43 66L64 48H52L56 42H48Z" fill="#FFFFFF"/>
+            </svg>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <h1 style="font-size: 1.5rem; font-weight: 800; color: #fff;">ZaloPay Hub & Test Chuyá»ƒn Tiá»n QR</h1>
+              <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.72rem;">
+                <i class="fa-solid fa-circle-check"></i> Sáºµn sÃ ng quÃ©t
+              </span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+              Táº¡o mÃ£ QR Chuyá»ƒn Láº¡i, tÃ¹y chá»‰nh sá»‘ tiá»n theo Ã½ muá»‘n hoáº·c táº¡o mÃ£ náº¡p tiá»n VietQR / FlexQR
+            </p>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary" id="btn-refresh-all" onclick="loadAllZaloPayData()" style="padding: 10px 18px;">
+          <i class="fa-solid fa-arrows-rotate" id="refresh-icon"></i>
+          <span>LÃ m má»›i sá»‘ dÆ° & Giao dá»‹ch</span>
+        </button>
+      </div>
+
+      <!-- Account Info Grid -->
+      <div class="account-meta-grid" id="profile-container">
+        <div class="meta-box">
+          <div class="label">Chá»§ vÃ­ ZaloPay</div>
+          <div class="val" id="val-name">
+            <i class="fa-solid fa-user-check text-accent"></i>
+            <span id="txt-owner-name">Äang táº£i...</span>
+          </div>
+        </div>
+
+        <div class="meta-box">
+          <div class="label">Sá»‘ Ä‘iá»‡n thoáº¡i</div>
+          <div class="val" id="val-phone">
+            <i class="fa-solid fa-phone text-accent"></i>
+            <span id="txt-phone">0869482825</span>
+            <button onclick="copyText('0869482825')" class="badge" style="background: transparent; border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; padding: 2px 6px;">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="meta-box">
+          <div class="label">Sá»‘ dÆ° kháº£ dá»¥ng</div>
+          <div class="val" style="color: var(--success);" id="val-balance">
+            <i class="fa-solid fa-wallet"></i>
+            <span id="txt-balance">Äang táº£i...</span>
+          </div>
+        </div>
+
+        <div class="meta-box">
+          <div class="label">Tráº¡ng thÃ¡i KYC</div>
+          <div class="val" style="color: #38bdf8;">
+            <i class="fa-solid fa-id-card"></i>
+            <span id="txt-kyc">ÄÃ£ xÃ¡c thá»±c CCCD (Cáº¥p 3)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('resend-section', this)">
+        <i class="fa-solid fa-reply-all"></i>
+        <span>MÃ£ QR Chuyá»ƒn Láº¡i Tiá»n (Resend)</span>
+        <span class="badge-pill" id="badge-incoming-count">0</span>
+      </button>
+
+      <button class="tab-btn" onclick="switchTab('custom-p2p-section', this)">
+        <i class="fa-solid fa-paper-plane"></i>
+        <span>Chuyá»ƒn Tiá»n P2P TÃ¹y Chá»‰nh</span>
+      </button>
+
+      <button class="tab-btn" onclick="switchTab('deposit-section', this)">
+        <i class="fa-solid fa-money-bill-transfer"></i>
+        <span>Táº¡o MÃ£ QR Náº¡p Tiá»n (FlexQR / VietQR)</span>
+      </button>
+
+      <button class="tab-btn" onclick="switchTab('lookup-section', this)">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Tra Cá»©u NgÆ°á»i Nháº­n ZaloPay</span>
+      </button>
+    </div>
+
+    <!-- SECTION 1: Resend Money via QR (Incoming Transactions) -->
+    <div id="resend-section" class="tab-content-panel">
+      
+      <!-- Explanation Card -->
+      <div style="background: rgba(14, 21, 38, 0.7); border: 1px solid rgba(0, 104, 255, 0.2); border-radius: var(--radius-md); padding: 18px 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+          <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(0, 104, 255, 0.15); color: #38bdf8; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; margin-top: 2px;">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div>
+            <div style="font-weight: 700; color: #fff; font-size: 0.98rem; margin-bottom: 4px;">
+              CÃ¡ch Thay Äá»•i Sá»‘ Tiá»n Chuyá»ƒn Láº¡i Theo Ã Muá»‘n:
+            </div>
+            <div style="font-size: 0.84rem; color: var(--text-muted); line-height: 1.5;">
+              1. <strong>TÃ¹y chá»‰nh trÆ°á»›c trÃªn Web:</strong> Nháº¥n nÃºt <strong>"âœï¸ Äá»•i sá»‘ tiá»n"</strong> trÃªn tá»«ng tháº» giao dá»‹ch dÆ°á»›i Ä‘Ã¢y Ä‘á»ƒ táº¡o láº¡i mÃ£ QR vá»›i sá»‘ tiá»n & lá»i nháº¯n báº¡n chá»n (VD: 10.000Ä‘, 50.000Ä‘,...).<br>
+              2. <strong>TÃ¹y chá»‰nh sau trÃªn App:</strong> Khi quÃ©t mÃ£ QR má»Ÿ ZaloPay, Ã´ sá»‘ tiá»n hoÃ n toÃ n cho phÃ©p báº¡n <strong>cháº¡m vÃ o Ä‘á»ƒ gÃµ sá»‘ tiá»n khÃ¡c</strong> trÆ°á»›c khi báº¥m xÃ¡c nháº­n chuyá»ƒn!
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <button class="badge" onclick="filterIncoming('all')" id="filter-all" style="background: rgba(0, 104, 255, 0.2); color: #38bdf8; border: 1px solid rgba(0, 104, 255, 0.4); padding: 8px 14px; cursor: pointer; border-radius: 8px; font-weight: 600;">Táº¥t cáº£</button>
+          <button class="badge" onclick="filterIncoming('p2p')" id="filter-p2p" style="background: rgba(255, 255, 255, 0.05); color: var(--text-muted); border: 1px solid var(--border); padding: 8px 14px; cursor: pointer; border-radius: 8px; font-weight: 600;">Chuyá»ƒn tiá»n cÃ¡ nhÃ¢n</button>
+        </div>
+      </div>
+
+      <!-- Transaction Cards Grid -->
+      <div class="transactions-grid" id="incoming-list-grid">
+        <div class="empty-state">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <p>Äang táº£i danh sÃ¡ch giao dá»‹ch nháº­n tiá»n vÃ  táº¡o mÃ£ QR...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: Custom P2P Transfer (Transfer to Anyone with Custom Amount) -->
+    <div id="custom-p2p-section" class="tab-content-panel" style="display: none;">
+      <div class="deposit-container">
+        
+        <!-- Form Settings -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-paper-plane text-accent"></i>
+              <span>Táº¡o MÃ£ QR Chuyá»ƒn Tiá»n TÃ¹y Chá»‰nh (P2P)</span>
+            </div>
+          </div>
+          <div class="card-body">
+            
+            <div class="form-group">
+              <label class="form-label">Chá»n ngÆ°á»i nháº­n nhanh tá»« lá»‹ch sá»­</label>
+              <select id="p2p-recipient-select" class="form-input" onchange="onSelectRecipient(this.value)">
+                <option value="">-- Hoáº·c nháº­p sá»‘ Ä‘iá»‡n thoáº¡i bÃªn dÆ°á»›i --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Sá»‘ Ä‘iá»‡n thoáº¡i ngÆ°á»i nháº­n (ZaloPay)</label>
+              <input type="text" id="p2p-phone-input" class="form-input" placeholder="VD: 0374840705 hoáº·c 0869482825" value="0374840705">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Sá»‘ tiá»n muá»‘n chuyá»ƒn (VND)</label>
+              <input type="number" id="p2p-amount-input" class="form-input" value="10000" step="1000" min="1000">
+              
+              <div class="chips-group">
+                <span class="chip-btn active" onclick="setP2PAmount(10000)">10.000Ä‘</span>
+                <span class="chip-btn" onclick="setP2PAmount(20000)">20.000Ä‘</span>
+                <span class="chip-btn" onclick="setP2PAmount(50000)">50.000Ä‘</span>
+                <span class="chip-btn" onclick="setP2PAmount(100000)">100.000Ä‘</span>
+                <span class="chip-btn" onclick="setP2PAmount(200000)">200.000Ä‘</span>
+                <span class="chip-btn" onclick="setP2PAmount(500000)">500.000Ä‘</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Lá»i nháº¯n chuyá»ƒn tiá»n</label>
+              <input type="text" id="p2p-memo-input" class="form-input" value="CHUYEN TIEN TEST" placeholder="VD: Tra tien mua hang">
+            </div>
+
+            <button class="btn btn-primary" onclick="generateCustomP2PQR()" id="btn-gen-p2p" style="width: 100%; justify-content: center; padding: 14px; margin-top: 10px;">
+              <i class="fa-solid fa-bolt"></i>
+              <span>Táº¡o MÃ£ QR Chuyá»ƒn Tiá»n Ngay</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom P2P QR Preview Card -->
+        <div class="card" style="border-color: rgba(0, 104, 255, 0.35);">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-qrcode text-accent"></i>
+              <span>MÃ£ QR Chuyá»ƒn Tiá»n ZaloPay</span>
+            </div>
+          </div>
+          <div class="card-body" style="display: flex; flex-direction: column; align-items: center;">
+            <div class="qr-container" id="p2p-qr-wrapper" onclick="zoomP2PQR()" style="max-width: 280px; width: 100%;">
+              <img id="p2p-qr-img" src="" alt="MÃ£ QR chuyá»ƒn tiá»n P2P" style="width: 220px; height: 220px;">
+              <div class="qr-tag">
+                <i class="fa-solid fa-magnifying-glass-plus"></i> Báº¥m Ä‘á»ƒ phÃ³ng to quÃ©t
+              </div>
+            </div>
+
+            <div style="width: 100%; margin-top: 20px;" class="tx-details">
+              <div class="tx-details-row">
+                <span class="k">NgÆ°á»i nháº­n:</span>
+                <span class="v" id="p2p-val-name" style="font-weight: 700; color: #fff;">LÃª Thu Trang</span>
+              </div>
+              <div class="tx-details-row">
+                <span class="k">Sá»‘ Ä‘iá»‡n thoáº¡i:</span>
+                <span class="v" id="p2p-val-phone" style="font-family: 'JetBrains Mono'; color: #38bdf8;">0374840705</span>
+              </div>
+              <div class="tx-details-row">
+                <span class="k">Sá»‘ tiá»n:</span>
+                <span class="v" id="p2p-val-amount" style="color: var(--success); font-weight: 700;">10.000 VND</span>
+              </div>
+              <div class="tx-details-row">
+                <span class="k">Lá»i nháº¯n:</span>
+                <span class="v" id="p2p-val-memo" style="font-style: italic;">CHUYEN TIEN TEST</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; width: 100%; margin-top: 10px;">
+              <a id="p2p-app-link" href="#" class="btn-action-qr btn-action-primary" style="flex: 1; padding: 10px;">
+                <i class="fa-solid fa-mobile-screen"></i> Má»Ÿ trÃªn ZaloPay
+              </a>
+              <button onclick="copyText(document.getElementById('p2p-app-link').href)" class="btn-action-qr" style="flex: 1; padding: 10px;">
+                <i class="fa-regular fa-copy"></i> Sao chÃ©p Link
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 3: Dynamic Deposit FlexQR / VietQR -->
+    <div id="deposit-section" class="tab-content-panel" style="display: none;">
+      <div class="deposit-container">
+        
+        <!-- Form Settings -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-sliders text-accent"></i>
+              <span>Cáº¥u hÃ¬nh MÃ£ QR Náº¡p Tiá»n</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Sá»‘ tiá»n muá»‘n náº¡p (VND)</label>
+              <input type="number" id="deposit-amount" class="form-input" value="50000" step="1000" min="1000">
+              
+              <div class="chips-group">
+                <span class="chip-btn" onclick="setDepositAmount(10000)">10.000Ä‘</span>
+                <span class="chip-btn" onclick="setDepositAmount(20000)">20.000Ä‘</span>
+                <span class="chip-btn active" onclick="setDepositAmount(50000)">50.000Ä‘</span>
+                <span class="chip-btn" onclick="setDepositAmount(100000)">100.000Ä‘</span>
+                <span class="chip-btn" onclick="setDepositAmount(200000)">200.000Ä‘</span>
+                <span class="chip-btn" onclick="setDepositAmount(500000)">500.000Ä‘</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Ná»™i dung chuyá»ƒn tiá»n (Lá»i nháº¯n)</label>
+              <input type="text" id="deposit-memo" class="form-input" value="NAPTIEN OcaPay TEST" placeholder="VD: NAPTIEN OcaPay">
+              <span class="form-hint">Lá»i nháº¯n sáº½ tá»± Ä‘á»™ng Ä‘Æ°á»£c gÃ¡n vÃ o mÃ£ QR Ä‘á»ƒ nháº­n diá»‡n giao dá»‹ch.</span>
+            </div>
+
+            <button class="btn btn-primary" onclick="generateDepositQR()" id="btn-gen-deposit" style="width: 100%; justify-content: center; padding: 14px; margin-top: 10px;">
+              <i class="fa-solid fa-bolt"></i>
+              <span>Táº¡o MÃ£ QR Náº¡p Tiá»n Ngay</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Deposit QR Preview Card -->
+        <div class="card" style="border-color: rgba(0, 104, 255, 0.35);">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-qrcode text-accent"></i>
+              <span>MÃ£ QR Náº¡p Tiá»n (VietQR / BVBank)</span>
+            </div>
+          </div>
+          <div class="card-body" style="display: flex; flex-direction: column; align-items: center;">
+            <div class="qr-container" id="deposit-qr-wrapper" onclick="zoomDepositQR()" style="max-width: 280px; width: 100%;">
+              <img id="deposit-qr-img" src="" alt="MÃ£ QR náº¡p tiá»n" style="width: 220px; height: 220px;">
+              <div class="qr-tag">
+                <i class="fa-solid fa-magnifying-glass-plus"></i> Báº¥m Ä‘á»ƒ phÃ³ng to quÃ©t
+              </div>
+            </div>
+
+            <div style="width: 100%; margin-top: 20px;" class="tx-details">
+              <div class="tx-details-row">
+                <span class="k">NgÃ¢n hÃ ng thá»¥ hÆ°á»Ÿng:</span>
+                <span class="v" id="deposit-bank-name">NgÃ¢n hÃ ng Báº£n Viá»‡t (BVBank)</span>
+              </div>
+              <div class="tx-details-row">
+                <span class="k">Sá»‘ tÃ i khoáº£n áº£o:</span>
+                <span class="v" style="font-family: 'JetBrains Mono'; font-weight: 700; color: #38bdf8;">
+                  <span id="deposit-bank-acc">99ZP24038M10316794</span>
+                  <button onclick="copyText(document.getElementById('deposit-bank-acc').innerText)" class="badge" style="background: transparent; border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; margin-left: 6px; padding: 1px 5px;">
+                    <i class="fa-regular fa-copy"></i>
+                  </button>
+                </span>
+              </div>
+              <div class="tx-details-row">
+                <span class="k">TÃªn chá»§ tÃ i khoáº£n:</span>
+                <span class="v" id="deposit-holder-name">LÃŠ Máº NH DÆ¯Æ NG</span>
+              </div>
+              <div class="tx-details-row">
+                <span class="k">Sá»‘ tiá»n:</span>
+                <span class="v" id="deposit-val-amount" style="color: var(--success); font-weight: 700;">50.000 VND</span>
+              </div>
+              <div class="tx-details-row">
+                <span class="k">Ná»™i dung:</span>
+                <span class="v" id="deposit-val-memo" style="font-family: 'JetBrains Mono'; color: #f59e0b;">NAPTIEN OcaPay TEST</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 4: Recipient Lookup -->
+    <div id="lookup-section" class="tab-content-panel" style="display: none;">
+      <div class="card" style="max-width: 600px; margin: 0 auto;">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa-solid fa-address-book text-accent"></i>
+            <span>Tra Cá»©u NgÆ°á»i Nháº­n ZaloPay Theo Sá»‘ Äiá»‡n Thoáº¡i</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">Sá»‘ Ä‘iá»‡n thoáº¡i ZaloPay cáº§n kiá»ƒm tra</label>
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="lookup-phone-input" class="form-input" placeholder="VD: 0374840705 hoáº·c 0869482825" value="0374840705">
+              <button class="btn btn-primary" onclick="lookupRecipientPhone()" id="btn-lookup" style="white-space: nowrap;">
+                <i class="fa-solid fa-magnifying-glass"></i> Tra cá»©u
+              </button>
+            </div>
+          </div>
+
+          <div id="lookup-result-box" style="display: none; margin-top: 20px; padding: 20px; background: rgba(0, 104, 255, 0.08); border: 1px solid rgba(0, 104, 255, 0.25); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div id="lookup-avatar-container" style="width: 52px; height: 52px; border-radius: 50%; background: #0068ff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; font-weight: 700;">
+                <span id="lookup-avatar-char">U</span>
+              </div>
+              <div>
+                <h3 id="lookup-name" style="color: #fff; font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;">LÃª Thu Trang</h3>
+                <div style="font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono';">
+                  SÄT: <span id="lookup-phone-display">0374840705</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="lookup-error-box" style="display: none; margin-top: 20px; padding: 14px 18px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-md); color: #ef4444; font-size: 0.88rem;">
+            <i class="fa-solid fa-triangle-exclamation"></i> <span id="lookup-error-msg">KhÃ´ng tÃ¬m tháº¥y</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Modal Zoom & Custom Amount QR -->
+<div class="qr-modal-overlay" id="qr-zoom-modal" onclick="closeZoomModal(event)">
+  <div class="qr-modal-card" onclick="event.stopPropagation()">
+    <button class="qr-modal-close" onclick="closeZoomModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <h3 id="modal-qr-title" style="font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: 4px;">Chuyá»ƒn Láº¡i Cho KhÃ¡ch HÃ ng</h3>
+    <p id="modal-qr-desc" style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;">QuÃ©t mÃ£ QR báº±ng App ZaloPay Ä‘á»ƒ chuyá»ƒn tiá»n</p>
+
+    <!-- QR Code Display -->
+    <div class="qr-modal-image-wrapper">
+      <img id="modal-qr-img" src="" alt="MÃ£ QR phÃ³ng to">
+    </div>
+
+    <!-- Amount Modifier Form -->
+    <div class="amount-editor-box">
+      <div class="section-title">
+        <span><i class="fa-solid fa-pen-to-square"></i> TÃ¹y Chá»‰nh Sá»‘ Tiá»n Chuyá»ƒn Láº¡i</span>
+        <span id="modal-status-badge" class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.7rem;">MÃ£ QR thá»i gian thá»±c</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+        <div>
+          <label style="font-size: 0.78rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Sá»‘ tiá»n chuyá»ƒn (VND):</label>
+          <input type="number" id="modal-custom-amount" class="form-input" style="padding: 8px 12px; font-weight: 700; color: var(--success);" oninput="onModalAmountChange()">
+        </div>
+        <div>
+          <label style="font-size: 0.78rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Lá»i nháº¯n:</label>
+          <input type="text" id="modal-custom-memo" class="form-input" style="padding: 8px 12px;" oninput="onModalAmountChange()">
+        </div>
+      </div>
+
+      <div class="chips-group" id="modal-preset-chips">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+
+    <!-- Details Summary -->
+    <div style="background: rgba(0, 0, 0, 0.3); border-radius: var(--radius-sm); padding: 12px; font-size: 0.82rem; text-align: left;" id="modal-qr-info">
+      <!-- Injected dynamically -->
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; gap: 10px; margin-top: 16px;">
+      <a id="modal-app-link" href="#" class="btn-action-qr btn-action-primary" style="flex: 1; padding: 12px;">
+        <i class="fa-solid fa-mobile-screen"></i> Má»Ÿ trÃªn ZaloPay
+      </a>
+      <a id="modal-download-btn" href="#" download="zalopay-qr.png" class="btn-action-qr" style="flex: 1; padding: 12px;">
+        <i class="fa-solid fa-download"></i> Táº£i áº£nh QR
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  let allIncomingTransactions = [];
+  let currentFilter = 'all';
+  let activeModalTx = null;
+  let modalDebounceTimer = null;
+
+  // Format money VND
+  function formatMoney(amount) {
+    return parseInt(amount || 0, 10).toLocaleString('vi-VN') + ' VND';
+  }
+
+  // Copy to clipboard
+  function copyText(txt) {
+    if (!txt) return;
+    navigator.clipboard.writeText(txt).then(() => {
+      alert('ÄÃ£ sao chÃ©p: ' + txt);
+    }).catch(() => {
+      prompt('Sao chÃ©p thá»§ cÃ´ng:', txt);
+    });
+  }
+
+  // Switch tabs
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content-panel').forEach(p => p.style.display = 'none');
+    
+    btn.classList.add('active');
+    const target = document.getElementById(tabId);
+    if (target) target.style.display = 'block';
+
+    if (tabId === 'deposit-section' && !document.getElementById('deposit-qr-img').src) {
+      generateDepositQR();
+    }
+    if (tabId === 'custom-p2p-section' && !document.getElementById('p2p-qr-img').src) {
+      generateCustomP2PQR();
+    }
+  }
+
+  // Filter incoming transactions
+  function filterIncoming(filter) {
+    currentFilter = filter;
+    document.getElementById('filter-all').style.background = filter === 'all' ? 'rgba(0, 104, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)';
+    document.getElementById('filter-all').style.color = filter === 'all' ? '#38bdf8' : 'var(--text-muted)';
+    document.getElementById('filter-all').style.borderColor = filter === 'all' ? 'rgba(0, 104, 255, 0.4)' : 'var(--border)';
+
+    document.getElementById('filter-p2p').style.background = filter === 'p2p' ? 'rgba(0, 104, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)';
+    document.getElementById('filter-p2p').style.color = filter === 'p2p' ? '#38bdf8' : 'var(--text-muted)';
+    document.getElementById('filter-p2p').style.borderColor = filter === 'p2p' ? 'rgba(0, 104, 255, 0.4)' : 'var(--border)';
+
+    renderIncomingCards();
+  }
+
+  // Load Profile & Balance
+  async function loadProfile() {
+    try {
+      const res = await fetch('/api/zalopay/profile');
+      const data = await res.json();
+      if (data.status === 'success') {
+        const p = data.profile || {};
+        document.getElementById('txt-owner-name').innerText = p.kyc_info?.full_name || p.wrap_zalopay_name || p.display_name || 'LÃª Máº¡nh DÆ°Æ¡ng';
+        document.getElementById('txt-phone').innerText = p.phone_number ? (p.phone_number.startsWith('84') ? '0' + p.phone_number.slice(2) : p.phone_number) : '0869482825';
+        document.getElementById('txt-balance').innerText = data.formatted_balance || formatMoney(data.balance);
+      }
+    } catch (err) {
+      console.error('Error loading profile:', err);
+    }
+  }
+
+  // Load Incoming Transactions
+  async function loadIncomingTransactions() {
+    const grid = document.getElementById('incoming-list-grid');
+    grid.innerHTML = `
+      <div class="empty-state">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <p>Äang táº£i danh sÃ¡ch giao dá»‹ch nháº­n tiá»n vÃ  táº¡o mÃ£ QR...</p>
+      </div>
+    `;
+
+    try {
+      const res = await fetch('/api/zalopay/incoming?limit=30');
+      const data = await res.json();
+      if (data.status === 'success') {
+        allIncomingTransactions = data.incoming_transactions || [];
+        document.getElementById('badge-incoming-count').innerText = allIncomingTransactions.length;
+        renderIncomingCards();
+        populateRecipientDropdown();
+      } else {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-circle-exclamation text-danger"></i>
+            <p>KhÃ´ng thá»ƒ láº¥y giao dá»‹ch: ${data.message || 'Lá»—i khÃ´ng xÃ¡c Ä‘á»‹nh'}</p>
+          </div>
+        `;
+      }
+    } catch (err) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <i class="fa-solid fa-circle-exclamation text-danger"></i>
+          <p>Lá»—i káº¿t ná»‘i mÃ¡y chá»§: ${err.message}</p>
+        </div>
+      `;
+    }
+  }
+
+  // Render Incoming Cards
+  function renderIncomingCards() {
+    const grid = document.getElementById('incoming-list-grid');
+    let list = allIncomingTransactions;
+
+    if (currentFilter === 'p2p') {
+      list = list.filter(t => t.is_p2p);
+    }
+
+    if (!list || list.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <i class="fa-solid fa-receipt"></i>
+          <p>KhÃ´ng cÃ³ giao dá»‹ch nháº­n tiá»n nÃ o phÃ¹ há»£p bá»™ lá»c.</p>
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = list.map((tx, idx) => {
+      const initial = (tx.sender_name || 'Z').trim().charAt(0).toUpperCase();
+      const isTopup = !tx.is_p2p;
+      const typeBadge = isTopup
+        ? `<span class="badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-size: 0.72rem;">Náº¡p tiá»n vÃ­</span>`
+        : `<span class="badge" style="background: rgba(0, 104, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 104, 255, 0.3); font-size: 0.72rem;">Chuyá»ƒn tiá»n P2P</span>`;
+
+      return `
+        <div class="tx-card" id="card-tx-${idx}">
+          <div class="tx-header">
+            <div class="sender-badge">
+              <div class="sender-avatar">${initial}</div>
+              <div class="sender-info">
+                <h4>${escapeHtml(tx.sender_name)}</h4>
+                <span>SÄT: ${escapeHtml(tx.sender_phone_masked)}</span>
+              </div>
+            </div>
+            ${typeBadge}
+          </div>
+
+          <div class="amount-row">
+            <div class="tx-amount">
+              <span style="font-size: 1rem;">+</span>${tx.formatted_amount}
+            </div>
+            ${tx.can_resend ? `
+              <button onclick="openZoomModal(${idx}, true)" class="btn-action-qr" style="font-size: 0.76rem; padding: 4px 10px; border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">
+                <i class="fa-solid fa-pen-to-square"></i> Äá»•i sá»‘ tiá»n
+              </button>
+            ` : ''}
+          </div>
+
+          <div class="tx-details">
+            <div class="tx-details-row">
+              <span class="k">Lá»i nháº¯n:</span>
+              <span class="v" style="color: #f8fafc; font-style: italic;">"${escapeHtml(tx.message)}"</span>
+            </div>
+            <div class="tx-details-row">
+              <span class="k">Thá»i gian:</span>
+              <span class="v">${formatDate(tx.trans_time)}</span>
+            </div>
+            <div class="tx-details-row">
+              <span class="k">MÃ£ Ä‘Æ¡n hÃ ng:</span>
+              <span class="v" style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">${escapeHtml(tx.order_no)}</span>
+            </div>
+          </div>
+
+          <!-- QR Code Preview -->
+          <div class="qr-container" onclick="openZoomModal(${idx}, false)">
+            <img id="card-qr-img-${idx}" src="${tx.qr_code_base64 || tx.qr_code_web_base64}" alt="QR Chuyá»ƒn láº¡i">
+            <div class="qr-tag">
+              <i class="fa-solid fa-expand"></i> QuÃ©t Ä‘á»ƒ Chuyá»ƒn láº¡i
+            </div>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="qr-actions">
+            <a id="card-app-link-${idx}" href="${tx.app_deeplink || tx.resend_link}" class="btn-action-qr btn-action-primary" target="_blank">
+              <i class="fa-solid fa-mobile-screen"></i> Má»Ÿ App ZaloPay
+            </a>
+            <button onclick="copyText(document.getElementById('card-app-link-${idx}').href)" class="btn-action-qr">
+              <i class="fa-regular fa-copy"></i> Sao chÃ©p Link
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Populate P2P recipient select dropdown
+  function populateRecipientDropdown() {
+    const sel = document.getElementById('p2p-recipient-select');
+    sel.innerHTML = '<option value="">-- Chá»n nhanh ngÆ°á»i gá»­i tá»« danh sÃ¡ch nháº­n tiá»n --</option>';
+    
+    allIncomingTransactions.filter(t => t.is_p2p).forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = JSON.stringify({
+        name: t.sender_name,
+        phone: t.sender_phone_masked,
+        orderNo: t.order_no,
+        amount: t.amount,
+      });
+      opt.innerText = `${t.sender_name} (${t.formatted_amount}) - ÄÆ¡n #${t.order_no}`;
+      sel.appendChild(opt);
+    });
+  }
+
+  function onSelectRecipient(valStr) {
+    if (!valStr) return;
+    try {
+      const data = JSON.parse(valStr);
+      document.getElementById('p2p-memo-input').value = `TRA TIEN ${data.orderNo}`;
+      document.getElementById('p2p-val-name').innerText = data.name;
+      document.getElementById('p2p-val-phone').innerText = data.phone;
+      generateCustomP2PQR(data.orderNo);
+    } catch(e) {}
+  }
+
+  // Format ISO Date
+  function formatDate(dStr) {
+    if (!dStr) return 'N/A';
+    try {
+      const d = new Date(dStr);
+      return d.toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
+    } catch {
+      return dStr;
+    }
+  }
+
+  // HTML Escape
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Zoom & Edit Modal
+  function openZoomModal(idx, focusInput = false) {
+    const tx = allIncomingTransactions[idx];
+    if (!tx) return;
+
+    activeModalTx = tx;
+
+    document.getElementById('modal-qr-title').innerText = `Chuyá»ƒn Láº¡i: ${tx.sender_name}`;
+    document.getElementById('modal-qr-desc').innerText = `ÄÆ¡n hÃ ng #${tx.order_no} - QuÃ©t Ä‘á»ƒ chuyá»ƒn láº¡i tiá»n`;
+    
+    const qrImg = tx.qr_code_base64 || tx.qr_code_web_base64;
+    document.getElementById('modal-qr-img').src = qrImg;
+    document.getElementById('modal-download-btn').href = qrImg;
+    document.getElementById('modal-app-link').href = tx.app_deeplink || tx.resend_link;
+
+    // Fill amount inputs
+    document.getElementById('modal-custom-amount').value = tx.amount || 0;
+    document.getElementById('modal-custom-memo').value = `Tra lai ${tx.order_no}`;
+
+    // Render preset chips
+    const chipsDiv = document.getElementById('modal-preset-chips');
+    chipsDiv.innerHTML = `
+      <span class="chip-btn active" onclick="setModalAmount(${tx.amount})">Tiá»n gá»‘c (${formatMoney(tx.amount)})</span>
+      <span class="chip-btn" onclick="setModalAmount(10000)">10.000Ä‘</span>
+      <span class="chip-btn" onclick="setModalAmount(20000)">20.000Ä‘</span>
+      <span class="chip-btn" onclick="setModalAmount(50000)">50.000Ä‘</span>
+      <span class="chip-btn" onclick="setModalAmount(100000)">100.000Ä‘</span>
+      <span class="chip-btn" onclick="setModalAmount(200000)">200.000Ä‘</span>
+      <span class="chip-btn" onclick="setModalAmount(500000)">500.000Ä‘</span>
+    `;
+
+    renderModalInfo(tx.sender_name, tx.amount, tx.order_no, tx.message);
+    document.getElementById('qr-zoom-modal').classList.add('active');
+
+    if (focusInput) {
+      setTimeout(() => {
+        const inp = document.getElementById('modal-custom-amount');
+        inp.focus();
+        inp.select();
+      }, 200);
+    }
+  }
+
+  function renderModalInfo(name, amount, orderNo, memo) {
+    document.getElementById('modal-qr-info').innerHTML = `
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <span style="color: var(--text-dim);">NgÆ°á»i nháº­n:</span>
+        <span style="font-weight: 700; color: #fff;">${escapeHtml(name)}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <span style="color: var(--text-dim);">Sá»‘ tiá»n trÃªn mÃ£ QR:</span>
+        <span id="modal-info-amount" style="font-weight: 700; color: var(--success);">${formatMoney(amount)}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <span style="color: var(--text-dim);">MÃ£ Ä‘Æ¡n hÃ ng:</span>
+        <span style="font-family: 'JetBrains Mono'; color: #38bdf8;">${escapeHtml(orderNo)}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span style="color: var(--text-dim);">Lá»i nháº¯n:</span>
+        <span id="modal-info-memo" style="font-style: italic;">"${escapeHtml(memo)}"</span>
+      </div>
+    `;
+  }
+
+  function setModalAmount(val) {
+    document.getElementById('modal-custom-amount').value = val;
+    document.querySelectorAll('#modal-preset-chips .chip-btn').forEach(c => c.classList.remove('active'));
+    if (window.event && window.event.target) window.event.target.classList.add('active');
+    triggerModalQRUpdate();
+  }
+
+  function onModalAmountChange() {
+    clearTimeout(modalDebounceTimer);
+    modalDebounceTimer = setTimeout(() => {
+      triggerModalQRUpdate();
+    }, 400);
+  }
+
+  async function triggerModalQRUpdate() {
+    if (!activeModalTx) return;
+
+    const amount = document.getElementById('modal-custom-amount').value || 0;
+    const message = document.getElementById('modal-custom-memo').value || '';
+    const badge = document.getElementById('modal-status-badge');
+
+    badge.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Äang cáº­p nháº­t QR...`;
+    badge.style.color = '#f59e0b';
+
+    try {
+      const res = await fetch('/api/zalopay/custom-qr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderNo: activeModalTx.order_no,
+          amount: parseInt(amount, 10),
+          message,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.status === 'success') {
+        document.getElementById('modal-qr-img').src = data.qr_code_base64;
+        document.getElementById('modal-download-btn').href = data.qr_code_base64;
+        document.getElementById('modal-app-link').href = data.deeplink;
+
+        document.getElementById('modal-info-amount').innerText = formatMoney(amount);
+        document.getElementById('modal-info-memo').innerText = `"${message}"`;
+
+        badge.innerHTML = `<i class="fa-solid fa-check"></i> ÄÃ£ cáº­p nháº­t (${formatMoney(amount)})`;
+        badge.style.color = '#10b981';
+      }
+    } catch (err) {
+      badge.innerHTML = `<i class="fa-solid fa-xmark"></i> Lá»—i: ${err.message}`;
+      badge.style.color = '#ef4444';
+    }
+  }
+
+  function closeZoomModal() {
+    document.getElementById('qr-zoom-modal').classList.remove('active');
+  }
+
+  // Generate Custom P2P QR
+  async function generateCustomP2PQR(explicitOrderNo = null) {
+    const phone = document.getElementById('p2p-phone-input').value.trim();
+    const amount = document.getElementById('p2p-amount-input').value || 10000;
+    const message = document.getElementById('p2p-memo-input').value || 'CHUYEN TIEN';
+    const btn = document.getElementById('btn-gen-p2p');
+
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Äang táº¡o mÃ£ QR...`;
+
+    try {
+      const payload = {
+        amount: parseInt(amount, 10),
+        message,
+      };
+
+      if (explicitOrderNo) {
+        payload.orderNo = explicitOrderNo;
+      } else {
+        payload.phone = phone;
+      }
+
+      const res = await fetch('/api/zalopay/custom-qr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (data.status === 'success') {
+        document.getElementById('p2p-qr-img').src = data.qr_code_base64;
+        document.getElementById('p2p-val-phone').innerText = phone || (explicitOrderNo ? `ÄÆ¡n #${explicitOrderNo}` : 'N/A');
+        document.getElementById('p2p-val-amount').innerText = formatMoney(amount);
+        document.getElementById('p2p-val-memo').innerText = message;
+        document.getElementById('p2p-app-link').href = data.deeplink;
+      } else {
+        alert('Lá»—i: ' + data.message);
+      }
+    } catch (err) {
+      alert('Lá»—i káº¿t ná»‘i: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-bolt"></i> Táº¡o MÃ£ QR Chuyá»ƒn Tiá»n Ngay`;
+    }
+  }
+
+  function setP2PAmount(val) {
+    document.getElementById('p2p-amount-input').value = val;
+    document.querySelectorAll('#custom-p2p-section .chip-btn').forEach(c => c.classList.remove('active'));
+    if (window.event && window.event.target) window.event.target.classList.add('active');
+    generateCustomP2PQR();
+  }
+
+  function zoomP2PQR() {
+    const qrImg = document.getElementById('p2p-qr-img').src;
+    if (!qrImg) return;
+
+    const phone = document.getElementById('p2p-val-phone').innerText;
+    const name = document.getElementById('p2p-val-name').innerText;
+    const amount = document.getElementById('p2p-val-amount').innerText;
+    const memo = document.getElementById('p2p-val-memo').innerText;
+    const deeplink = document.getElementById('p2p-app-link').href;
+
+    document.getElementById('modal-qr-title').innerText = `MÃ£ QR Chuyá»ƒn Tiá»n P2P`;
+    document.getElementById('modal-qr-desc').innerText = `QuÃ©t báº±ng App ZaloPay Ä‘á»ƒ chuyá»ƒn tiá»n`;
+    document.getElementById('modal-qr-img').src = qrImg;
+    document.getElementById('modal-download-btn').href = qrImg;
+    document.getElementById('modal-app-link').href = deeplink;
+    document.getElementById('modal-app-link').style.display = 'flex';
+
+    document.getElementById('modal-qr-info').innerHTML = `
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <span style="color: var(--text-dim);">NgÆ°á»i nháº­n:</span>
+        <span style="font-weight: 700; color: #fff;">${name}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <span style="color: var(--text-dim);">Sá»‘ Ä‘iá»‡n thoáº¡i:</span>
+        <span style="font-family: 'JetBrains Mono'; font-weight: 700; color: #38bdf8;">${phone}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <span style="color: var(--text-dim);">Sá»‘ tiá»n:</span>
+        <span style="font-weight: 700; color: var(--success);">${amount}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span style="color: var(--text-dim);">Ná»™i dung:</span>
+        <span style="font-style: italic;">${memo}</span>
+      </div>
+    `;
+
+    document.getElementById('qr-zoom-modal').classList.add('active');
+  }
+
+  // Generate Deposit QR
+  async function generateDepositQR() {
+    const amount = document.getElementById('deposit-amount').value || 50000;
+    const message = document.getElementById('deposit-memo').value || 'NAPTIEN OcaPay';
+    const btn = document.getElementById('btn-gen-deposit');
+
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Äang táº¡o mÃ£ QR...`;
+
+    try {
+      const res = await fetch('/api/zalopay/deposit-qr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount, message }),
+      });
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        document.getElementById('deposit-qr-img').src = data.qr_image;
+        document.getElementById('deposit-bank-name').innerText = data.bank_name || 'NgÃ¢n hÃ ng Báº£n Viá»‡t (BVBank)';
+        document.getElementById('deposit-bank-acc').innerText = data.bank_number || '99ZP24038M10316794';
+        document.getElementById('deposit-holder-name').innerText = data.bank_holder_name || 'LÃŠ Máº NH DÆ¯Æ NG';
+        document.getElementById('deposit-val-amount').innerText = formatMoney(amount);
+        document.getElementById('deposit-val-memo').innerText = message;
+      } else {
+        alert('Lá»—i táº¡o mÃ£ QR: ' + data.message);
+      }
+    } catch (err) {
+      alert('Lá»—i káº¿t ná»‘i: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-bolt"></i> Táº¡o MÃ£ QR Náº¡p Tiá»n Ngay`;
+    }
+  }
+
+  function setDepositAmount(val) {
+    document.getElementById('deposit-amount').value = val;
+    document.querySelectorAll('#deposit-section .chip-btn').forEach(c => c.classList.remove('active'));
+    if (window.event && window.event.target) window.event.target.classList.add('active');
+    generateDepositQR();
+  }
+
+  function zoomDepositQR() {
+    const qrImg = document.getElementById('deposit-qr-img').src;
+    if (!qrImg) return;
+
+    const acc = document.getElementById('deposit-bank-acc').innerText;
+    const bank = document.getElementById('deposit-bank-name').innerText;
+    const holder = document.getElementById('deposit-holder-name').innerText;
+    const amount = document.getElementById('deposit-val-amount').innerText;
+    const memo = document.getElementById('deposit-val-memo').innerText;
+
+    document.getElementById('modal-qr-title').innerText = `MÃ£ VietQR Náº¡p Tiá»n ZaloPay`;
+    document.getElementById('modal-qr-desc').innerText = `QuÃ©t báº±ng báº¥t ká»³ App NgÃ¢n hÃ ng hoáº·c ZaloPay Ä‘á»ƒ náº¡p tiá»n vÃ o vÃ­`;
+    document.getElementById('modal-qr-img').src = qrImg;
+    document.getElementById('modal-download-btn').href = qrImg;
+    document.getElementById('modal-app-link').style.display = 'none';
+
+    document.getElementById('modal-qr-info').innerHTML = `
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <span style="color: var(--text-dim);">NgÃ¢n hÃ ng:</span>
+        <span style="font-weight: 700; color: #fff;">${bank}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <span style="color: var(--text-dim);">Sá»‘ tÃ i khoáº£n:</span>
+        <span style="font-family: 'JetBrains Mono'; font-weight: 700; color: #38bdf8;">${acc}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <span style="color: var(--text-dim);">Chá»§ tÃ i khoáº£n:</span>
+        <span style="font-weight: 700; color: #fff;">${holder}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <span style="color: var(--text-dim);">Sá»‘ tiá»n:</span>
+        <span style="font-weight: 700; color: var(--success);">${amount}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span style="color: var(--text-dim);">Ná»™i dung:</span>
+        <span style="font-family: 'JetBrains Mono'; color: #f59e0b;">${memo}</span>
+      </div>
+    `;
+
+    document.getElementById('qr-zoom-modal').classList.add('active');
+  }
+
+  // Lookup Recipient Phone
+  async function lookupRecipientPhone() {
+    const phone = document.getElementById('lookup-phone-input').value.trim();
+    const resBox = document.getElementById('lookup-result-box');
+    const errBox = document.getElementById('lookup-error-box');
+    const btn = document.getElementById('btn-lookup');
+
+    if (!phone) {
+      alert('Vui lÃ²ng nháº­p sá»‘ Ä‘iá»‡n thoáº¡i');
+      return;
+    }
+
+    resBox.style.display = 'none';
+    errBox.style.display = 'none';
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`;
+
+    try {
+      const res = await fetch(`/api/zalopay/lookup-recipient?phone=${encodeURIComponent(phone)}`);
+      const data = await res.json();
+
+      if (data.status === 'success' && data.name) {
+        document.getElementById('lookup-name').innerText = data.name;
+        document.getElementById('lookup-phone-display').innerText = phone;
+        document.getElementById('lookup-avatar-char').innerText = data.name.charAt(0).toUpperCase();
+        resBox.style.display = 'block';
+      } else {
+        document.getElementById('lookup-error-msg').innerText = data.message || 'KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng ZaloPay nÃ y hoáº·c Ä‘Ã£ Ä‘áº¡t giá»›i háº¡n tra cá»©u trong giá»';
+        errBox.style.display = 'block';
+      }
+    } catch (err) {
+      document.getElementById('lookup-error-msg').innerText = 'Lá»—i káº¿t ná»‘i: ' + err.message;
+      errBox.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-magnifying-glass"></i> Tra cá»©u`;
+    }
+  }
+
+  // Load everything
+  async function loadAllZaloPayData() {
+    const icon = document.getElementById('refresh-icon');
+    if (icon) icon.classList.add('fa-spin');
+    await Promise.all([loadProfile(), loadIncomingTransactions(), generateDepositQR()]);
+    if (icon) icon.classList.remove('fa-spin');
+  }
+
+  // Auto initialize on load
+  window.addEventListener('DOMContentLoaded', () => {
+    loadAllZaloPayData();
+  });
+</script>
+
+</body>
+</html>
+

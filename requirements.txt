@@ -1,0 +1,23 @@
+# ==============================================================================
+# 7BANK / OCAPAY GATEWAY - PYTHON DEPENDENCIES FOR VPS
+# Cài đặt bằng lệnh: pip install -r requirements.txt (hoặc pip3 install -r requirements.txt)
+# ==============================================================================
+
+# HTTP Request & Security
+requests>=2.28.0
+urllib3>=1.26.0
+
+# Cryptography & Banking Encryption (RSA, AES, SHA256)
+cryptography>=3.4.8
+pycryptodome>=3.15.0
+
+# Image Processing & Offline Captcha Solver Engine
+Pillow>=9.0.0
+numpy>=1.21.0
+opencv-python-headless>=4.6.0.66
+
+# Deep Learning OCR Engine for Offline Bank Captcha
+ddddocr>=1.4.11
+
+# Environment Configuration
+python-dotenv>=1.0.0

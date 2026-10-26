@@ -1,0 +1,2 @@
+{'package': 'com.vcb.sme', 'activity': '.ui.activities.login.LoginActivity', 'pid': 25618}
+{'package': 'com.vcb.sme', 'activity': '.ui.activities.smart_otp.ScanQrActivity', 'pid': 25618}

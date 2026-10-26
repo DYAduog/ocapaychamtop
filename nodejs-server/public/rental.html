@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dịch Vụ Cho Thuê Cổng API Auto Bank Tự Động 24/7 - OcaPay Gateway</title>
+  <meta name="description" content="Nền tảng cho thuê cổng API tự động quét biến động số dư ngân hàng: TPBank, MBBank, Vietcombank, ACB, BIDV, VietinBank, ZaloPay. Tự động giải Captcha bằng AI OCR, Webhook tức thì 0.3s.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  
+  <!-- Google Fonts: Inter, Outfit, JetBrains Mono, Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Rental Stylesheet -->
+  <link rel="stylesheet" href="/css/rental.css">
+</head>
+<body>
+
+  <!-- 1. Top Green Announce Bar -->
+  <div class="announce-top-bar">
+    Hệ Thống Giải Pháp Cổng Thanh Toán Tự Động. Cho Thuê Cổng API Ngân Hàng Cá Nhân & Doanh Nghiệp
+  </div>
+
+  <!-- 2. Main Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="/" class="brand-link">
+        <div class="brand-logo-icon" style="background: transparent; overflow: hidden; border-radius: 10px; width: 40px; height: 40px;"><img src="/images/logo.png" alt="OcaPay Gateway" style="width: 100%; height: 100%; object-fit: cover;"></div>
+        <div class="brand-name-wrap">
+          <h1 style="font-family: 'Outfit', sans-serif;">Oca<span style="color: #f43f5e;">Pay</span> Gateway <span class="brand-badge">SAAS</span></h1>
+          <p>Dịch Vụ Cho Thuê API Auto Bank 24/7</p>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#ngan-hang"><i class="fa-solid fa-vault"></i> Cổng Hỗ Trợ</a></li>
+        <li><a href="#simulator"><i class="fa-solid fa-bolt"></i> Thử Webhook</a></li>
+        <li><a href="#bang-gia"><i class="fa-solid fa-tag"></i> Bảng Giá Thuê</a></li>
+        <li><a href="#du-toan"><i class="fa-solid fa-calculator"></i> Tính Chi Phí</a></li>
+        <li><a href="#so-sanh"><i class="fa-solid fa-scale-balanced"></i> So Sánh</a></li>
+        <li><a href="#faq"><i class="fa-solid fa-circle-question"></i> FAQ</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/" class="btn btn-outline btn-sm">
+          <i class="fa-solid fa-house"></i> Bảng Điều Khiển
+        </a>
+        <a href="#bang-gia" class="btn btn-primary btn-sm">
+          <i class="fa-solid fa-cart-shopping"></i> Thuê Cổng Ngay
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3. Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        
+        <!-- Hero Left Info -->
+        <div>
+          <div class="hero-badge-pill">
+            <span class="pulse-dot"></span>
+            HẠ TẦNG CHO THUÊ AUTO BANKING HÀNG ĐẦU VIỆT NAM
+          </div>
+
+          <h1 class="hero-title">
+            Cho Thuê Cổng API & Bot <br>
+            <span class="hero-title-accent">Auto Bank Tự Động 24/7</span>
+          </h1>
+
+          <p class="hero-desc">
+            Tự động hóa 100% dòng tiền nạp rút của bạn. Quét biến động số dư chỉ trong <strong>0.3 giây</strong>, tự giải Captcha bằng trí tuệ nhân tạo OCR, đẩy Webhook realtime cho <strong>TPBank, MBBank, VCB, ACB, BIDV, VietinBank, ZaloPay...</strong> Đăng ký thuê và kích hoạt nhận tiền ngay trong 5 phút!
+          </p>
+
+          <div class="hero-ctas">
+            <a href="#bang-gia" class="btn btn-primary btn-lg">
+              <i class="fa-solid fa-cart-shopping"></i> Chọn Gói Thuê (Từ 250k/tháng)
+            </a>
+            <a href="#simulator" class="btn btn-outline btn-lg">
+              <i class="fa-solid fa-play"></i> Dùng Thử Webhook 0.3s
+            </a>
+          </div>
+
+          <div class="hero-stats-row">
+            <div class="hero-stat-card">
+              <h3>99.99%</h3>
+              <p>SLA Thời Gian Uptime</p>
+            </div>
+            <div class="hero-stat-card">
+              <h3>&lt; 0.3s</h3>
+              <p>Tốc Độ Bắn Webhook</p>
+            </div>
+            <div class="hero-stat-card">
+              <h3>2048-bit</h3>
+              <p>Mã Hóa RSA Chuẩn Bank</p>
+            </div>
+            <div class="hero-stat-card">
+              <h3>500+</h3>
+              <p>Website Đang Tin Dùng</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right: Live Interactive Mockup Card -->
+        <div>
+          <div class="hero-mockup-card">
+            <div class="mockup-header-bar">
+              <span style="font-weight: 700; font-size: 13px; color: #0f172a;">
+                <i class="fa-solid fa-bolt text-primary"></i> Luồng Giao Dịch Thời Gian Thực
+              </span>
+              <span class="mockup-status-online">
+                <i class="fa-solid fa-circle-check"></i> Cổng API Đang Hoạt Động
+              </span>
+            </div>
+
+            <div class="mockup-feed-container" id="hero-feed-stream">
+              <!-- Live simulated transactions -->
+              <div class="mockup-feed-item">
+                <div class="mockup-bank-details">
+                  <img src="/images/tpbank.svg" alt="TPBank" class="mockup-bank-avatar">
+                  <div>
+                    <div class="mockup-bank-title">+150.000 đ [TPBank]</div>
+                    <div class="mockup-bank-sub">LE MANH DUONG • NAPTIEN USER88</div>
+                  </div>
+                </div>
+                <div class="mockup-feed-amount">
+                  <div class="feed-amount-green">+150,000</div>
+                  <div class="feed-speed-badge"><i class="fa-solid fa-bolt"></i> Webhook 0.32s</div>
+                </div>
+              </div>
+
+              <div class="mockup-feed-item">
+                <div class="mockup-bank-details">
+                  <img src="/images/mbbank.png" alt="MBBank" class="mockup-bank-avatar">
+                  <div>
+                    <div class="mockup-bank-title">+3.200.000 đ [MBBank]</div>
+                    <div class="mockup-bank-sub">CONG TY CP CONG NGHE • HD882</div>
+                  </div>
+                </div>
+                <div class="mockup-feed-amount">
+                  <div class="feed-amount-green">+3,200,000</div>
+                  <div class="feed-speed-badge"><i class="fa-solid fa-bolt"></i> Webhook 0.28s</div>
+                </div>
+              </div>
+
+              <div class="mockup-feed-item">
+                <div class="mockup-bank-details">
+                  <img src="/images/acb.png" alt="ACB" class="mockup-bank-avatar">
+                  <div>
+                    <div class="mockup-bank-title">+500.000 đ [ACB]</div>
+                    <div class="mockup-bank-sub">TRAN KIM THAO • DON HANG 102</div>
+                  </div>
+                </div>
+                <div class="mockup-feed-amount">
+                  <div class="feed-amount-green">+500,000</div>
+                  <div class="feed-speed-badge"><i class="fa-solid fa-bolt"></i> Webhook 0.35s</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="background: #f8fafc; padding: 12px 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
+              <span style="color: var(--text-muted);"><i class="fa-solid fa-shield-halved text-primary"></i> AI OCR Captcha Bypassed</span>
+              <span style="color: var(--primary); font-weight: 700;">8/8 Cổng Sẵn Sàng 🟢</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Bank Ecosystem Showcase (10 REAL SUPPORTED BANKS ONLY) -->
+  <section class="section-padding" id="ngan-hang">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag-pill"><i class="fa-solid fa-vault"></i> HỆ THỐNG 10 CỔNG NGÂN HÀNG & VÍ TỰ ĐỘNG</span>
+        <h2 class="section-main-title">Hạ Tầng Cổng Ngân Hàng Tối Ưu Cao Cấp</h2>
+        <p class="section-sub-title">
+          Hệ thống OcaPay kết nối trực tiếp lõi Internet Banking và ví điện tử, tự giải Captcha AI OCR, phản hồi Webhook tức thì <strong>0.2s - 0.3s</strong>.
+        </p>
+      </div>
+
+      <div class="bank-ecosystem-card">
+        <!-- Top Search & Category Filter -->
+        <div class="eco-top-controls">
+          <div class="eco-search-input-wrap">
+            <i class="fa-solid fa-magnifying-glass eco-search-icon"></i>
+            <input type="text" id="eco-search-input" class="eco-search-input" placeholder="Tìm kiếm cổng (TPBank, MBBank, VCB, ACB, BIDV, ZaloPay...)" oninput="filterRentalBanks(this.value)">
+          </div>
+
+          <div class="eco-category-pills">
+            <button class="eco-cat-btn active" onclick="filterBankCategory('all', this)">Tất Cả (10 Cổng)</button>
+            <button class="eco-cat-btn" onclick="filterBankCategory('popular', this)">Ngân Hàng (7)</button>
+            <button class="eco-cat-btn" onclick="filterBankCategory('wallet', this)">Ví Điện Tử & Thẻ (3)</button>
+          </div>
+        </div>
+
+        <!-- High-Tech Bank Cards Grid (10 Real Supported Banks) -->
+        <div class="rental-banks-grid" id="rental-banks-grid">
+          <!-- Populated dynamically via rental.js -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Interactive Webhook Simulator -->
+  <section class="section-padding" id="simulator" style="background: #f1f5f9;">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag-pill"><i class="fa-solid fa-vial"></i> TRẢI NGHIỆM THỰC TẾ</span>
+        <h2 class="section-main-title">Thử Nghiệm Tốc Độ Bắn Webhook</h2>
+        <p class="section-sub-title">
+          Bấm nút bên dưới để mô phỏng một giao dịch thực tế và xem gói tin JSON Webhook được đẩy về máy chủ trong 0.3s.
+        </p>
+      </div>
+
+      <div class="simulator-layout">
+        
+        <!-- Left Controls -->
+        <div class="sim-input-col">
+          <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 4px;">
+            <i class="fa-solid fa-sliders text-primary"></i> 1. Cấu Hình Giao Dịch Thử
+          </h3>
+
+          <div class="form-group-sim">
+            <label for="sim-bank">Cổng ngân hàng nhận tiền:</label>
+            <select id="sim-bank" class="form-select-sim" onchange="onSimulatorBankChange()">
+              <option value="TPBANK" selected>TPBank (Tiên Phong) - Quét 0.28s • eBank v4 2FA 1 Chạm</option>
+              <option value="MBBANK">MBBank (Quân Đội) - Quét 0.30s • Không Thiết Bị</option>
+              <option value="VCB">Vietcombank (VCB Digibank) - Quét 0.32s • AI OCR</option>
+              <option value="ACB">ACB (Á Châu) - Quét 0.22s • Ultra Low Latency</option>
+              <option value="BIDV">BIDV (SmartBanking) - Quét 0.35s</option>
+              <option value="VIETTIN">VietinBank (iPay) - Quét 0.31s</option>
+              <option value="TECHCOMBANK">Techcombank - Quét 0.33s • Token Vault</option>
+              <option value="MSB">MSB (Hàng Hải DigiBank) - Quét 0.25s • Auto Token 24/7</option>
+              <option value="ZALOPAY">ZaloPay (Ví Điện Tử) - Quét 0.24s</option>
+              <option value="VIETTEL">Viettel Money (ViettelPay) - Quét 0.30s</option>
+            </select>
+          </div>
+
+          <div class="form-group-sim">
+            <label for="sim-amount">Số tiền chuyển khoản (VND):</label>
+            <input type="number" id="sim-amount" class="form-input-sim" value="250000" step="50000">
+          </div>
+
+          <div class="form-group-sim">
+            <label for="sim-content">Nội dung chuyển khoản (Memo):</label>
+            <input type="text" id="sim-content" class="form-input-sim" value="NAPTIEN USER_VIP88">
+          </div>
+
+          <div class="form-group-sim">
+            <label for="sim-webhook">Địa chỉ Webhook nhận callback của bạn:</label>
+            <input type="url" id="sim-webhook" class="form-input-sim" value="https://shopcuaban.vn/api/callback/bank">
+          </div>
+
+          <button class="btn btn-primary btn-lg" style="width: 100%; margin-top: 6px;" onclick="triggerSimulator()">
+            <i class="fa-solid fa-paper-plane"></i> Bắn Thử Giao Dịch Ngay (0.3s)
+          </button>
+        </div>
+
+        <!-- Right Terminal Output (Redesigned with Mystical Running Aurora Color Effect) -->
+        <div class="sim-terminal-column">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+              <span class="terminal-title-icon-badge"><i class="fa-solid fa-terminal"></i></span>
+              <span>2. Gói Tin Webhook Nhận Được</span>
+            </h3>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <button class="btn btn-outline btn-sm btn-terminal-replay" onclick="triggerSimulator()" title="Bắn thử lại giao dịch">
+                <i class="fa-solid fa-rotate-right"></i> Bắn Lại
+              </button>
+              <button class="btn btn-outline btn-sm btn-terminal-copy" onclick="copySimulatorOutput()" title="Sao chép JSON">
+                <i class="fa-regular fa-copy"></i> Copy JSON
+              </button>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="sim-tabs-row">
+            <button class="sim-tab-btn" id="sim-tab-v1" onclick="switchSimTab('v1')"><i class="fa-solid fa-clock-rotate-left"></i> API V1 (Cron GET)</button>
+            <button class="sim-tab-btn" id="sim-tab-v2" onclick="switchSimTab('v2')"><i class="fa-solid fa-network-wired"></i> API V2 (RESTful)</button>
+            <button class="sim-tab-btn active" id="sim-tab-v3" onclick="switchSimTab('v3')"><i class="fa-solid fa-bolt"></i> API V3 (Webhook Push)</button>
+          </div>
+
+          <!-- Pipeline Progress Bar -->
+          <div class="packet-step-bar" id="packet-step-bar">
+            <div class="packet-step active" id="sim-step-1" title="Khởi tạo & AI OCR">
+              <span class="step-line-fill"></span>
+              <span class="step-label-text">1. Kết Nối &amp; AI OCR</span>
+            </div>
+            <div class="packet-step" id="sim-step-2" title="Ký HMAC-SHA256">
+              <span class="step-line-fill"></span>
+              <span class="step-label-text">2. Ký HMAC-SHA256</span>
+            </div>
+            <div class="packet-step" id="sim-step-3" title="Phản hồi HTTP 200 OK">
+              <span class="step-line-fill"></span>
+              <span class="step-label-text">3. Webhook 200 OK</span>
+            </div>
+          </div>
+          <div id="sim-step-text" style="font-size: 12px; color: #10b981; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-circle-check"></i> <span id="sim-step-text-inner">Cổng API sẵn sàng - Kết nối trực tiếp lõi Internet Banking</span>
+          </div>
+
+          <!-- Magical Running Color Aurora Terminal Frame -->
+          <div class="sim-terminal-wrapper" id="sim-terminal-wrapper">
+            <!-- Continuous Ambient Aurora Glow Behind Terminal -->
+            <div class="sim-terminal-aurora-glow" aria-hidden="true"></div>
+            
+            <div class="sim-terminal-screen" id="sim-terminal-screen">
+              <!-- CRT Scanline & Laser Sweep Beam Overlays -->
+              <div class="sim-terminal-scanlines" aria-hidden="true"></div>
+              <div class="sim-terminal-laser-beam" id="sim-terminal-laser" aria-hidden="true"></div>
+              <div class="sim-terminal-corner-sheen" aria-hidden="true"></div>
+
+              <!-- Sleek Mac-Style Header with Holographic Shimmer -->
+              <div class="sim-terminal-top">
+                <div class="terminal-dots">
+                  <span class="dot dot-close" title="Close"><i class="fa-solid fa-xmark"></i></span>
+                  <span class="dot dot-min" title="Minimize"><i class="fa-solid fa-minus"></i></span>
+                  <span class="dot dot-max" title="Expand"><i class="fa-solid fa-expand"></i></span>
+                </div>
+                
+                <div class="terminal-title">
+                  <span class="terminal-method-badge" id="sim-terminal-method">POST</span>
+                  <span class="terminal-route-text" id="sim-terminal-route">/api/callback/bank</span>
+                  <span class="terminal-protocol-text">HTTP/1.1</span>
+                </div>
+
+                <div class="terminal-actions">
+                  <span class="terminal-live-badge" id="sim-terminal-status-badge">
+                    <span class="beacon-pulse"></span>
+                    <span class="beacon-dot"></span>
+                    <span id="sim-terminal-status-text">200 OK</span>
+                  </span>
+                  <button class="terminal-copy-icon-btn" onclick="copySimulatorOutput()" title="Sao chép gói tin JSON">
+                    <i class="fa-regular fa-copy"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Terminal Code Body with Gutter Line Numbers -->
+              <div class="sim-terminal-body-wrap">
+                <div class="sim-terminal-lines" id="sim-terminal-lines" aria-hidden="true">
+                  <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span>
+                </div>
+                <div class="sim-terminal-body" id="terminal-body">
+// Bấm nút "Bắn Thử Giao Dịch Ngay" bên trái 
+// để xem gói tin Webhook JSON thực tế được tạo và đẩy đi trong 0.3s!
+{
+  "status": "ready",
+  "gateway": "OcaPay Auto Gateway v2.5",
+  "message": "10 Cổng API sẵn sàng tiếp nhận yêu cầu."
+}
+                </div>
+              </div>
+
+              <!-- Terminal High-Tech Status Footer -->
+              <div class="sim-terminal-footer">
+                <div class="terminal-footer-left">
+                  <span class="terminal-chip chip-tls"><i class="fa-solid fa-shield-halved"></i> TLS 1.3 / HMAC-256</span>
+                  <span class="terminal-chip chip-latency" id="sim-terminal-latency"><i class="fa-solid fa-bolt"></i> 0.28s</span>
+                </div>
+                <div class="terminal-footer-right">
+                  <span class="terminal-chip chip-bank" id="sim-terminal-bank-tag"><i class="fa-solid fa-building-columns"></i> TPBANK</span>
+                  <span class="terminal-chip chip-lang">JSON</span>
+                  <span class="terminal-cursor-indicator" title="Engine Active"><span class="cursor-glow"></span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Pricing Plans Section -->
+  <section class="section-padding" id="bang-gia">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag-pill"><i class="fa-solid fa-tag"></i> BẢNG GIÁ DỊCH VỤ</span>
+        <h2 class="section-main-title">Các Gói Cước Cho Thuê Linh Hoạt</h2>
+        <p class="section-sub-title">
+          Thuê theo tháng hoặc đăng ký dài hạn để nhận mức chiết khấu tiết kiệm lên tới 30%. Hỗ trợ kích hoạt tức thì.
+        </p>
+      </div>
+
+      <!-- Billing Cycle Toggle -->
+      <div class="pricing-cycle-toggle">
+        <button class="toggle-btn active" data-cycle="1m" onclick="setPricingCycle('1m')">
+          Thuê 1 Tháng
+        </button>
+        <button class="toggle-btn" data-cycle="3m" onclick="setPricingCycle('3m')">
+          Thuê 3 Tháng <span class="discount-chip">-15%</span>
+        </button>
+        <button class="toggle-btn" data-cycle="1y" onclick="setPricingCycle('1y')">
+          Thuê 1 Năm <span class="discount-chip">-30%</span>
+        </button>
+      </div>
+
+      <!-- Pricing Cards Grid -->
+      <div class="pricing-grid">
+        
+        <!-- Starter Plan -->
+        <div class="pricing-card" id="plan-card-starter">
+          <div>
+            <h3 class="plan-name">Gói Starter</h3>
+            <p class="plan-desc">Phù hợp cá nhân, shop nhỏ, nạp thẻ khởi nghiệp.</p>
+
+            <div class="plan-price-wrap">
+              <div class="plan-original-price">350.000 đ</div>
+              <div>
+                <span class="plan-price">250.000 đ</span>
+                <span class="plan-period">/ tháng</span>
+              </div>
+            </div>
+
+            <ul class="plan-features-list">
+              <li><i class="fa-solid fa-check"></i> <strong>2 Tài khoản</strong> ngân hàng kết nối</li>
+              <li><i class="fa-solid fa-check"></i> Tần suất quét: <strong>10s / lần</strong></li>
+              <li><i class="fa-solid fa-check"></i> Giới hạn <strong>15.000 giao dịch</strong> / tháng</li>
+              <li><i class="fa-solid fa-check"></i> AI OCR tự động giải Captcha</li>
+              <li><i class="fa-solid fa-check"></i> Webhook Callback chuẩn JSON</li>
+              <li><i class="fa-solid fa-check"></i> Hỗ trợ kỹ thuật qua Telegram</li>
+            </ul>
+          </div>
+
+          <button class="btn btn-outline btn-lg" style="width: 100%; margin-top: 14px;" onclick="openOrderModal('starter')">
+            <i class="fa-solid fa-cart-shopping"></i> Thuê Gói Starter
+          </button>
+        </div>
+
+        <!-- Pro Business Plan (Featured) -->
+        <div class="pricing-card featured" id="plan-card-pro">
+          <span class="popular-badge"><i class="fa-solid fa-fire"></i> BÁN CHẠY NHẤT</span>
+
+          <div>
+            <h3 class="plan-name" style="color: var(--primary);">Gói Pro Business</h3>
+            <p class="plan-desc">Dành cho sàn TMĐT, cổng game, web dịch vụ cần tốc độ cao.</p>
+
+            <div class="plan-price-wrap">
+              <div class="plan-original-price">750.000 đ</div>
+              <div>
+                <span class="plan-price">550.000 đ</span>
+                <span class="plan-period">/ tháng</span>
+              </div>
+            </div>
+
+            <ul class="plan-features-list">
+              <li><i class="fa-solid fa-check"></i> <strong>6 Tài khoản</strong> ngân hàng tùy chọn (TPBank, MB, VCB...)</li>
+              <li><i class="fa-solid fa-check"></i> Tần suất siêu tốc: <strong>3s - 5s / lần</strong></li>
+              <li><i class="fa-solid fa-check"></i> <strong>KHÔNG GIỚI HẠN</strong> số lượng giao dịch</li>
+              <li><i class="fa-solid fa-check"></i> AI OCR Captcha không giới hạn lượt giải</li>
+              <li><i class="fa-solid fa-check"></i> Webhook Realtime + Bot Telegram riêng</li>
+              <li><i class="fa-solid fa-check"></i> Sinh mã VietQR thanh toán động theo đơn hàng</li>
+              <li><i class="fa-solid fa-check"></i> Hỗ trợ cài đặt Ultraview 1-1 miễn phí</li>
+            </ul>
+          </div>
+
+          <button class="btn btn-primary btn-lg" style="width: 100%; margin-top: 14px;" onclick="openOrderModal('pro')">
+            <i class="fa-solid fa-bolt"></i> 🔥 Thuê Gói Pro Ngay
+          </button>
+        </div>
+
+        <!-- Enterprise Plan -->
+        <div class="pricing-card" id="plan-card-enterprise">
+          <div>
+            <h3 class="plan-name">Gói Enterprise</h3>
+            <p class="plan-desc">Hạ tầng riêng độc quyền cho doanh nghiệp, cổng thanh toán lớn.</p>
+
+            <div class="plan-price-wrap">
+              <div class="plan-original-price">1.800.000 đ</div>
+              <div>
+                <span class="plan-price">1.250.000 đ</span>
+                <span class="plan-period">/ tháng</span>
+              </div>
+            </div>
+
+            <ul class="plan-features-list">
+              <li><i class="fa-solid fa-check"></i> <strong>Không giới hạn</strong> số lượng tài khoản ngân hàng</li>
+              <li><i class="fa-solid fa-check"></i> Tần suất quét: <strong>Realtime Push (1s - 2s)</strong></li>
+              <li><i class="fa-solid fa-check"></i> <strong>Dedicated VPS riêng</strong> + Proxy IP sạch độc quyền</li>
+              <li><i class="fa-solid fa-check"></i> Cam kết SLA Uptime <strong>99.99%</strong></li>
+              <li><i class="fa-solid fa-check"></i> Kỹ sư hỗ trợ trực riêng 24/7/365</li>
+              <li><i class="fa-solid fa-check"></i> Tùy biến API theo yêu cầu doanh nghiệp</li>
+            </ul>
+          </div>
+
+          <button class="btn btn-outline btn-lg" style="width: 100%; margin-top: 14px;" onclick="openOrderModal('enterprise')">
+            <i class="fa-solid fa-building"></i> Thuê Gói Enterprise
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Cost Calculator Section -->
+  <section class="section-padding" id="du-toan" style="background: #f1f5f9;">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag-pill"><i class="fa-solid fa-coins"></i> BÀI TOÁN KINH TẾ</span>
+        <h2 class="section-main-title">Ước Tính Chi Phí & Lợi Nhuận Tiết Kiệm</h2>
+        <p class="section-sub-title">
+          Kéo thanh trượt để tính toán số tiền bạn tiết kiệm được mỗi tháng so với thuê nhân viên đối soát thủ công.
+        </p>
+      </div>
+
+      <div class="calc-box-card">
+        <div>
+          <h3 style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 20px;">
+            <i class="fa-solid fa-sliders text-primary"></i> Cấu Hình Nhu Cầu Của Bạn
+          </h3>
+
+          <div class="calc-slider-group">
+            <div class="calc-slider-header">
+              <span>Số lượng cổng ngân hàng cần kết nối:</span>
+              <span class="calc-slider-val" id="calc-banks-val">6 Cổng</span>
+            </div>
+            <input type="range" id="calc-banks" class="range-slider" min="1" max="15" value="6" oninput="updateCalculator()">
+          </div>
+
+          <div class="calc-slider-group">
+            <div class="calc-slider-header">
+              <span>Thời hạn muốn thuê dịch vụ:</span>
+              <span class="calc-slider-val" id="calc-months-val">3 Tháng</span>
+            </div>
+            <input type="range" id="calc-months" class="range-slider" min="1" max="12" value="3" oninput="updateCalculator()">
+          </div>
+
+          <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6; background: #ffffff; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <i class="fa-solid fa-circle-info text-primary"></i> 
+            Tự động áp dụng chiết khấu <strong>15%</strong> cho thời hạn từ 3 tháng và <strong>30%</strong> cho thời hạn 12 tháng.
+          </div>
+        </div>
+
+        <div class="calc-result-panel">
+          <div>
+            <div style="font-size: 13px; font-weight: 700; color: #166534; text-transform: uppercase;">
+              Tổng Chi Phí Thuê OcaPay
+            </div>
+            <div class="calc-total-amount" id="calc-total">1.400.000 đ</div>
+            <div style="font-size: 13px; color: #475569;" id="calc-daily">Chỉ khoảng ~15.500 đ / ngày</div>
+
+            <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid #bbf7d0;">
+              <div style="font-size: 12.5px; color: #15803d; font-weight: 600;">
+                <i class="fa-solid fa-arrow-trend-up"></i> Tiết kiệm so với thuê nhân viên đối soát (~7tr/tháng):
+              </div>
+              <div style="font-size: 24px; font-weight: 900; color: #15803d; margin: 4px 0;" id="calc-savings-amount">
+                19.600.000 đ
+              </div>
+              <div style="font-size: 11.5px; color: #64748b;">
+                (Chi phí nhân sự truyền thống: <span id="calc-manual-cost">21.000.000 đ</span>)
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" style="width: 100%; margin-top: 20px;" onclick="openOrderModal('pro')">
+            <i class="fa-solid fa-check"></i> Đặt Thuê Ngay Cấu Hình Này
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Comparison Table -->
+  <section class="section-padding" id="so-sanh">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag-pill"><i class="fa-solid fa-scale-balanced"></i> PHÂN TÍCH SO SÁNH</span>
+        <h2 class="section-main-title">Tự Phát Triển Hay Thuê Cổng OcaPay?</h2>
+        <p class="section-sub-title">
+          Xem sự khác biệt rõ rệt giữa việc tự bỏ chi phí duy trì hệ thống và thuê hạ tầng đã tối ưu sẵn.
+        </p>
+      </div>
+
+      <div class="comparison-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th style="width: 34%;">Tiêu Chí Đánh Giá</th>
+              <th style="width: 33%;">Tự Lập Trình & Tự Chạy Bot</th>
+              <th style="width: 33%;" class="brand-col"><i class="fa-solid fa-crown text-primary"></i> Thuê Cổng OcaPay Gateway</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Chi phí khởi tạo & VPS</strong></td>
+              <td>Tốn 5 - 15 triệu tiền thuê dev + VPS riêng mỗi tháng</td>
+              <td class="brand-col"><span style="color: #15803d; font-weight: 700;"><i class="fa-solid fa-check"></i> Chỉ từ 250k/tháng, 0đ setup</span></td>
+            </tr>
+            <tr>
+              <td><strong>Bảo trì khi ngân hàng đổi giao diện</strong></td>
+              <td>Phải thuê dev sửa lại API, mất vài ngày gián đoạn nạp tiền</td>
+              <td class="brand-col"><span style="color: #15803d; font-weight: 700;"><i class="fa-solid fa-check"></i> Đội ngũ OcaPay fix tự động trong 30 phút</span></td>
+            </tr>
+            <tr>
+              <td><strong>Chi phí giải Captcha</strong></td>
+              <td>Tốn thêm 100k - 500k/tháng mua key captcha bên thứ ba</td>
+              <td class="brand-col"><span style="color: #15803d; font-weight: 700;"><i class="fa-solid fa-check"></i> Miễn phí 100% với AI OCR tích hợp</span></td>
+            </tr>
+            <tr>
+              <td><strong>Rủi ro đứt phiên (Logout/Session Die)</strong></td>
+              <td>Thường xuyên bị văng phiên, phải ngồi canh đăng nhập tay</td>
+              <td class="brand-col"><span style="color: #15803d; font-weight: 700;"><i class="fa-solid fa-check"></i> Tự động refresh token & auto login 24/7</span></td>
+            </tr>
+            <tr>
+              <td><strong>Thời gian đưa vào hoạt động</strong></td>
+              <td>Mất 2 - 4 tuần lập trình thử nghiệm</td>
+              <td class="brand-col"><span style="color: #15803d; font-weight: 700;"><i class="fa-solid fa-check"></i> Kích hoạt dùng ngay trong 5 phút</span></td>
+            </tr>
+            <tr>
+              <td><strong>Hỗ trợ kỹ thuật</strong></td>
+              <td>Tự chịu trách nhiệm khi gặp lỗi phát sinh</td>
+              <td class="brand-col"><span style="color: #15803d; font-weight: 700;"><i class="fa-solid fa-check"></i> Kỹ thuật viên hỗ trợ Ultraview 1-1 nhiệt tình</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. FAQ Section -->
+  <section class="section-padding" id="faq" style="background: #f1f5f9;">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag-pill"><i class="fa-solid fa-circle-question"></i> GIẢI ĐÁP THẮC MẮC</span>
+        <h2 class="section-main-title">Câu Hỏi Thường Gặp Khi Thuê Cổng</h2>
+        <p class="section-sub-title">
+          Một số thông tin quan trọng giúp bạn an tâm tuyệt đối khi sử dụng dịch vụ của chúng tôi.
+        </p>
+      </div>
+
+      <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px;">
+        <div class="card-box" style="margin-bottom: 0;">
+          <h4 style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+            1. Dịch vụ có an toàn cho tài khoản ngân hàng của tôi không?
+          </h4>
+          <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6;">
+            Tuyệt đối an toàn. Hệ thống chỉ sử dụng quyền đọc lịch sử giao dịch và biến động số dư (Read-Only). Mật khẩu được mã hóa chuẩn quân sự RSA-2048bit. Để chuyển tiền ra ngoài ngân hàng luôn bắt buộc phải có mã OTP hoặc Smart OTP trên điện thoại riêng của bạn, do đó không ai có thể can thiệp rút tiền của bạn.
+          </p>
+        </div>
+
+        <div class="card-box" style="margin-bottom: 0;">
+          <h4 style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+            2. Cổng TPBank eBank hoạt động ra sao khi có xác thực bảo mật 2FA?
+          </h4>
+          <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6;">
+            7Bank đã tích hợp trọn vẹn chuẩn API TPBank eBank v4 mới nhất. Khi đăng nhập, hệ thống tự động gửi thông báo xác thực 1 chạm tới App TPBank trên điện thoại của bạn. Bạn chỉ cần mở ứng dụng bấm [Xác Nhận] một lần duy nhất là hệ thống tự động lưu phiên làm việc, tự động quét biến động số dư siêu tốc (0.3s) và đồng bộ Webhook 24/7.
+          </p>
+        </div>
+
+        <div class="card-box" style="margin-bottom: 0;">
+          <h4 style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+            3. Tôi không rành về lập trình thì có được hỗ trợ cài đặt không?
+          </h4>
+          <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6;">
+            Có. Đội ngũ kỹ thuật viên OcaPay sẽ hỗ trợ tích hợp trực tiếp 1-1 qua Ultraview / Teamviewer hoặc Telegram hoàn toàn miễn phí cho tất cả các gói thuê, từ website PHP, WordPress/WooCommerce cho đến Node.js, Laravel.
+          </p>
+        </div>
+
+        <div class="card-box" style="margin-bottom: 0;">
+          <h4 style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+            4. Hình thức thanh toán và kích hoạt gói như thế nào?
+          </h4>
+          <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6;">
+            Hệ thống hỗ trợ thanh toán tự động qua mã VietQR Napas 247 (chấp nhận TPBank và MBBank). Ngay khi giao dịch thành công, gói dịch vụ của bạn sẽ được kích hoạt tức thì trong vòng 60 giây.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modern Luxury FinTech Enterprise Footer (OcaPay Quantum 24/7) - Full Width & Square -->
+  <footer class="portal-footer-enterprise">
+      <!-- 1. Top FinTech Hero / Interactive Help Strip -->
+      <div class="pfe-top-banner">
+        <div class="pfe-banner-info">
+          <div class="pfe-pulse-badge">
+            <span class="status-dot-pulse"></span>
+            <span>Hệ thống Gateway hoạt động <strong>99.99% SLA</strong></span>
+          </div>
+          <h3 class="pfe-banner-title">Hạ Tầng Cho Thuê Cổng API &amp; Bot Auto Bank 24/7</h3>
+          <p class="pfe-banner-sub">Hệ thống sẵn sàng kích hoạt ngay sau khi nạp tiền. Đội ngũ kỹ thuật viên OcaPay trực tuyến 24/7 hỗ trợ tích hợp Webhook siêu tốc.</p>
+        </div>
+        <div class="pfe-banner-actions">
+          <button class="pfe-btn pfe-btn-chat" onclick="toggleLiveChat()">
+            <i class="fa-solid fa-headset"></i>
+            <span>Live Chat Hỗ Trợ 24/7</span>
+          </button>
+          <a href="/" class="pfe-btn pfe-btn-outline">
+            <i class="fa-solid fa-gauge-high"></i>
+            <span>Vào Bảng Điều Khiển</span>
+          </a>
+          <a href="https://t.me/" class="pfe-btn pfe-btn-tele" target="_blank">
+            <i class="fa-brands fa-telegram"></i>
+            <span>Telegram Kỹ Thuật</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. Main 4-Column Directory -->
+      <div class="pfe-grid">
+        <!-- Col 1: Brand & Security -->
+        <div class="pfe-col pfe-col-brand">
+          <div class="pfe-brand">
+            <img src="/images/logo.png" alt="OcaPay Logo" class="pfe-logo">
+            <div class="pfe-brand-text">
+              <span class="pfe-brand-name">Oca<span>Pay</span></span>
+              <span class="pfe-brand-tag">Quantum Edition v3.5</span>
+            </div>
+          </div>
+          <p class="pfe-desc">
+            Nền tảng cung cấp giải pháp cho thuê cổng API thanh toán ngân hàng tự động hóa 100%, tích hợp Webhook siêu tốc cho website thương mại điện tử, dịch vụ nạp rút và SaaS tại Việt Nam.
+          </p>
+          <div class="pfe-badges-grid">
+            <div class="pfe-badge-item">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>RSA-2048bit</span>
+            </div>
+            <div class="pfe-badge-item">
+              <i class="fa-solid fa-lock"></i>
+              <span>SSL 256-bit</span>
+            </div>
+            <div class="pfe-badge-item">
+              <i class="fa-solid fa-robot"></i>
+              <span>AI Anti-Captcha</span>
+            </div>
+            <div class="pfe-badge-item">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>99.99% Uptime</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 2: Supported Gateways -->
+        <div class="pfe-col">
+          <h4 class="pfe-col-title">Cổng Ngân Hàng Tự Động</h4>
+          <ul class="pfe-links">
+            <li><a href="#gateways"><i class="fa-solid fa-bolt" style="color: #c084fc;"></i> Cổng Timo Bank (0.25s)</a></li>
+            <li><a href="#gateways"><i class="fa-solid fa-building-columns" style="color: #a855f7;"></i> Cổng TPBank eBank (2FA)</a></li>
+            <li><a href="#gateways"><i class="fa-solid fa-building-columns" style="color: #3b82f6;"></i> Cổng MBBank Doanh nghiệp</a></li>
+            <li><a href="#gateways"><i class="fa-solid fa-building-columns" style="color: #10b981;"></i> Cổng Vietcombank Digibank</a></li>
+            <li><a href="#gateways"><i class="fa-solid fa-building-columns" style="color: #06b6d4;"></i> Cổng ACB &amp; BIDV iBank</a></li>
+            <li><a href="#gateways"><i class="fa-solid fa-wallet" style="color: #ec4899;"></i> Cổng Ví MoMo &amp; ZaloPay</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Pricing & Features -->
+        <div class="pfe-col">
+          <h4 class="pfe-col-title">Gói Dịch Vụ &amp; API</h4>
+          <ul class="pfe-links">
+            <li><a href="#pricing"><i class="fa-solid fa-tag"></i> Gói Starter (250k/tháng)</a></li>
+            <li><a href="#pricing"><i class="fa-solid fa-crown" style="color: #f59e0b;"></i> Gói Pro Business (550k/tháng)</a></li>
+            <li><a href="#pricing"><i class="fa-solid fa-building-shield"></i> Gói Enterprise Doanh Nghiệp</a></li>
+            <li><a href="#webhook"><i class="fa-solid fa-terminal"></i> Trình Giả Lập Webhook</a></li>
+            <li><a href="#compare"><i class="fa-solid fa-scale-balanced"></i> Bảng So Sánh Tính Năng</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Support & Contact -->
+        <div class="pfe-col">
+          <h4 class="pfe-col-title">Hỗ Trợ Kỹ Thuật 24/7</h4>
+          <ul class="pfe-links">
+            <li><a href="javascript:void(0)" onclick="toggleLiveChat()"><i class="fa-solid fa-comments" style="color: #00a65a;"></i> Trực Live Chat (Phản hồi &lt; 1p)</a></li>
+            <li><a href="https://t.me/" target="_blank"><i class="fa-brands fa-telegram" style="color: #0088cc;"></i> Kênh Telegram CSKH 1-1</a></li>
+            <li><a href="javascript:void(0)" onclick="toggleLiveChat()"><i class="fa-solid fa-desktop" style="color: #f59e0b;"></i> Hỗ Trợ Kỹ Thuật UltraViewer</a></li>
+            <li><a href="#faq"><i class="fa-solid fa-circle-question"></i> Câu Hỏi Thường Gặp (FAQ)</a></li>
+            <li><a href="/livechat-admin.html" target="_blank"><i class="fa-solid fa-headset" style="color: #10b981;"></i> Bàn Trực CSKH (Operator)</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 3. Connected Bank Rails Ribbon -->
+      <div class="pfe-rails-ribbon">
+        <div class="pfe-rails-label">
+          <i class="fa-solid fa-network-wired"></i>
+          <span>Mạng lưới kết nối trực tiếp:</span>
+        </div>
+        <div class="pfe-bank-tags">
+          <span class="pfe-bank-tag tag-tpbank"><i class="fa-solid fa-building-columns"></i> TPBank</span>
+          <span class="pfe-bank-tag tag-mbbank"><i class="fa-solid fa-star"></i> MBBank</span>
+          <span class="pfe-bank-tag tag-vcb"><i class="fa-solid fa-leaf"></i> Vietcombank</span>
+          <span class="pfe-bank-tag tag-timo"><i class="fa-solid fa-bolt"></i> Timo Digital</span>
+          <span class="pfe-bank-tag tag-acb"><i class="fa-solid fa-shield"></i> ACB</span>
+          <span class="pfe-bank-tag tag-bidv"><i class="fa-solid fa-landmark"></i> BIDV</span>
+          <span class="pfe-bank-tag tag-techcom"><i class="fa-solid fa-gem"></i> Techcombank</span>
+          <span class="pfe-bank-tag tag-vietin"><i class="fa-solid fa-coins"></i> VietinBank</span>
+          <span class="pfe-bank-tag tag-momo"><i class="fa-solid fa-wallet"></i> MoMo</span>
+          <span class="pfe-bank-tag tag-vietqr"><i class="fa-solid fa-qrcode"></i> Napas 247 VietQR</span>
+        </div>
+      </div>
+
+      <!-- 4. Bottom Legal, Status & Copyright Bar -->
+      <div class="pfe-bottom-bar">
+        <div class="pfe-bottom-left">
+          <span>&copy; 2026 <strong>OcaPay Gateway Inc</strong>. Bảo lưu mọi quyền. Nền tảng tự động hóa cổng thanh toán ngân hàng số 1 Việt Nam.</span>
+        </div>
+        <div class="pfe-bottom-center">
+          <span class="pfe-status-indicator">
+            <span class="status-dot-pulse"></span>
+            <span>Gateway Online • Webhook ~0.25s • SLA 99.99%</span>
+          </span>
+        </div>
+        <div class="pfe-bottom-right">
+          <a href="#faq">Điều Khoản Dịch Vụ</a>
+          <span class="pfe-dot">&bull;</span>
+          <a href="#faq">Chính Sách Bảo Mật</a>
+          <span class="pfe-dot">&bull;</span>
+          <a href="#pricing">Bảng Giá API</a>
+        </div>
+      </div>
+    </footer>
+
+  <!-- 10. Order Modal with Automatic VietQR Payment -->
+  <div id="order-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header-bar">
+        <div class="modal-title-wrap">
+          <h3 id="modal-plan-title">Gói Pro Business (Thuê 1 Tháng)</h3>
+          <p style="font-size: 12px; color: var(--text-muted);" id="modal-plan-desc">6 Ngân hàng • 3s / lần quét</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeOrderModal()">&times;</button>
+      </div>
+
+      <div class="modal-body-content">
+        <!-- Customer Info Form -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+          <div>
+            <label class="form-label-custom">Họ và tên của bạn:</label>
+            <input type="text" id="order-fullname" class="form-input-sim" placeholder="Nguyễn Văn A" required>
+          </div>
+          <div>
+            <label class="form-label-custom">Số điện thoại / Zalo:</label>
+            <input type="text" id="order-phone" class="form-input-sim" placeholder="0987654321" required>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label class="form-label-custom">Telegram ID hoặc Email nhận thông tin:</label>
+          <input type="text" id="order-telegram" class="form-input-sim" placeholder="@username hoặc email@gmail.com">
+        </div>
+
+        <!-- QR Payment Section -->
+        <div class="qr-payment-box">
+          <div style="font-size: 14px; font-weight: 700; color: #0f172a;">
+            <i class="fa-solid fa-qrcode text-primary"></i> Quét Mã VietQR Chuyển Khoản Tự Động 24/7
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+            Hệ thống Napas 247 tự động nhận diện và kích hoạt cổng trong 60 giây
+          </div>
+
+          <!-- Bank Selector Tabs (TPBank & MBBank) -->
+          <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 12px;">
+            <button type="button" class="btn btn-sm btn-primary" id="btn-pay-tpbank" onclick="selectPayBank('tpbank')">
+              <img src="/images/tpbank.svg" style="width: 14px; height: 14px; border-radius: 2px; vertical-align: middle;"> TPBank
+            </button>
+            <button type="button" class="btn btn-sm btn-outline" id="btn-pay-mbbank" onclick="selectPayBank('mbbank')">
+              <img src="/images/mbbank.png" style="width: 14px; height: 14px; border-radius: 2px; vertical-align: middle;"> MBBank
+            </button>
+          </div>
+
+          <!-- QR Image -->
+          <div class="qr-img-box">
+            <img id="modal-qr-image" src="" alt="Mã VietQR Thanh Toán">
+          </div>
+
+          <div style="font-size: 13px; line-height: 1.6; margin-top: 10px;">
+            <p>
+              Ngân hàng: <strong id="pay-bank-name">TPBank (Tiên Phong)</strong> | STK: <strong id="pay-bank-stk">10005925592</strong>
+              <span class="copy-badge-btn" onclick="copyText('pay-bank-stk', 'STK')"><i class="fa-regular fa-copy"></i> Copy STK</span>
+            </p>
+            <p>
+              Chủ tài khoản: <strong id="pay-bank-owner">LE MANH DUONG</strong>
+            </p>
+            <p>
+              Số tiền: <b id="modal-transfer-amount" style="color: var(--primary); font-size: 16px;">550.000 đ</b>
+            </p>
+            <p>
+              Nội dung chuyển khoản chính xác: 
+              <b id="modal-transfer-content" style="color: #b91c1c; font-family: monospace; font-size: 14px;">THUEOCAPAY 7B123456</b>
+              <span class="copy-badge-btn" onclick="copyText('modal-transfer-content', 'Nội dung CK')"><i class="fa-regular fa-copy"></i> Copy</span>
+            </p>
+          </div>
+
+          <button id="btn-confirm-payment" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 16px;" onclick="confirmOrderPayment()">
+            <i class="fa-solid fa-check-double"></i> Tôi Đã Chuyển Khoản - Kích Hoạt Ngay
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Floating Action Dock & Live Chat Launcher (Góc Phải OcaPay) -->
+  <div class="floating-dock-container">
+    <!-- Quick Action Tool Buttons -->
+    <div class="floating-tools-col">
+      <button class="tool-circle-btn" onclick="toggleRentalEye()" title="Ẩn/Hiện thông tin">
+        <i class="fa-regular fa-eye"></i>
+      </button>
+      <a href="https://zalo.me/" target="_blank" class="tool-circle-btn tool-zalo" title="Hỗ trợ Zalo CSKH">
+        <i class="fa-solid fa-comment-dots"></i>
+      </a>
+      <a href="https://t.me/" target="_blank" class="tool-circle-btn tool-telegram" title="Hỗ trợ Telegram CSKH">
+        <i class="fa-brands fa-telegram"></i>
+      </a>
+    </div>
+
+    <!-- Live Chat Capsule Launcher -->
+    <div class="floating-chat-launcher" id="floating-chat-launcher" onclick="toggleLiveChat()" title="Mở Live Chat hỗ trợ trực tuyến 24/7">
+      <div class="chat-launcher-badge" id="chat-unread-badge">1</div>
+      <div class="chat-launcher-avatar">
+        <i class="fa-solid fa-comments"></i>
+        <span class="chat-online-dot"></span>
+      </div>
+      <div class="chat-launcher-text">
+        <div class="chat-launcher-title">Live Chat 24/7</div>
+        <div class="chat-launcher-sub">Kỹ thuật trực tuyến</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Live Chat Window (OcaPay Realtime Desk) -->
+  <div class="ocapay-livechat-box" id="ocapay-livechat-box">
+    <!-- Header -->
+    <div class="livechat-header">
+      <div class="livechat-header-info">
+        <div class="livechat-agent-avatar">
+          <img src="/images/logo.png" alt="OcaPay Support">
+          <span class="livechat-agent-dot"></span>
+        </div>
+        <div>
+          <div class="livechat-agent-name">OcaPay Tech Support</div>
+          <div class="livechat-agent-status"><span class="pulse-green"></span> Trực tuyến 24/7 • Phản hồi tức thì</div>
+        </div>
+      </div>
+      <div class="livechat-header-actions">
+        <a href="https://t.me/" target="_blank" class="livechat-action-btn" title="Chat Telegram CSKH 1-1"><i class="fa-brands fa-telegram"></i></a>
+        <button class="livechat-action-btn" onclick="toggleLiveChat()" title="Thu nhỏ / Đóng"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+
+    <!-- Live Chat Messages Stream -->
+    <div class="livechat-body" id="livechat-body">
+      <!-- Dynamic Messages Loaded Here -->
+    </div>
+
+    <!-- Quick Action Suggestions for Rental -->
+    <div class="livechat-quick-chips" id="livechat-quick-chips">
+      <button class="quick-chip-btn" onclick="sendQuickPrompt('Tôi muốn tư vấn gói thuê API tối ưu')">⚡ Tư vấn gói cước</button>
+      <button class="quick-chip-btn" onclick="sendQuickPrompt('Hướng dẫn tích hợp Webhook 0.25s')">🚀 Tích hợp Webhook</button>
+      <button class="quick-chip-btn" onclick="sendQuickPrompt('Cổng TPBank eBank và MBBank')">🏦 TPBank &amp; MBBank</button>
+      <button class="quick-chip-btn" onclick="sendQuickPrompt('Tôi muốn hỗ trợ Ultraview 1-1')">👨‍💻 Hỗ trợ Ultraview</button>
+    </div>
+
+    <!-- Input Bar -->
+    <form class="livechat-input-bar" id="livechat-form" onsubmit="handleSendLiveChatMessage(event)">
+      <input type="text" id="livechat-input" class="livechat-input-field" placeholder="Nhập tin nhắn cần tư vấn thuê API..." autocomplete="off">
+      <button type="submit" class="livechat-send-btn" id="livechat-send-btn" title="Gửi tin nhắn">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Toast Alert -->
+  <div class="portal-toast" id="rental-toast"></div>
+
+  <!-- Rental Script -->
+  <script src="/js/rental.js"></script>
+
+</body>
+</html>

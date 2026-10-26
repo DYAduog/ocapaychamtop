@@ -1,0 +1,24 @@
+<div class="card email-detail-header">
+    <p><strong>From:</strong> <%- email.from.text %></p>
+    <p><strong>To:</strong> <%- email.to.text %></p>
+    <p><strong>Date:</strong> <%= new Date(email.date).toLocaleString() %></p>
+    <p><strong>Subject:</strong> <%= email.subject %></p>
+</div>
+
+<div class="card email-body">
+    <%- email.html || email.textAsHtml %>
+</div>
+
+<style>
+.email-detail-header p {
+    margin: 4px 0;
+}
+.email-body {
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    padding: 20px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+</style>
