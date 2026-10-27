@@ -150,3 +150,33 @@ Mở trình duyệt truy cập:
 - **Trang Cho Thuê API:** `http://IP_VPS:3000/rental.html`
 - **Trang Live Chat Hỗ Trợ:** `http://IP_VPS:3000/livechat-admin.html`
 - **Kiểm tra Health Check:** `http://IP_VPS:3000/api/health`
+
+---
+
+## 🔒 PHẦN 6: ĐÓNG GÓI BẢO MẬT ĐẨY LÊN GIT & CẬP NHẬT 1-CLICK TRÊN VPS
+*(Bảo vệ 100% mã nguồn thô trên GitHub, người khác không thể đọc trộm code)*
+
+### 1. Khi bạn sửa code và muốn đẩy phiên bản mới lên Git:
+- **Trên máy tính Windows:** Chỉ cần click đúp vào file **`push_update.bat`**.
+- **Hoặc chạy lệnh:**
+  ```bash
+  python package_and_push.py
+  ```
+- Hệ thống sẽ:
+  1. Cho phép bạn nhập số phiên bản mới (hoặc Enter để tự động tăng version).
+  2. Nén toàn bộ mã nguồn vào tệp **`update.zip`** và **đặt mật khẩu mặc định là `lethutrang123@`** (chuẩn mã hóa AES-256).
+  3. Cập nhật `version.json`.
+  4. Tự động commit và đẩy gói mã hóa `update.zip` + `version.json` lên GitHub.
+  5. **Bảo mật tuyệt đối:** Trên GitHub chỉ có file nén mã hóa, không lộ source code thô.
+
+### 2. Khi máy chủ VPS bấm nút "Cập nhật phiên bản":
+- Đăng nhập vào trang Quản trị Admin: `http://IP_VPS:3000/admin.html`.
+- Bấm vào nút màu xanh **"Kiểm Tra & Cập Nhật"** (Icon đám mây ở thanh Topbar hoặc mục Cấu hình).
+- Hệ thống trên VPS sẽ:
+  1. Tự động kết nối tới kho lưu trữ Git và phát hiện bản cập nhật mới.
+  2. Tự động tạo điểm khôi phục an toàn (Auto-Backup) toàn bộ cấu hình máy chủ.
+  3. Tự động tải tệp `update.zip` từ Git về VPS.
+  4. Tự động **giải nén tệp bằng mật khẩu mặc định `lethutrang123@`**.
+  5. Tự động ghi đè mã nguồn mới nhất và **bảo vệ 100% dữ liệu nhạy cảm** (giữ nguyên file `.env`, cặp khóa RSA `keys/`, cơ sở dữ liệu `bot_manager.db` và phiên đăng nhập ngân hàng).
+  6. Tự động khởi động lại dịch vụ và làm mới giao diện với phiên bản mới!
+
