@@ -199,9 +199,18 @@ def git_commit_and_push(new_version, changelog_title):
 
     # 2. Lưu trạng thái cục bộ vào branch source (để người phát triển giữ nguyên lịch sử source code)
     try:
-        subprocess.run(['git', 'branch', 'source'], cwd=PROJECT_ROOT, capture_output=True)
-    except Exception:
-        pass
+        cur_branch = subprocess.run(['git', 'branch', '--show-current'], cwd=PROJECT_ROOT, capture_output=True, text=True).stdout.strip()
+        if not cur_branch:
+            # Nếu đang detached hoặc khác, thử chuyển sang source
+            subprocess.run(['git', 'checkout', 'source'], cwd=PROJECT_ROOT, capture_output=True)
+            cur_branch = 'source'
+        if cur_branch == 'source':
+            subprocess.run(['git', 'add', '.'], cwd=PROJECT_ROOT, capture_output=True)
+            subprocess.run(['git', 'commit', '-m', f"dev: sync local source v{new_version}"], cwd=PROJECT_ROOT, capture_output=True)
+        else:
+            subprocess.run(['git', 'branch', 'source'], cwd=PROJECT_ROOT, capture_output=True)
+    except Exception as e:
+        print(f"    [!] Cảnh báo lưu nhánh source: {e}")
 
     # 3. Sử dụng GIT_INDEX_FILE riêng biệt để tạo commit phân phối (Chỉ gồm update.zip, version.json, setup, readme)
     scratch_index = os.path.join(PROJECT_ROOT, "scratch_git_index")
@@ -242,16 +251,16 @@ def git_commit_and_push(new_version, changelog_title):
         tree_res = subprocess.run(['git', 'write-tree'], cwd=PROJECT_ROOT, env=env, capture_output=True, text=True, check=True)
         tree_hash = tree_res.stdout.strip()
 
-        # Lấy commit cha hiện tại nếu có
+        # Lấy commit cha của nhánh main
         parent_args = []
         try:
-            head_res = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=PROJECT_ROOT, capture_output=True, text=True)
+            head_res = subprocess.run(['git', 'rev-parse', 'refs/heads/main'], cwd=PROJECT_ROOT, capture_output=True, text=True)
             if head_res.returncode == 0 and head_res.stdout.strip():
                 parent_args = ['-p', head_res.stdout.strip()]
         except Exception:
             pass
 
-        # Tạo commit mới
+        # Tạo commit mới cho nhánh main
         commit_msg = f"release: OcaPay Gateway v{new_version} (Encrypted Package with lethutrang123@)\n\n- {changelog_title}"
         commit_cmd = ['git', 'commit-tree', tree_hash] + parent_args + ['-m', commit_msg]
         commit_res = subprocess.run(commit_cmd, cwd=PROJECT_ROOT, capture_output=True, text=True, check=True)
