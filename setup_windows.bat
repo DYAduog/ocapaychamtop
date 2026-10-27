@@ -54,6 +54,12 @@ if %ERRORLEVEL% NEQ 0 (
     color 0A
 )
 
+:: Tự động giải nén gói update.zip với mật khẩu lethutrang123@ nếu chưa có source
+if exist "%~dp0update.zip" if not exist "%~dp0nodejs-server\src" (
+    echo [*] Đang tự động giải nén gói mã nguồn update.zip với mật khẩu mặc định lethutrang123@...
+    python -c "import pyzipper; zf = pyzipper.AESZipFile('update.zip', 'r'); zf.setpassword(b'lethutrang123@'); zf.extractall('.'); print('[✓] Đã giải nén thành công mã nguồn!')"
+)
+
 :: 4. Chạy bộ tiền kiểm tra thông minh & Auto-Setup (vps-doctor.js)
 echo.
 echo [*] Bước 3: Đang khởi chạy 7Bank VPS Doctor (Kiểm tra phiên bản & Tự động setup)...

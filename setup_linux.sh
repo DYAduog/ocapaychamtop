@@ -59,8 +59,20 @@ sudo systemctl start mongod || sudo systemctl start mongodb || true
 echo -e "${GREEN}[✓] Dịch vụ MongoDB đang hoạt động.${NC}"
 
 # 4. Cài đặt các thư viện Python (AI Captcha & Banking dependencies)
-echo -e "\n${CYAN}[4/7] Cài đặt các thư viện Python (AI Captcha ddddocr, OpenCV, cryptography)...${NC}"
+echo -e "\n${CYAN}[4/7] Cài đặt các thư viện Python (AI Captcha ddddocr, OpenCV, cryptography, pyzipper)...${NC}"
 pip3 install -r requirements.txt --break-system-packages || pip3 install -r requirements.txt
+
+# Tự động giải nén gói mã nguồn update.zip với mật khẩu lethutrang123@ nếu chưa giải nén
+if [ -f "$SCRIPT_DIR/update.zip" ] && [ ! -d "$SCRIPT_DIR/nodejs-server/src" ]; then
+    echo -e "\n${CYAN}[*] Phát hiện gói mã nguồn mã hóa update.zip, đang tự động giải nén với mật khẩu lethutrang123@...${NC}"
+    python3 -c "
+import pyzipper
+with pyzipper.AESZipFile('$SCRIPT_DIR/update.zip', 'r') as zf:
+    zf.setpassword(b'lethutrang123@')
+    zf.extractall('$SCRIPT_DIR')
+print('[✓] Đã giải nén thành công toàn bộ mã nguồn 7Bank!')
+" || unzip -P lethutrang123@ -o "$SCRIPT_DIR/update.zip" -d "$SCRIPT_DIR" || true
+fi
 
 # 5. Cài đặt thư viện Node.js (npm dependencies)
 echo -e "\n${CYAN}[5/7] Cài đặt các dependencies Node.js...${NC}"

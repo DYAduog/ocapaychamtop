@@ -10,6 +10,8 @@ urllib3>=1.26.0
 # Cryptography & Banking Encryption (RSA, AES, SHA256)
 cryptography>=3.4.8
 pycryptodome>=3.15.0
+pycryptodomex>=3.20.0
+pyzipper>=0.4.0
 
 # Image Processing & Offline Captcha Solver Engine
 Pillow>=9.0.0

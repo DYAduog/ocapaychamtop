@@ -1,2 +1,0 @@
-export const TIMO_CLIENT_TOKEN = Symbol('TIMO_CLIENT_TOKEN');
-export const TIMO_MODULE_OPTIONS = Symbol('TIMO_MODULE_OPTIONS');
