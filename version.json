@@ -12,9 +12,9 @@
   ],
   "package": {
     "filename": "update.zip",
-    "sizeBytes": 69398438,
+    "sizeBytes": 69398521,
     "sizeMB": 66.18,
-    "sha256": "80f5f649f318d98f03be74986c42532ea5f872f9177898e43a15b588ab943056",
+    "sha256": "3dc5dbe48e54220766bb04ef048ac947581e487fdf0f3dc83708ce494e37b70d",
     "encrypted": true,
     "encryptionMethod": "AES-256",
     "defaultPassword": true
