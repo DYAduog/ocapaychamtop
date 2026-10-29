@@ -1,20 +1,20 @@
 {
-  "version": "3.2.22",
+  "version": "3.2.23",
   "buildDate": "2026-10-29",
   "name": "7Bank / OcaPay Gateway",
   "channel": "stable",
-  "title": "Bản Phát Hành 7Bank Gateway v3.2.22",
+  "title": "Bản Phát Hành 7Bank Gateway v3.2.23",
   "description": "Nền tảng Tự Động Hóa Ngân Hàng Đa Cổng & Bộ Giải Captcha AI 100% Offline",
   "changelog": [
-    "Nâng cấp phiên bản v3.2.22 cho hệ thống 7Bank Gateway",
+    "Nâng cấp phiên bản v3.2.23 cho hệ thống 7Bank Gateway",
     "Đóng gói tệp nén update.zip được bảo vệ với mật khẩu mặc định lethutrang123@",
     "Cải tiến tốc độ giải Captcha AI và tính ổn định kết nối đa ngân hàng"
   ],
   "package": {
     "filename": "update.zip",
-    "sizeBytes": 69403819,
+    "sizeBytes": 69403808,
     "sizeMB": 66.19,
-    "sha256": "bb493ba93f919c54cc4cb6e8d2c2957ed3b55b9f0d8ba908190ec0f5a94b2345",
+    "sha256": "27c130a07534f7b395472511074c9ae7413f10e28f81120acb9237422ebba14c",
     "encrypted": true,
     "encryptionMethod": "AES-256",
     "defaultPassword": true
